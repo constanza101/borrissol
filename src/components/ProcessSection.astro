@@ -1,0 +1,145 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t    = useTranslations(lang);
+
+const steps = [
+  { num: '01', title: t('process.step1.title'), desc: t('process.step1.desc') },
+  { num: '02', title: t('process.step2.title'), desc: t('process.step2.desc') },
+  { num: '03', title: t('process.step3.title'), desc: t('process.step3.desc') },
+  { num: '04', title: t('process.step4.title'), desc: t('process.step4.desc') },
+  { num: '05', title: t('process.step5.title'), desc: t('process.step5.desc') },
+];
+---
+
+<section id="process" class="process">
+  <div class="process-inner">
+
+    <div class="process-header">
+      <span class="eyebrow reveal">{t('process.eyebrow')}</span>
+      <h2 class="process-headline reveal" data-delay="1">{t('process.headline')}</h2>
+    </div>
+
+    <ol class="process-grid" role="list">
+      {steps.map((step, i) => (
+        <li class="process-step reveal" data-delay={i > 0 ? String(i) : undefined}>
+          <span class="process-num" aria-hidden="true">{step.num}</span>
+          <div class="process-content">
+            <h3 class="process-title">{step.title}</h3>
+            <p class="process-desc">{step.desc}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+
+  </div>
+</section>
+
+<style>
+  .process {
+    background: var(--color-light);
+    border-top: var(--border-default);
+    padding: var(--space-xl) 0;
+  }
+
+  .process-inner {
+    padding: 0 var(--space-lg);
+  }
+
+  /* ── Header ── */
+  .process-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    text-align: center;
+    margin-bottom: var(--space-xl);
+  }
+
+  .process-headline {
+    font-size: var(--font-size-h2);
+    font-weight: var(--font-weight-heading);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-black);
+    max-width: 520px;
+  }
+
+  /* ── Steps grid ── */
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-md);
+    list-style: none;
+  }
+
+  .process-step {
+    border-top: var(--border-default);
+    padding-top: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  /* ── Number — dominant visual element ── */
+  .process-num {
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-heading);
+    line-height: 1;
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-mid);
+    display: block;
+  }
+
+  .process-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .process-title {
+    font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-heading);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-black);
+  }
+
+  .process-desc {
+    font-size: var(--font-size-p3);
+    font-weight: var(--font-weight-body);
+    line-height: var(--line-height-body);
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-muted);
+  }
+
+  /* ── Tablet: 3 + 2 layout ── */
+  @media (max-width: 840px) {
+    .process-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* ── Mobile: single column vertical stack ── */
+  @media (max-width: 540px) {
+    .process-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .process-step {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: var(--space-md);
+      padding: var(--space-md) 0;
+      border-top: var(--border-default);
+    }
+
+    .process-num {
+      font-size: var(--font-size-h2);
+      flex-shrink: 0;
+      width: 3rem;
+    }
+  }
+</style>

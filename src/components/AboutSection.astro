@@ -1,0 +1,219 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t    = useTranslations(lang);
+
+const tags = [
+  t('about.tag1'),
+  t('about.tag2'),
+  t('about.tag3'),
+  t('about.tag4'),
+  t('about.tag5'),
+];
+---
+
+<section id="about" class="about">
+  <div class="ab-inner">
+
+    <!-- Section header -->
+    <div class="ab-header">
+      <span class="eyebrow reveal">{t('about.eyebrow')}</span>
+      <h2 class="ab-headline reveal" data-delay="1">{t('about.headline')}</h2>
+    </div>
+
+    <!-- Block 1: Studio story — text left, image right -->
+    <div class="ab-block">
+      <div class="ab-text reveal" data-delay="1">
+        <p class="ab-p">{t('about.p1')}</p>
+        <p class="ab-p">{t('about.p2')}</p>
+        <p class="ab-p">{t('about.p3')}</p>
+        <div class="ab-tags">
+          {tags.map(tag => (
+            <span class="ab-tag">{tag}</span>
+          ))}
+        </div>
+      </div>
+      <div class="ab-img-wrap reveal" data-delay="2">
+        <img src="/images/grupo2.jpg" alt="Borrissol studio" class="ab-img" loading="lazy" />
+      </div>
+    </div>
+
+    <!-- Block 2: Materials — image left, text right -->
+    <div class="ab-block ab-block--reverse">
+      <div class="ab-img-wrap ab-img-wrap--landscape reveal">
+        <img src="/images/materials-yarn.jpg" alt="Recycled acrylic yarn" class="ab-img" loading="lazy" />
+      </div>
+      <div class="ab-text reveal" data-delay="1">
+        <div class="ab-text-header">
+          <span class="eyebrow">{t('materials.eyebrow')}</span>
+          <h3 class="ab-subtitle">{t('materials.headline')}</h3>
+        </div>
+        <p class="ab-p">{t('about.materials.p1')}</p>
+        <p class="ab-p">{t('about.materials.p2')}</p>
+        <p class="ab-p">{t('about.materials.p3')}</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .about {
+    background: var(--color-white);
+    border-top: var(--border-default);
+    padding: var(--space-xl) 0;
+  }
+
+  .ab-inner {
+    padding: 0 var(--space-lg);
+  }
+
+  /* ── Section header ── */
+  .ab-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-xl);
+  }
+
+  .ab-headline {
+    font-size: var(--font-size-h2);
+    font-weight: var(--font-weight-heading);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-black);
+  }
+
+  /* ── Two-column blocks ── */
+  .ab-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  /* Block 1: text gets more breathing room, portrait image stays contained */
+  .ab-block:not(.ab-block--reverse) {
+    grid-template-columns: 3fr 2fr;
+  }
+
+  .ab-block + .ab-block {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-xl);
+    border-top: var(--border-default);
+  }
+
+  /* ── Text column ── */
+  .ab-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .ab-text-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .ab-subtitle {
+    font-size: var(--font-size-h3);
+    font-weight: var(--font-weight-heading);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-black);
+  }
+
+  .ab-p {
+    font-size: var(--font-size-p2);
+    font-weight: var(--font-weight-body);
+    line-height: var(--line-height-body);
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-black);
+  }
+
+  /* ── Value tags ── */
+  .ab-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .ab-tag {
+    display: inline-block;
+    background: var(--color-light);
+    color: var(--color-muted);
+    border: var(--border-default);
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-btn);
+    letter-spacing: var(--letter-spacing-btn);
+    text-transform: uppercase;
+    padding: 5px var(--space-sm);
+    border-radius: var(--radius-pill);
+  }
+
+  /* ── Image column ── */
+  .ab-img-wrap {
+    border-radius: var(--radius-xs);
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+  }
+
+  .ab-img-wrap--landscape {
+    aspect-ratio: 4 / 3;
+  }
+
+  .ab-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── Tablet ── */
+  @media (max-width: 840px) {
+    .ab-block {
+      gap: var(--space-lg);
+    }
+
+    .ab-headline {
+      font-size: var(--font-size-h3);
+    }
+
+    .ab-subtitle {
+      font-size: var(--font-size-h4);
+    }
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 540px) {
+    .ab-inner {
+      padding: 0 var(--space-sm);
+    }
+
+    .ab-block {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+
+    /* Restore equal columns override on mobile (irrelevant once stacked) */
+    .ab-block:not(.ab-block--reverse) {
+      grid-template-columns: 1fr;
+    }
+
+    /* Block 1: image is DOM-second — pull it above text */
+    .ab-block:not(.ab-block--reverse) .ab-img-wrap {
+      order: -1;
+      aspect-ratio: 4 / 3;
+    }
+
+    .ab-headline {
+      font-size: var(--font-size-h3);
+    }
+
+    .ab-subtitle {
+      font-size: var(--font-size-h4);
+    }
+  }
+</style>

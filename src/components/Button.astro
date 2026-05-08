@@ -1,0 +1,12 @@
+---
+interface Props {
+  variant?: 'primary' | 'secondary' | 'tertiary';
+  type?: HTMLButtonElement['type'];
+}
+
+const { variant = 'primary', type = 'button' } = Astro.props;
+---
+
+<button type={type} class={`btn btn-${variant}`}>
+  <slot />
+</button>

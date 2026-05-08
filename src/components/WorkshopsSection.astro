@@ -1,0 +1,557 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { WHATSAPP_HREF } from '../config';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const contactHref = WHATSAPP_HREF;
+
+const tuftingRows = [
+  {
+    name: 'Pelusa',
+    size: '50×50 cm',
+    price: '78€',
+    level:     t('tufting.level.express'),
+    duration:  t('tufting.dur.4'),
+    drawing:   t('tufting.drawing.basic'),
+    finishing: t('tufting.finishing.simple'),
+    materials: t('tufting.materials'),
+  },
+  {
+    name: 'Floc',
+    size: '50×50 cm',
+    price: '108€',
+    level:     t('tufting.level.intro'),
+    duration:  t('tufting.dur.6'),
+    drawing:   t('tufting.drawing.basic'),
+    finishing: t('tufting.finishing.improved'),
+    materials: t('tufting.materials'),
+  },
+  {
+    name: 'Vellut',
+    size: '70×70 cm',
+    price: '158€',
+    level:     t('tufting.level.intermediate'),
+    duration:  t('tufting.dur.8'),
+    drawing:   t('tufting.drawing.choice'),
+    finishing: t('tufting.finishing.improved'),
+    materials: t('tufting.materials'),
+  },
+  {
+    name: 'Pelut',
+    size: '80×80 cm',
+    price: '181€',
+    level:     t('tufting.level.pro'),
+    duration:  t('tufting.dur.10'),
+    drawing:   t('tufting.drawing.choice'),
+    finishing: t('tufting.finishing.improved'),
+    materials: t('tufting.materials'),
+  },
+];
+---
+
+<section id="workshops" class="workshops">
+
+  <!-- ── Section header ──────────────────────────────────────────────── -->
+  <div class="workshops-header">
+    <span class="ws-eyebrow reveal">{t('workshops.eyebrow')}</span>
+    <h2 class="workshops-headline reveal" data-delay="1">{t('workshops.headline')}</h2>
+  </div>
+
+  <!-- ── Block 1: Tufting ────────────────────────────────────────────── -->
+  <div class="tufting-block">
+    <div class="tufting-inner">
+      <div class="tufting-layout">
+
+        <!-- Left: heading + intro + image -->
+        <div class="tufting-left reveal">
+          <h3 class="tufting-title">Tufting</h3>
+          <p class="tufting-intro">{t('tufting.intro')}</p>
+          <img
+            src="/images/hero-bg.jpg"
+            alt="Tufting workshop"
+            class="tufting-img"
+            loading="lazy"
+          />
+        </div>
+
+        <!-- Right: service-selection panel -->
+        <div class="tufting-panel reveal" data-delay="1">
+          <div class="panel-header">
+            <i
+              data-lucide="square-mouse-pointer"
+              style="width: var(--icon-size-inline); height: var(--icon-size-inline); stroke-width: var(--icon-stroke-width); display: inline-block; flex-shrink: 0;"
+            ></i>
+            <span class="panel-header-label">{t('tufting.panel.header')}</span>
+          </div>
+          {tuftingRows.map(row => (
+            <div class="tufting-row">
+              <div class="tufting-row-info">
+                <p class="tufting-row-name">{row.name}</p>
+                <p class="tufting-row-meta">
+                  {row.level} &middot; {row.duration} &middot; {row.size} &middot; {row.price}
+                </p>
+                <p class="tufting-row-details">
+                  {row.drawing} &middot; {row.finishing} &middot; {row.materials}
+                </p>
+              </div>
+              <a href={contactHref} target="_blank" rel="noopener noreferrer" class="tufting-row-btn">{t('ws.cta')}</a>
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </div>  <!-- /tufting-inner -->
+  </div>
+
+  <!-- ── Block 2: Other workshops ────────────────────────────────────── -->
+  <div class="other-block">
+    <div class="block-inner">
+
+      <h3 class="other-title reveal">{t('ws.other.title')}</h3>
+
+      <div class="other-grid">
+
+        <!-- Group Tufting -->
+        <div class="ws-card reveal">
+          <div class="ws-card-img">
+            <img src="/images/grupal.png" alt="Taller Grupal de Tufting" loading="lazy" />
+          </div>
+          <div class="ws-card-body">
+            <h4 class="ws-name">{t('ws.group.name')}</h4>
+            <p class="ws-desc">{t('ws.group.desc')}</p>
+            <p class="ws-details">{t('ws.group.details')}</p>
+            <a href={contactHref} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
+          </div>
+        </div>
+
+        <!-- Borla (monthly) -->
+        <div class="ws-card reveal" data-delay="1">
+          <div class="ws-card-img">
+            <img src="/images/grupo2.jpg" alt="Borla" loading="lazy" />
+            <span class="ws-badge badge badge-light">{t('ws.borla.subtitle')}</span>
+          </div>
+          <div class="ws-card-body">
+            <h4 class="ws-name">{t('ws.borla.name')}</h4>
+            <p class="ws-desc">{t('ws.borla.desc')}</p>
+            <p class="ws-details">{t('ws.borla.details')}</p>
+            <a href={contactHref} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
+          </div>
+        </div>
+
+        <!-- Tote Bag -->
+        <div class="ws-card reveal" data-delay="2">
+          <div class="ws-card-img">
+            <img src="/images/tote_bag1.png" alt="Tote Bag Bordada" loading="lazy" />
+          </div>
+          <div class="ws-card-body">
+            <h4 class="ws-name">{t('ws.totebag.name')}</h4>
+            <p class="ws-desc">{t('ws.totebag.desc')}</p>
+            <p class="ws-details">{t('ws.totebag.details')}</p>
+            <a href={contactHref} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Summer Textile Lab — featured, full width, horizontal layout -->
+      <div class="summer-card reveal">
+        <div class="summer-card-img">
+          <img src="/images/grupo2.jpg" alt="Laboratorio Textil de Verano" loading="lazy" />
+        </div>
+        <div class="summer-card-body">
+          <span class="eyebrow">{t('ws.summer.techniques')}</span>
+          <h4 class="ws-name summer-name">{t('ws.summer.name')}</h4>
+          <p class="ws-desc">{t('ws.summer.desc')}</p>
+          <p class="ws-details">{t('ws.summer.details')}</p>
+          <a href={contactHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary summer-cta">{t('ws.consult')}</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Footer note ─────────────────────────────────────────────────── -->
+  <div class="workshops-note">
+    <p class="ws-note-text">{t('workshops.note')}</p>
+  </div>
+
+</section>
+
+<style>
+  /* ── Section wrapper ───────────────────────────────────────────────── */
+  .workshops {
+    background: var(--color-white);
+  }
+
+  /* ── Section header ────────────────────────────────────────────────── */
+  .workshops-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    text-align: center;
+    padding: var(--space-xl) var(--layout-page-padding-h) var(--space-lg);
+  }
+
+  .ws-eyebrow {
+    font-size: var(--font-size-ui);
+    line-height: var(--line-height-ui);
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .workshops-headline {
+    font-size: var(--font-size-display-alt);
+    font-weight: var(--font-weight-heading);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-black);
+  }
+
+  /* ── Shared block inner ─────────────────────────────────────────────── */
+  .block-inner {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: 0 var(--layout-page-padding-h);
+  }
+
+  /* ── Block 1: Tufting ──────────────────────────────────────────────── */
+  .tufting-block {
+    background: var(--color-light);
+    padding: var(--space-xl) 0;
+    border-top: var(--border-default);
+  }
+
+  .tufting-inner {
+    padding: 0 var(--space-lg);
+  }
+
+  .tufting-layout {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  /* Left column */
+  .tufting-left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .tufting-title {
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-heading);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-black);
+  }
+
+  .tufting-intro {
+    font-size: var(--font-size-p2);
+    font-weight: var(--font-weight-body);
+    line-height: var(--line-height-body);
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-muted);
+  }
+
+  .tufting-img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 0;
+  }
+
+  /* Right panel */
+  .tufting-panel {
+    background: var(--color-white);
+    border: var(--border-default);
+    border-radius: 0;
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    padding: var(--space-md);
+    border-bottom: var(--border-default);
+  }
+
+  .panel-header-label {
+    font-size: var(--font-size-p2);
+    font-weight: var(--font-weight-body);
+    line-height: var(--line-height-body);
+    color: var(--color-black);
+  }
+
+  /* Rows */
+  .tufting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    border-bottom: var(--border-default);
+  }
+
+  .tufting-row:last-child {
+    border-bottom: none;
+  }
+
+  .tufting-row-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .tufting-row-name {
+    font-size: var(--font-size-p2);
+    font-weight: var(--font-weight-body);
+    line-height: var(--line-height-body);
+    color: var(--color-black);
+  }
+
+  .tufting-row-meta {
+    font-size: var(--font-size-p3);
+    font-weight: var(--font-weight-body);
+    line-height: var(--line-height-body);
+    color: var(--color-muted);
+    margin-top: 2px;
+  }
+
+  .tufting-row-details {
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-body);
+    line-height: var(--line-height-ui);
+    color: var(--color-muted);
+    margin-top: 4px;
+  }
+
+  .tufting-row-btn {
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-btn);
+    letter-spacing: var(--letter-spacing-btn);
+    text-transform: var(--text-transform-btn);
+    text-decoration: none;
+    background: var(--color-dark);
+    color: var(--color-white);
+    padding: 0.65em 1.4em;
+    border-radius: 0;
+    white-space: nowrap;
+    flex-shrink: 0;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .tufting-row-btn:hover { opacity: 0.85; }
+
+  /* ── Block 2: Other workshops ──────────────────────────────────────── */
+  .other-block {
+    background: var(--color-white);
+    padding: var(--space-xl) 0;
+    border-top: var(--border-default);
+  }
+
+  .other-block .block-inner {
+    max-width: none;
+    padding: 0 var(--space-lg);
+  }
+
+  .other-title {
+    font-size: var(--font-size-h3);
+    font-weight: var(--font-weight-heading);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-black);
+    margin-bottom: var(--space-lg);
+  }
+
+  .other-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+  }
+
+  .ws-card {
+    background: var(--color-white);
+    border: var(--border-default);
+    border-radius: var(--radius-xs);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ws-card-img {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    background: var(--color-light);
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .ws-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ws-card-img .ws-badge {
+    position: absolute;
+    top: var(--space-xs);
+    left: var(--space-xs);
+  }
+
+  .ws-card-body {
+    padding: var(--space-sm);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .ws-name {
+    font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-heading);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-black);
+  }
+
+  .ws-desc {
+    font-size: var(--font-size-p2);
+    font-weight: var(--font-weight-body);
+    line-height: var(--line-height-body);
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-black);
+    margin-top: var(--space-xs);
+    flex: 1;
+  }
+
+  .ws-details {
+    font-size: var(--font-size-p3);
+    font-weight: var(--font-weight-body);
+    line-height: var(--line-height-body);
+    color: var(--color-muted);
+    margin-top: var(--space-sm);
+    margin-bottom: var(--space-md);
+  }
+
+  .ws-cta {
+    align-self: flex-start;
+    margin-top: auto;
+    border-radius: var(--radius-sharp);
+    font-size: var(--font-size-ui);
+  }
+
+  /* Featured: Summer Textile Lab — horizontal card */
+  .summer-card {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    border: var(--border-default);
+    border-radius: var(--radius-xs);
+    overflow: hidden;
+  }
+
+  .summer-card-img {
+    background: var(--color-light);
+    min-height: 300px;
+    overflow: hidden;
+  }
+
+  .summer-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .summer-card-body {
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    border-left: var(--border-default);
+  }
+
+  .summer-name {
+    margin-top: var(--space-xs);
+    margin-bottom: var(--space-xs);
+  }
+
+  .summer-card-body .ws-desc {
+    flex: 1;
+  }
+
+  .summer-card-body .ws-details {
+    margin-bottom: var(--space-lg);
+  }
+
+  .summer-cta {
+    align-self: flex-start;
+    margin-top: auto;
+    border-radius: var(--radius-sharp);
+    font-size: var(--font-size-ui);
+  }
+
+  /* ── Footer note ────────────────────────────────────────────────────── */
+  .workshops-note {
+    text-align: center;
+    padding: var(--space-lg) var(--layout-page-padding-h) var(--space-xl);
+    border-top: var(--border-default);
+  }
+
+  .ws-note-text {
+    font-size: var(--font-size-ui);
+    line-height: var(--line-height-ui);
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── Responsive ─────────────────────────────────────────────────────── */
+  @media (max-width: 840px) {
+    .tufting-layout {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+
+    .tufting-img {
+      aspect-ratio: 16 / 9;
+    }
+
+    .other-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .summer-card {
+      grid-template-columns: 1fr;
+    }
+
+    .summer-card-img {
+      min-height: 220px;
+    }
+
+    .summer-card-body {
+      border-left: none;
+      border-top: var(--border-default);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .other-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .summer-card-body {
+      padding: var(--space-md);
+    }
+  }
+</style>

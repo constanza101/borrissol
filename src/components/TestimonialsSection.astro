@@ -1,0 +1,289 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t    = useTranslations(lang);
+
+const MAPS_URL = 'https://maps.app.goo.gl/PVvxzbJMCfh1zR316';
+
+const accentColors = [
+  'var(--color-tufting-express)',
+  'var(--color-tufting-intro)',
+  'var(--color-tufting-intermediate)',
+  'var(--color-tufting-pro)',
+];
+
+const reviews = [
+  { name: 'Marne M.',       text: t('testimonials.r1')  },
+  { name: 'Aza',            text: t('testimonials.r2')  },
+  { name: 'Marta L.',       text: t('testimonials.r3')  },
+  { name: 'Alba L.',        text: t('testimonials.r4')  },
+  { name: 'Veronica T.',    text: t('testimonials.r5')  },
+  { name: 'María Paula M.', text: t('testimonials.r6')  },
+  { name: 'Betsabeth O.',   text: t('testimonials.r7')  },
+  { name: 'Patricia B.',    text: t('testimonials.r8')  },
+  { name: 'Magí C.',        text: t('testimonials.r9')  },
+  { name: 'Sandra L.',      text: t('testimonials.r10') },
+  { name: 'Lluís J.',       text: t('testimonials.r11') },
+  { name: 'Gerard A.',      text: t('testimonials.r12') },
+];
+---
+
+<section id="testimonials" class="testimonials">
+  <div class="t-inner">
+
+    <!-- Header row: text left, arrows right -->
+    <div class="t-header">
+      <div class="t-header-text">
+        <span class="eyebrow reveal">{t('testimonials.eyebrow')}</span>
+        <h2 class="t-headline reveal" data-delay="1">{t('testimonials.headline')}</h2>
+      </div>
+      <div class="t-nav" aria-label="Carousel navigation">
+        <button class="t-nav-btn" id="t-prev" aria-label="Previous">
+          <i data-lucide="arrow-left" style="width:18px;height:18px;stroke-width:1.5;display:block;"></i>
+        </button>
+        <button class="t-nav-btn" id="t-next" aria-label="Next">
+          <i data-lucide="arrow-right" style="width:18px;height:18px;stroke-width:1.5;display:block;"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Carousel -->
+    <div class="t-carousel-wrap reveal" data-delay="2">
+      <ul class="t-carousel" id="t-carousel" role="list">
+        {reviews.map((r, i) => (
+          <li class="t-card">
+            <p class="t-stars" aria-label="5 stars">★★★★★</p>
+            <p class="t-text">{r.text}</p>
+            <div class="t-footer">
+              <span
+                class="t-avatar"
+                aria-hidden="true"
+                style={`background:${accentColors[i % 4]}`}
+              >
+                {r.name.charAt(0)}
+              </span>
+              <div class="t-author">
+                <span class="t-name">{r.name}</span>
+                <a href={MAPS_URL} target="_blank" rel="noopener noreferrer" class="t-source">
+                  {t('testimonials.source')}
+                </a>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="t-cta-wrap reveal">
+      <a href={MAPS_URL} target="_blank" rel="noopener noreferrer" class="t-cta-link">
+        {t('testimonials.cta')}
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    var carousel = document.getElementById('t-carousel');
+    var prev     = document.getElementById('t-prev');
+    var next     = document.getElementById('t-next');
+    if (!carousel || !prev || !next) return;
+
+    function stepWidth() {
+      var card = carousel.querySelector('.t-card');
+      if (!card) return 0;
+      var gap = parseFloat(getComputedStyle(carousel).gap) || 0;
+      return card.offsetWidth + gap;
+    }
+
+    prev.addEventListener('click', function () {
+      carousel.scrollBy({ left: -stepWidth(), behavior: 'smooth' });
+    });
+    next.addEventListener('click', function () {
+      carousel.scrollBy({ left: stepWidth(), behavior: 'smooth' });
+    });
+  })();
+</script>
+
+<style>
+  .testimonials {
+    background: var(--color-light);
+    border-top: var(--border-default);
+    padding: var(--space-xl) 0;
+  }
+
+  .t-inner {
+    padding: 0 var(--space-lg);
+  }
+
+  /* ── Header ── */
+  .t-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+  }
+
+  .t-header-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .t-headline {
+    font-size: var(--font-size-h2);
+    font-weight: var(--font-weight-heading);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-black);
+  }
+
+  /* ── Arrow buttons ── */
+  .t-nav {
+    display: flex;
+    gap: var(--space-xs);
+    flex-shrink: 0;
+  }
+
+  .t-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--min-touch-target);
+    height: var(--min-touch-target);
+    background: none;
+    border: var(--border-default);
+    border-radius: var(--radius-sharp);
+    cursor: pointer;
+    color: var(--color-black);
+    transition: background var(--t-fast), border-color var(--t-fast);
+  }
+  .t-nav-btn:hover {
+    background: var(--color-mid);
+    border-color: var(--color-black);
+  }
+
+  /* ── Carousel wrapper + track ── */
+  .t-carousel-wrap {
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: var(--space-lg);
+  }
+
+  .t-carousel {
+    list-style: none;
+    display: flex;
+    gap: var(--space-sm);
+    /* No overflow here — clipped by wrapper */
+    scroll-snap-type: x mandatory;
+    transition: transform 0s; /* JS drives scroll via scrollBy */
+  }
+
+  /* ── Card: 1/3 of container minus 2 gaps ── */
+  .t-card {
+    flex: 0 0 calc((100% - 2 * var(--space-sm)) / 3);
+    scroll-snap-align: start;
+    background: var(--color-white);
+    border-radius: var(--radius-xs);
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .t-stars {
+    font-size: var(--font-size-p3);
+    color: var(--color-black);
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-sm);
+  }
+
+  .t-text {
+    font-size: var(--font-size-p3);
+    font-weight: var(--font-weight-body);
+    line-height: var(--line-height-body);
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-black);
+    flex: 1;
+  }
+
+  .t-footer {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-top: var(--space-md);
+    padding-top: var(--space-sm);
+    border-top: var(--border-default);
+  }
+
+  /* ── Avatar initial square ── */
+  .t-avatar {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-btn);
+    color: var(--color-white);
+    text-transform: uppercase;
+  }
+
+  .t-author {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .t-name {
+    font-size: var(--font-size-p3);
+    font-weight: var(--font-weight-btn);
+    color: var(--color-black);
+    line-height: var(--line-height-ui);
+  }
+
+  .t-source {
+    font-size: var(--font-size-ui);
+    color: var(--color-muted);
+    text-decoration: none;
+    transition: color var(--t-fast);
+  }
+  .t-source:hover { color: var(--color-black); }
+
+  /* ── Bottom CTA ── */
+  .t-cta-wrap {
+    display: flex;
+    justify-content: center;
+    padding-top: var(--space-lg);
+    border-top: var(--border-default);
+  }
+
+  .t-cta-link {
+    font-size: var(--font-size-p3);
+    font-weight: var(--font-weight-btn);
+    color: var(--color-black);
+    text-decoration: none;
+    transition: opacity var(--t-fast);
+  }
+  .t-cta-link:hover { opacity: var(--hover-opacity); }
+
+  /* ── Tablet: 2 cards ── */
+  @media (max-width: 840px) {
+    .t-card {
+      flex: 0 0 calc((100% - var(--space-sm)) / 2);
+    }
+    .t-nav { display: flex; }
+  }
+
+  /* ── Mobile: 1 card ── */
+  @media (max-width: 540px) {
+    .t-card {
+      flex: 0 0 100%;
+    }
+    .t-nav { display: none; }
+  }
+</style>

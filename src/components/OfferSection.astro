@@ -1,0 +1,126 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t    = useTranslations(lang);
+
+const techniques = [
+  { name: t('offer.tufting.name'),    desc: t('offer.tufting.desc') },
+  { name: t('offer.embroidery.name'), desc: t('offer.embroidery.desc') },
+  { name: t('offer.punch.name'),      desc: t('offer.punch.desc') },
+  { name: t('offer.loom.name'),       desc: t('offer.loom.desc') },
+];
+---
+
+<section id="offer" class="offer-section" aria-labelledby="offer-heading">
+
+  <!-- ── Block 1: General presentation ── -->
+  <div class="offer-block-1">
+    <p class="section-eyebrow reveal">{t('offer.eyebrow')}</p>
+    <h2 id="offer-heading" class="offer-headline reveal" data-delay="1">{t('offer.headline')}</h2>
+    <p class="offer-body reveal" data-delay="2">{t('offer.body')}</p>
+
+    <div class="offer-grid">
+      {techniques.map(({ name, desc }, i) => (
+        <article class="technique-card reveal" data-delay={i > 0 ? String(i) : undefined}>
+          <h3 class="technique-name">{name}</h3>
+          <p class="technique-desc">{desc}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+
+
+</section>
+
+<style>
+  /* ── Section wrapper ── */
+  .offer-section {
+    background: var(--color-white);
+  }
+
+  /* ── Shared text styles ── */
+  .section-eyebrow {
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-btn);
+    letter-spacing: var(--letter-spacing-btn);
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin: 0 0 var(--space-sm);
+  }
+
+  .offer-headline {
+    font-size: var(--font-size-h2);
+    font-weight: var(--font-weight-heading);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-black);
+    margin: 0 0 var(--space-md);
+  }
+
+  .offer-body {
+    font-size: var(--font-size-p2);
+    font-weight: var(--font-weight-body);
+    line-height: var(--line-height-body);
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-black);
+    margin: 0;
+    max-width: 640px;
+  }
+
+  /* ════════════════════════════════════════════════
+     Block 1 — presentation + technique grid
+     ════════════════════════════════════════════════ */
+  .offer-block-1 {
+    padding: var(--layout-page-padding-v) var(--layout-page-padding-h);
+  }
+
+  .offer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-sm);
+    margin-top: var(--space-lg);
+  }
+
+  .technique-card {
+    background: var(--color-light);
+    border: var(--border-default);
+    padding: var(--space-md);
+  }
+
+  .technique-name {
+    font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-heading);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-black);
+    margin: 0 0 var(--space-xs);
+  }
+
+  .technique-desc {
+    font-size: var(--font-size-p3);
+    font-weight: var(--font-weight-body);
+    line-height: var(--line-height-body);
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-muted);
+    margin: 0;
+  }
+
+  /* ════════════════════════════════════════════════
+     Mobile  (≤ 767px)
+     ════════════════════════════════════════════════ */
+  @media (max-width: 767px) {
+    .offer-block-1 {
+      padding: var(--space-lg) var(--space-sm);
+    }
+
+    .offer-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-xs);
+    }
+
+    .technique-card {
+      padding: var(--space-sm);
+    }
+  }
+</style>

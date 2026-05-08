@@ -1,0 +1,214 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { WHATSAPP_HREF } from '../config';
+
+const lang = getLangFromUrl(Astro.url);
+const t    = useTranslations(lang);
+
+const items = [
+  { q: t('faq.q1'), a: t('faq.a1') },
+  { q: t('faq.q2'), a: t('faq.a2') },
+  { q: t('faq.q3'), a: t('faq.a3') },
+  { q: t('faq.q4'), a: t('faq.a4') },
+  { q: t('faq.q5'), a: t('faq.a5') },
+  { q: t('faq.q6'), a: t('faq.a6') },
+  { q: t('faq.q7'), a: t('faq.a7') },
+];
+---
+
+<section id="faq" class="faq">
+  <div class="faq-inner">
+
+    <div class="faq-header">
+      <span class="eyebrow reveal">{t('faq.eyebrow')}</span>
+      <h2 class="faq-headline reveal" data-delay="1">{t('faq.headline')}</h2>
+    </div>
+
+    <ul class="faq-list" role="list">
+      {items.map((item, i) => (
+        <li class="faq-item reveal" data-delay={i > 0 ? String(Math.min(i, 5)) : undefined}>
+          <button
+            class="faq-question"
+            type="button"
+            aria-expanded="false"
+            aria-controls={`faq-a-${i}`}
+          >
+            <span class="faq-q-text">{item.q}</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" id={`faq-a-${i}`} role="region">
+            <p class="faq-a-text">{item.a}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <div class="faq-cta-wrap reveal">
+      <a
+        href={WHATSAPP_HREF}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="faq-cta-link"
+      >
+        {t('faq.cta')}
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    var items = document.querySelectorAll('.faq-item');
+
+    function closeItem(item) {
+      item.classList.remove('is-open');
+      item.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+      item.querySelector('.faq-answer').style.maxHeight = '0';
+    }
+
+    function openItem(item) {
+      item.classList.add('is-open');
+      item.querySelector('.faq-question').setAttribute('aria-expanded', 'true');
+      item.querySelector('.faq-answer').style.maxHeight =
+        item.querySelector('.faq-answer').scrollHeight + 'px';
+    }
+
+    items.forEach(function (item) {
+      var btn = item.querySelector('.faq-question');
+      btn.addEventListener('click', function () {
+        var isOpen = item.classList.contains('is-open');
+        items.forEach(closeItem);
+        if (!isOpen) openItem(item);
+      });
+    });
+  })();
+</script>
+
+<style>
+  .faq {
+    background: var(--color-light);
+    border-top: var(--border-default);
+    padding: var(--space-xl) 0;
+  }
+
+  .faq-inner {
+    padding: 0 var(--space-lg);
+  }
+
+  /* ── Header ── */
+  .faq-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-xl);
+  }
+
+  .faq-headline {
+    font-size: var(--font-size-h2);
+    font-weight: var(--font-weight-heading);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-black);
+  }
+
+  /* ── List ── */
+  .faq-list {
+    list-style: none;
+    border-top: var(--border-default);
+  }
+
+  /* ── Item ── */
+  .faq-item {
+    border-bottom: var(--border-default);
+  }
+
+  /* ── Question button ── */
+  .faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    width: 100%;
+    padding: var(--space-md) 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-family-base);
+    color: var(--color-black);
+  }
+
+  .faq-q-text {
+    font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-body);
+    line-height: var(--line-height-body);
+    letter-spacing: var(--letter-spacing-body);
+  }
+
+  /* ── +/× icon ── */
+  .faq-icon {
+    font-size: var(--font-size-h3);
+    font-weight: var(--font-weight-body);
+    line-height: 1;
+    flex-shrink: 0;
+    transition: transform var(--t-normal);
+    user-select: none;
+  }
+
+  .faq-item.is-open .faq-icon {
+    transform: rotate(45deg);
+  }
+
+  /* ── Answer panel ── */
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+
+  .faq-a-text {
+    font-size: var(--font-size-p2);
+    font-weight: var(--font-weight-body);
+    line-height: var(--line-height-body);
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-muted);
+    padding-bottom: var(--space-md);
+    max-width: 680px;
+  }
+
+  /* ── CTA ── */
+  .faq-cta-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-lg);
+    padding-top: var(--space-lg);
+    border-top: var(--border-default);
+  }
+
+  .faq-cta-link {
+    font-size: var(--font-size-p3);
+    font-weight: var(--font-weight-btn);
+    letter-spacing: var(--letter-spacing-btn);
+    text-transform: uppercase;
+    color: var(--color-black);
+    text-decoration: none;
+    transition: opacity var(--t-fast);
+  }
+  .faq-cta-link:hover { opacity: var(--hover-opacity); }
+
+  /* ── Mobile ── */
+  @media (max-width: 540px) {
+    .faq-headline {
+      font-size: var(--font-size-h3);
+    }
+
+    .faq-q-text {
+      font-size: var(--font-size-p2);
+    }
+
+    .faq-icon {
+      font-size: var(--font-size-h4);
+    }
+  }
+</style>

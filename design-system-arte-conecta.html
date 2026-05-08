@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design System — Arte que conecta</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* =============================================
+     DESIGN SYSTEM — ARTE QUE CONECTA
+     Roboto · Monocromático
+     ============================================= */
+
+  :root {
+    /* COLORES */
+    --color-white:       #FFFFFF;
+    --color-light:       #F5F5F5;
+    --color-mid:         #D9D9D9;
+    --color-muted:       #797979;
+    --color-black:       #000000;
+
+    /* TIPOGRAFÍA */
+    --font-base:         'Roboto', sans-serif;
+    --font-size-base:    16px;
+
+    /* TÍTULOS */
+    --h1-size:           4rem;
+    --h2-size:           2.5rem;
+    --h3-size:           2.1rem;
+    --h4-size:           1.4rem;
+    --heading-weight:    400;
+    --heading-lh:        1.1;
+    --heading-ls:        -0.02em;
+
+    /* PÁRRAFOS */
+    --p1-size:           1.4rem;
+    --p2-size:           1.1rem;
+    --p3-size:           0.9rem;
+    --p-weight:          400;
+    --p-lh:              1.3;
+    --p-ls:              -0.02em;
+
+    /* OTROS / UI */
+    --ui-size:           0.8rem;
+    --ui-lh:             1.1;
+
+    /* BOTONES */
+    --btn-primary-bg:    #000000;
+    --btn-primary-color: #FFFFFF;
+    --btn-primary-size:  0.8rem;
+    --btn-primary-pad-v: 1.2em;
+    --btn-primary-pad-h: 2em;
+
+    --btn-secondary-color: #000000;
+    --btn-secondary-size:  0.9rem;
+    --btn-secondary-pad-v: 1.2em;
+    --btn-secondary-pad-h: 2.004em;
+
+    --btn-tertiary-color: #000000;
+    --btn-tertiary-size:  0.8rem;
+    --btn-tertiary-pad-v: 1.2em;
+
+    /* ESPACIADO */
+    --space-xs:  8px;
+    --space-sm:  16px;
+    --space-md:  24px;
+    --space-lg:  40px;
+    --space-xl:  80px;
+
+    /* LAYOUT */
+    --radius-pill: 9999px;
+    --radius-sm:   4px;
+    --radius-md:   8px;
+    --border-mid:  0.5px solid #D9D9D9;
+  }
+
+  /* RESET */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: var(--font-size-base); }
+  body {
+    font-family: var(--font-base);
+    font-weight: var(--p-weight);
+    color: var(--color-black);
+    background: var(--color-white);
+    line-height: var(--p-lh);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* =============================================
+     LAYOUT DEL DOCUMENTO
+     ============================================= */
+  .ds-page {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 60px 40px 100px;
+  }
+
+  .ds-header {
+    border-bottom: 1px solid var(--color-black);
+    padding-bottom: 32px;
+    margin-bottom: 64px;
+  }
+
+  .ds-header-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: 12px;
+  }
+
+  .ds-header-title {
+    font-size: var(--h2-size);
+    font-weight: var(--heading-weight);
+    line-height: var(--heading-lh);
+    letter-spacing: var(--heading-ls);
+    margin-bottom: 8px;
+  }
+
+  .ds-header-sub {
+    font-size: var(--p3-size);
+    color: var(--color-muted);
+  }
+
+  .ds-section {
+    margin-bottom: 64px;
+  }
+
+  .ds-section-title {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    border-bottom: var(--border-mid);
+    padding-bottom: 10px;
+    margin-bottom: 32px;
+  }
+
+  /* =============================================
+     TOKENS — COLORS
+     ============================================= */
+  .color-row {
+    display: flex;
+    gap: 0;
+    border: var(--border-mid);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  .color-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .color-swatch {
+    height: 80px;
+  }
+
+  .color-info {
+    padding: 12px;
+    border-top: var(--border-mid);
+    background: var(--color-white);
+  }
+
+  .color-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-black);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .color-hex {
+    font-size: 11px;
+    color: var(--color-muted);
+    font-family: monospace;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .color-roles {
+    font-size: 10px;
+    color: var(--color-muted);
+    line-height: 1.4;
+  }
+
+  .color-item:not(:last-child) .color-info {
+    border-right: var(--border-mid);
+  }
+  .color-item:not(:last-child) .color-swatch {
+    border-right: var(--border-mid);
+  }
+
+  /* Combinaciones */
+  .combos-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+
+  .combo-pill {
+    border-radius: var(--radius-md);
+    padding: 12px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    border: var(--border-mid);
+  }
+
+  .combo-aa {
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .combo-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* =============================================
+     TIPOGRAFÍA
+     ============================================= */
+  .type-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .type-table tr {
+    border-bottom: var(--border-mid);
+  }
+
+  .type-table tr:last-child {
+    border-bottom: none;
+  }
+
+  .type-table td {
+    padding: 20px 0;
+    vertical-align: middle;
+  }
+
+  .type-label {
+    font-size: 11px;
+    color: var(--color-muted);
+    width: 100px;
+    vertical-align: top;
+    padding-top: 24px !important;
+  }
+
+  .type-preview {
+    font-family: var(--font-base);
+    color: var(--color-black);
+    letter-spacing: var(--heading-ls);
+  }
+
+  .type-spec {
+    font-size: 11px;
+    font-family: monospace;
+    color: var(--color-muted);
+    text-align: right;
+    white-space: nowrap;
+    vertical-align: top;
+    padding-top: 24px !important;
+    padding-left: 24px;
+  }
+
+  /* =============================================
+     BOTONES
+     ============================================= */
+  .btn-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--color-mid);
+    border: var(--border-mid);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .btn-col {
+    background: var(--color-white);
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .btn-col-name {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .btn-preview {
+    background: var(--color-light);
+    border-radius: var(--radius-sm);
+    padding: 24px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+  }
+
+  /* Botón Principal */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-base);
+    font-size: var(--btn-primary-size);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-color);
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: var(--btn-primary-pad-v) var(--btn-primary-pad-h);
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+
+  /* Botón Secundario */
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-base);
+    font-size: var(--btn-secondary-size);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--btn-secondary-color);
+    border: 1px solid var(--color-black);
+    border-radius: var(--radius-pill);
+    padding: var(--btn-secondary-pad-v) var(--btn-secondary-pad-h);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-secondary:hover { background: var(--color-light); }
+
+  /* Botón Terciario */
+  .btn-tertiary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-base);
+    font-size: var(--btn-tertiary-size);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--btn-tertiary-color);
+    border: none;
+    border-radius: 0;
+    padding: var(--btn-tertiary-pad-v) 0;
+    cursor: pointer;
+  }
+
+  .btn-specs {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: var(--border-mid);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  .btn-spec-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 7px 10px;
+    border-bottom: var(--border-mid);
+    font-size: 11px;
+  }
+
+  .btn-spec-row:last-child { border-bottom: none; }
+
+  .btn-spec-key { color: var(--color-muted); }
+  .btn-spec-val { font-family: monospace; color: var(--color-black); }
+
+  /* =============================================
+     FORMULARIOS
+     ============================================= */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .form-item-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .ds-input {
+    width: 100%;
+    padding: 10px 18px;
+    border: 1px solid var(--color-black);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-base);
+    font-size: var(--p2-size);
+    background: var(--color-white);
+    color: var(--color-black);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .ds-input:focus { border-color: var(--color-black); }
+  .ds-input::placeholder { color: var(--color-muted); }
+
+  .ds-checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: var(--p3-size);
+  }
+
+  .ds-checkbox {
+    width: 20px;
+    height: 20px;
+    background: var(--color-black);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* =============================================
+     COMPONENTES
+     ============================================= */
+
+  /* Nav */
+  .ds-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 28px;
+    border: var(--border-mid);
+    border-radius: var(--radius-md);
+    background: var(--color-white);
+  }
+
+  .ds-nav-logo {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--color-black);
+  }
+
+  .ds-nav-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+
+  .ds-nav-links a {
+    font-size: 13px;
+    color: var(--color-black);
+    text-decoration: none;
+  }
+
+  /* Badge */
+  .ds-badge {
+    display: inline-block;
+    background: var(--color-black);
+    color: var(--color-white);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+  }
+
+  .ds-badge-light {
+    background: var(--color-light);
+    color: var(--color-black);
+    border: var(--border-mid);
+  }
+
+  /* Product card */
+  .product-cards {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .product-card {
+    width: 180px;
+    border: var(--border-mid);
+    border-radius: 2px;
+    overflow: hidden;
+    background: var(--color-white);
+  }
+
+  .product-card-img {
+    width: 100%;
+    height: 120px;
+    background: var(--color-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .product-card-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+  }
+
+  .product-card-body {
+    padding: 12px;
+  }
+
+  .product-card-name {
+    font-size: 13px;
+    color: var(--color-black);
+    margin-bottom: 2px;
+  }
+
+  .product-card-sub {
+    font-size: 11px;
+    color: var(--color-muted);
+    margin-bottom: 8px;
+  }
+
+  .product-card-price {
+    font-size: var(--ui-size);
+    font-weight: 500;
+    color: var(--color-black);
+    margin-bottom: 10px;
+  }
+
+  /* =============================================
+     ESPACIADO
+     ============================================= */
+  .spacing-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .spacing-table tr { border-bottom: var(--border-mid); }
+  .spacing-table tr:last-child { border-bottom: none; }
+
+  .spacing-table td { padding: 14px 0; vertical-align: middle; }
+
+  .space-token { font-size: 12px; font-weight: 500; color: var(--color-black); width: 80px; }
+  .space-bar-wrap { padding: 0 24px; }
+  .space-bar { background: var(--color-black); height: 6px; border-radius: 2px; }
+  .space-val { font-size: 11px; font-family: monospace; color: var(--color-muted); text-align: right; width: 50px; }
+  .space-desc { font-size: 11px; color: var(--color-muted); text-align: right; }
+
+  /* =============================================
+     ASIGNACIÓN DE ESTILOS
+     ============================================= */
+  .assignment-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .assignment-group-title {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: var(--border-mid);
+  }
+
+  .assignment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
+  }
+
+  .assignment-table tr { border-bottom: var(--border-mid); }
+  .assignment-table tr:last-child { border-bottom: none; }
+  .assignment-table td { padding: 9px 0; font-size: 12px; }
+  .assignment-table td:first-child { color: var(--color-black); }
+  .assignment-table td:last-child { color: var(--color-muted); text-align: right; font-style: italic; }
+
+  /* =============================================
+     FOOTER DEL DOC
+     ============================================= */
+  .ds-footer {
+    border-top: 1px solid var(--color-black);
+    padding-top: 24px;
+    margin-top: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .ds-footer p {
+    font-size: 11px;
+    color: var(--color-muted);
+  }
+</style>
+</head>
+<body>
+<div class="ds-page">
+
+  <!-- CABECERA -->
+  <div class="ds-header">
+    <p class="ds-header-eyebrow">Design System · v1.0 · Mayo 2026</p>
+    <h1 class="ds-header-title">Arte que conecta</h1>
+    <p class="ds-header-sub">Roboto · Paleta monocromática · Base 16px</p>
+  </div>
+
+  <!-- ==================== COLORES ==================== -->
+  <div class="ds-section">
+    <p class="ds-section-title">01 — Paleta de color</p>
+
+    <div class="color-row">
+      <div class="color-item">
+        <div class="color-swatch" style="background:#FFFFFF;"></div>
+        <div class="color-info">
+          <span class="color-name">Blanco</span>
+          <span class="color-hex">#FFFFFF</span>
+          <span class="color-roles">Muy claro 1<br>Claro 1 · Claro 2<br>Fondo principal</span>
+        </div>
+      </div>
+      <div class="color-item">
+        <div class="color-swatch" style="background:#F5F5F5;"></div>
+        <div class="color-info">
+          <span class="color-name">Gris claro</span>
+          <span class="color-hex">#F5F5F5</span>
+          <span class="color-roles">Muy claro 2 · Vivo 2<br>Fondos de sección<br>Preview de botones</span>
+        </div>
+      </div>
+      <div class="color-item">
+        <div class="color-swatch" style="background:#D9D9D9;"></div>
+        <div class="color-info">
+          <span class="color-name">Gris medio</span>
+          <span class="color-hex">#D9D9D9</span>
+          <span class="color-roles">Bordes · Divisores<br>Separadores<br>Bordes de componentes</span>
+        </div>
+      </div>
+      <div class="color-item">
+        <div class="color-swatch" style="background:#797979;"></div>
+        <div class="color-info">
+          <span class="color-name">Gris oscuro</span>
+          <span class="color-hex">#797979</span>
+          <span class="color-roles">Oscuro 1 · Oscuro 2<br>Texto secundario<br>Labels · Metadatos</span>
+        </div>
+      </div>
+      <div class="color-item">
+        <div class="color-swatch" style="background:#000000;"></div>
+        <div class="color-info" style="border-right:none;">
+          <span class="color-name">Negro</span>
+          <span class="color-hex">#000000</span>
+          <span class="color-roles">Vivo 1 · Muy oscuro 1/2<br>Texto principal<br>Botones · Bordes activos</span>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-size:11px;color:#797979;margin-bottom:24px;">Combinaciones de la sección (tal como aparecen en Squarespace):</p>
+    <div class="combos-grid">
+      <div class="combo-pill" style="background:#FFFFFF;border:1px solid #D9D9D9;">
+        <span class="combo-aa" style="color:#000;">Aa</span>
+        <span class="combo-label" style="color:#000;font-size:9px;">Claro 1</span>
+      </div>
+      <div class="combo-pill" style="background:#FFFFFF;border:1px solid #D9D9D9;">
+        <span class="combo-aa" style="color:#000;">Aa</span>
+        <span class="combo-label" style="color:#000;font-size:9px;">Claro 2</span>
+      </div>
+      <div class="combo-pill" style="background:#F5F5F5;border:1px solid #D9D9D9;">
+        <span class="combo-aa" style="color:#000;">Aa</span>
+        <span class="combo-label" style="color:#000;font-size:9px;">Vivo 2</span>
+      </div>
+      <div class="combo-pill" style="background:#FFFFFF;">
+        <span class="combo-aa" style="color:#000;">Aa</span>
+        <span class="combo-label" style="color:#000;font-size:9px;">Muy claro 1</span>
+      </div>
+      <div class="combo-pill" style="background:#FFFFFF;">
+        <span class="combo-aa" style="color:#000;">Aa</span>
+        <span class="combo-label" style="color:#000;font-size:9px;">Muy claro 2</span>
+      </div>
+      <div class="combo-pill" style="background:#000000;">
+        <span class="combo-aa" style="color:#fff;">Aa</span>
+        <span class="combo-label" style="color:#fff;font-size:9px;">Vivo 1</span>
+      </div>
+      <div class="combo-pill" style="background:#797979;">
+        <span class="combo-aa" style="color:#fff;">Aa</span>
+        <span class="combo-label" style="color:#fff;font-size:9px;">Oscuro 1</span>
+      </div>
+      <div class="combo-pill" style="background:#797979;">
+        <span class="combo-aa" style="color:#fff;">Aa</span>
+        <span class="combo-label" style="color:#fff;font-size:9px;">Oscuro 2</span>
+      </div>
+      <div class="combo-pill" style="background:#000000;">
+        <span class="combo-aa" style="color:#fff;">Aa</span>
+        <span class="combo-label" style="color:#fff;font-size:9px;">Muy oscuro 1</span>
+      </div>
+      <div class="combo-pill" style="background:#000000;">
+        <span class="combo-aa" style="color:#fff;">Aa</span>
+        <span class="combo-label" style="color:#fff;font-size:9px;">Muy oscuro 2</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TIPOGRAFÍA ==================== -->
+  <div class="ds-section">
+    <p class="ds-section-title">02 — Tipografía</p>
+    <p style="font-size:11px;color:#797979;margin-bottom:24px;">Fuente única: <strong>Roboto</strong> · Base 16px · Pesos 400 y 500</p>
+
+    <table class="type-table">
+      <tr>
+        <td class="type-label">Título 1<br><span style="color:#D9D9D9;">H1</span></td>
+        <td><span class="type-preview" style="font-size:4rem;font-weight:400;line-height:1.1;">Arte</span></td>
+        <td class="type-spec">4rem · w400 · lh 1.1 · ls -0.02em</td>
+      </tr>
+      <tr>
+        <td class="type-label">Título 2<br><span style="color:#D9D9D9;">H2</span></td>
+        <td><span class="type-preview" style="font-size:2.5rem;font-weight:400;line-height:1.1;">Servicios creativos</span></td>
+        <td class="type-spec">2.5rem · w400 · lh 1.1 · ls -0.02em</td>
+      </tr>
+      <tr>
+        <td class="type-label">Título 3<br><span style="color:#D9D9D9;">H3</span></td>
+        <td><span class="type-preview" style="font-size:2.1rem;font-weight:400;line-height:1.1;">Obras destacadas</span></td>
+        <td class="type-spec">2.1rem · w400 · lh 1.1 · ls -0.02em</td>
+      </tr>
+      <tr>
+        <td class="type-label">Título 4<br><span style="color:#D9D9D9;">H4</span></td>
+        <td><span class="type-preview" style="font-size:1.4rem;font-weight:400;line-height:1.1;">Sobre nosotros</span></td>
+        <td class="type-spec">1.4rem · w400 · lh 1.1 · ls -0.02em</td>
+      </tr>
+      <tr>
+        <td class="type-label">Párrafo 1<br><span style="color:#D9D9D9;">P1</span></td>
+        <td><span class="type-preview" style="font-size:1.4rem;font-weight:400;line-height:1.3;">Texto de introducción y lead</span></td>
+        <td class="type-spec">1.4rem · w400 · lh 1.3 · ls -0.02em</td>
+      </tr>
+      <tr>
+        <td class="type-label">Párrafo 2<br><span style="color:#D9D9D9;">P2</span></td>
+        <td><span class="type-preview" style="font-size:1.1rem;font-weight:400;line-height:1.3;">Descripción de servicios y contenidos</span></td>
+        <td class="type-spec">1.1rem · w400 · lh 1.3 · ls -0.02em</td>
+      </tr>
+      <tr>
+        <td class="type-label">Párrafo 3<br><span style="color:#D9D9D9;">P3</span></td>
+        <td><span class="type-preview" style="font-size:0.9rem;font-weight:400;line-height:1.3;color:#797979;">Texto de apoyo, notas al pie y extractos</span></td>
+        <td class="type-spec">0.9rem · w400 · lh 1.3 · ls -0.02em</td>
+      </tr>
+      <tr>
+        <td class="type-label">Otros<br><span style="color:#D9D9D9;">UI</span></td>
+        <td><span class="type-preview" style="font-size:0.8rem;font-weight:400;line-height:1.1;color:#797979;">Etiquetas · precios · metadatos · fechas</span></td>
+        <td class="type-spec">0.8rem · w400 · lh 1.1 · ls -0.02em</td>
+      </tr>
+    </table>
+
+    <div style="margin-top:32px;padding:20px;background:#F5F5F5;border-radius:8px;">
+      <p style="font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:#797979;margin-bottom:12px;">Botones — fuente compartida</p>
+      <p style="font-size:12px;color:#797979;">Todos los botones usan <strong style="color:#000;">Roboto 500 · Mayúsculas · letter-spacing 0.05em</strong>. El peso 500 (medium) diferencia el texto de botón del texto corriente (400).</p>
+    </div>
+  </div>
+
+  <!-- ==================== BOTONES ==================== -->
+  <div class="ds-section">
+    <p class="ds-section-title">03 — Botones</p>
+
+    <div class="btn-grid">
+
+      <!-- Principal -->
+      <div class="btn-col">
+        <span class="btn-col-name">Principal</span>
+        <div class="btn-preview">
+          <button class="btn-primary">BOTÓN</button>
+        </div>
+        <div class="btn-specs">
+          <div class="btn-spec-row"><span class="btn-spec-key">Fuente</span><span class="btn-spec-val">Roboto 500</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Tamaño</span><span class="btn-spec-val">0.8rem</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Transform</span><span class="btn-spec-val">uppercase</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Letter-sp.</span><span class="btn-spec-val">0.05em</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Forma</span><span class="btn-spec-val">Píldora</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Fondo</span><span class="btn-spec-val">#000000</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Texto</span><span class="btn-spec-val">#FFFFFF</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Delineado</span><span class="btn-spec-val">0px</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Padding V</span><span class="btn-spec-val">1.2em</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Padding H</span><span class="btn-spec-val">2em</span></div>
+        </div>
+      </div>
+
+      <!-- Secundario -->
+      <div class="btn-col">
+        <span class="btn-col-name">Secundario</span>
+        <div class="btn-preview">
+          <button class="btn-secondary">BOTÓN</button>
+        </div>
+        <div class="btn-specs">
+          <div class="btn-spec-row"><span class="btn-spec-key">Fuente</span><span class="btn-spec-val">Roboto 500</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Tamaño</span><span class="btn-spec-val">0.9rem</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Transform</span><span class="btn-spec-val">uppercase</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Letter-sp.</span><span class="btn-spec-val">0.05em</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Forma</span><span class="btn-spec-val">Píldora</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Fondo</span><span class="btn-spec-val">Transparente</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Texto</span><span class="btn-spec-val">#000000</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Delineado</span><span class="btn-spec-val">1px #000</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Padding V</span><span class="btn-spec-val">1.2em</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Padding H</span><span class="btn-spec-val">2.004em</span></div>
+        </div>
+      </div>
+
+      <!-- Terciario -->
+      <div class="btn-col">
+        <span class="btn-col-name">Terciario</span>
+        <div class="btn-preview">
+          <button class="btn-tertiary">BOTÓN</button>
+        </div>
+        <div class="btn-specs">
+          <div class="btn-spec-row"><span class="btn-spec-key">Fuente</span><span class="btn-spec-val">Roboto 500</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Tamaño</span><span class="btn-spec-val">0.8rem</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Transform</span><span class="btn-spec-val">uppercase</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Letter-sp.</span><span class="btn-spec-val">0.05em</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Forma</span><span class="btn-spec-val">Texto plano</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Fondo</span><span class="btn-spec-val">Transparente</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Texto</span><span class="btn-spec-val">#000000</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Delineado</span><span class="btn-spec-val">ninguno</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Padding V</span><span class="btn-spec-val">1.2em</span></div>
+          <div class="btn-spec-row"><span class="btn-spec-key">Padding H</span><span class="btn-spec-val">0em</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== FORMULARIOS ==================== -->
+  <div class="ds-section">
+    <p class="ds-section-title">04 — Formularios</p>
+    <div class="form-grid">
+      <div>
+        <span class="form-item-label">Campo de texto</span>
+        <input class="ds-input" type="text" placeholder="Texto de ejemplo" />
+        <p style="font-size:11px;color:#797979;margin-top:8px;font-family:monospace;">border: 1px solid #000 · border-radius: pill · font: Roboto P2</p>
+      </div>
+      <div>
+        <span class="form-item-label">Confirmación</span>
+        <div style="display:flex;gap:12px;flex-direction:column;">
+          <div class="ds-checkbox-row">
+            <div class="ds-checkbox">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <polyline points="2,6 5,9 10,3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span style="font-size:13px;">Opción seleccionada</span>
+          </div>
+          <div class="ds-checkbox-row">
+            <div class="ds-checkbox" style="background:#fff;border:1px solid #000;"></div>
+            <span style="font-size:13px;color:#797979;">Opción no seleccionada</span>
+          </div>
+        </div>
+        <p style="font-size:11px;color:#797979;margin-top:12px;font-family:monospace;">checkbox: 20×20px · bg #000 · check #fff</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== COMPONENTES ==================== -->
+  <div class="ds-section">
+    <p class="ds-section-title">05 — Componentes</p>
+
+    <!-- Nav -->
+    <p style="font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:#797979;margin-bottom:12px;">Navegación</p>
+    <div class="ds-nav" style="margin-bottom:32px;">
+      <span class="ds-nav-logo">Título de tu sitio</span>
+      <ul class="ds-nav-links">
+        <li><a href="#">Servicios</a></li>
+        <li><a href="#">Tienda</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+      <button class="btn-primary" style="padding:0.8em 1.4em;font-size:0.75rem;">CONTACTO</button>
+    </div>
+
+    <!-- Badges -->
+    <p style="font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:#797979;margin-bottom:12px;">Badges / etiquetas</p>
+    <div style="display:flex;gap:8px;margin-bottom:32px;flex-wrap:wrap;align-items:center;">
+      <span class="ds-badge">NUEVO</span>
+      <span class="ds-badge">DESTACADO</span>
+      <span class="ds-badge">VENDIDO</span>
+      <span class="ds-badge ds-badge-light">CATEGORÍA</span>
+      <span class="ds-badge ds-badge-light">TIPO</span>
+      <p style="font-size:11px;color:#797979;font-family:monospace;margin-left:8px;">10px · w500 · uppercase · ls 0.08em</p>
+    </div>
+
+    <!-- Product cards -->
+    <p style="font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:#797979;margin-bottom:12px;">Card de producto</p>
+    <div class="product-cards">
+      <div class="product-card">
+        <div class="product-card-img">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="4" y="4" width="28" height="28" rx="2" fill="#D9D9D9"/><circle cx="18" cy="18" r="8" fill="#797979"/></svg>
+        </div>
+        <div class="product-card-body">
+          <p class="product-card-name">Nombre del producto</p>
+          <p class="product-card-sub">Categoría</p>
+          <p class="product-card-price">100,00 €</p>
+          <button class="btn-secondary" style="font-size:0.7rem;padding:0.7em 1.2em;width:100%;">VER MÁS</button>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-card-img">
+          <span class="ds-badge product-card-badge" style="font-size:9px;padding:2px 6px;">NUEVO</span>
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="4" y="4" width="28" height="28" rx="2" fill="#D9D9D9"/><rect x="10" y="10" width="16" height="16" fill="#797979"/></svg>
+        </div>
+        <div class="product-card-body">
+          <p class="product-card-name">Obra destacada</p>
+          <p class="product-card-sub">Arte digital</p>
+          <p class="product-card-price">250,00 €</p>
+          <button class="btn-primary" style="font-size:0.7rem;padding:0.7em 1.2em;width:100%;">COMPRAR</button>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-card-img">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="4" y="4" width="28" height="28" rx="2" fill="#D9D9D9"/><polygon points="18,8 28,28 8,28" fill="#797979"/></svg>
+        </div>
+        <div class="product-card-body">
+          <p class="product-card-name">Servicio creativo</p>
+          <p class="product-card-sub">Consultoría</p>
+          <p class="product-card-price">Desde 80,00 €</p>
+          <button class="btn-tertiary" style="font-size:0.7rem;">EXPLORAR</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== ESPACIADO ==================== -->
+  <div class="ds-section">
+    <p class="ds-section-title">06 — Espaciado</p>
+    <table class="spacing-table">
+      <tr>
+        <td class="space-token">XS</td>
+        <td class="space-bar-wrap"><div class="space-bar" style="width:8px;"></div></td>
+        <td class="space-val">8px</td>
+        <td class="space-desc">Gap interno de componente</td>
+      </tr>
+      <tr>
+        <td class="space-token">SM</td>
+        <td class="space-bar-wrap"><div class="space-bar" style="width:16px;"></div></td>
+        <td class="space-val">16px</td>
+        <td class="space-desc">Padding card · gap de grid</td>
+      </tr>
+      <tr>
+        <td class="space-token">MD</td>
+        <td class="space-bar-wrap"><div class="space-bar" style="width:24px;"></div></td>
+        <td class="space-val">24px</td>
+        <td class="space-desc">Padding nav · gap columnas</td>
+      </tr>
+      <tr>
+        <td class="space-token">LG</td>
+        <td class="space-bar-wrap"><div class="space-bar" style="width:40px;"></div></td>
+        <td class="space-val">40px</td>
+        <td class="space-desc">Separación entre secciones</td>
+      </tr>
+      <tr>
+        <td class="space-token">XL</td>
+        <td class="space-bar-wrap"><div class="space-bar" style="width:80px;"></div></td>
+        <td class="space-val">80px</td>
+        <td class="space-desc">Padding hero · secciones grandes</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ==================== ASIGNACIÓN ==================== -->
+  <div class="ds-section">
+    <p class="ds-section-title">07 — Asignación de estilos tipográficos</p>
+    <div class="assignment-grid">
+      <div>
+        <p class="assignment-group-title">Encabezado del sitio</p>
+        <table class="assignment-table">
+          <tr><td>Título del sitio</td><td>Encabezado</td></tr>
+          <tr><td>Título móvil</td><td>Encabezado</td></tr>
+          <tr><td>Navegación</td><td>Párrafo</td></tr>
+          <tr><td>Botón de encabezado</td><td>Párrafo</td></tr>
+        </table>
+
+        <p class="assignment-group-title">Blog / Portfolio</p>
+        <table class="assignment-table">
+          <tr><td>Título de entrada</td><td>Encabezado</td></tr>
+          <tr><td>Extracto</td><td>Párrafo</td></tr>
+          <tr><td>Metadatos / fechas</td><td>Otros</td></tr>
+          <tr><td>Paginación</td><td>Encabezado</td></tr>
+          <tr><td>Perfil del autor</td><td>Párrafo</td></tr>
+        </table>
+
+        <p class="assignment-group-title">Formularios</p>
+        <table class="assignment-table">
+          <tr><td>Título</td><td>Párrafo</td></tr>
+          <tr><td>Descripción</td><td>Párrafo</td></tr>
+          <tr><td>Leyenda / labels</td><td>Párrafo</td></tr>
+          <tr><td>Datos introducidos</td><td>Párrafo</td></tr>
+          <tr><td>Marcador de posición</td><td>Párrafo</td></tr>
+        </table>
+      </div>
+
+      <div>
+        <p class="assignment-group-title">Tienda / Productos</p>
+        <table class="assignment-table">
+          <tr><td>Título de lista</td><td>Encabezado</td></tr>
+          <tr><td>Precio del producto</td><td>Otros</td></tr>
+          <tr><td>Estado del producto</td><td>Otros</td></tr>
+          <tr><td>Título de elemento</td><td>Encabezado</td></tr>
+          <tr><td>Descripción del elemento</td><td>Párrafo</td></tr>
+          <tr><td>Campos de variantes</td><td>Otros</td></tr>
+        </table>
+
+        <p class="assignment-group-title">Newsletter / Citas</p>
+        <table class="assignment-table">
+          <tr><td>Título newsletter</td><td>Encabezado</td></tr>
+          <tr><td>Descripción</td><td>Párrafo</td></tr>
+          <tr><td>Campo / botón / nota</td><td>Párrafo</td></tr>
+          <tr><td>Texto de cita</td><td>Párrafo</td></tr>
+          <tr><td>Fuente de cita</td><td>Otros</td></tr>
+        </table>
+
+        <p class="assignment-group-title">Portfolio</p>
+        <table class="assignment-table">
+          <tr><td>Título (todas las cuadrículas)</td><td>Encabezado</td></tr>
+          <tr><td>Paginación de elementos</td><td>Encabezado</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== ICONOGRAFÍA ==================== -->
+  <div class="ds-section">
+    <p class="ds-section-title">08 — Iconografía · Lucide</p>
+    <p style="font-size:12px;color:#797979;margin-bottom:28px;">Librería: <strong style="color:#000;">Lucide Icons</strong> · Trazo: 1.5px · Estilo: outline · Monocromático · ~1500 iconos disponibles</p>
+
+    <div id="icon-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-bottom:32px;"></div>
+
+    <div style="padding:20px;background:#F5F5F5;border-radius:8px;margin-bottom:20px;">
+      <p style="font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:#797979;margin-bottom:16px;">Tamaños recomendados</p>
+      <div style="display:flex;gap:32px;flex-wrap:wrap;align-items:flex-end;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+          <i data-lucide="check" style="width:16px;height:16px;"></i>
+          <span style="font-size:11px;color:#797979;font-family:monospace;text-align:center;">16px<br>UI inline</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+          <i data-lucide="check" style="width:20px;height:20px;"></i>
+          <span style="font-size:11px;color:#797979;font-family:monospace;text-align:center;">20px<br>Botones</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+          <i data-lucide="check" style="width:24px;height:24px;"></i>
+          <span style="font-size:11px;color:#797979;font-family:monospace;text-align:center;">24px<br>Navegación</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+          <i data-lucide="check" style="width:32px;height:32px;"></i>
+          <span style="font-size:11px;color:#797979;font-family:monospace;text-align:center;">32px<br>Destacado</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+          <i data-lucide="check" style="width:48px;height:48px;"></i>
+          <span style="font-size:11px;color:#797979;font-family:monospace;text-align:center;">48px<br>Hero / CTA</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:16px 20px;border:0.5px solid #D9D9D9;border-radius:8px;">
+      <p style="font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:#797979;margin-bottom:10px;">Cómo usar en HTML</p>
+      <pre style="font-size:11px;color:#000;background:#F5F5F5;padding:12px;border-radius:6px;overflow-x:auto;line-height:1.6;">&lt;script src="https://unpkg.com/lucide@latest"&gt;&lt;/script&gt;
+
+&lt;i data-lucide="shopping-bag" style="width:24px;height:24px;"&gt;&lt;/i&gt;
+
+&lt;script&gt;lucide.createIcons();&lt;/script&gt;</pre>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="ds-footer">
+    <p>Design System · Arte que conecta · v1.2</p>
+    <p>Generado con Claude · Mayo 2026</p>
+  </div>
+
+</div>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  var icons = [
+    'shopping-bag','shopping-cart','heart','search','menu','x',
+    'arrow-right','arrow-left','chevron-right','chevron-down',
+    'instagram','facebook','twitter','youtube',
+    'mail','phone','map-pin','calendar','clock',
+    'user','users','star','image','play','download',
+    'external-link','share-2','tag','package','layers',
+    'palette','brush','pen-tool','eye','check','plus'
+  ];
+  var grid = document.getElementById('icon-grid');
+  icons.forEach(function(name) {
+    var cell = document.createElement('div');
+    cell.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 8px;border:0.5px solid #D9D9D9;border-radius:8px;background:#fff;';
+    cell.innerHTML = '<i data-lucide="' + name + '" style="width:22px;height:22px;stroke:#000;stroke-width:1.5;fill:none;"></i><span style="font-size:9px;color:#797979;font-family:monospace;text-align:center;line-height:1.3;">' + name + '</span>';
+    grid.appendChild(cell);
+  });
+  lucide.createIcons();
+</script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t    = useTranslations(lang);
+---
+
+<section class="hero" aria-label="Hero — Arte que conecta">
+
+  <!-- ── Text block: headline + SEO subtitle ── -->
+  <div class="hero-text">
+    <h1 class="hero-headline load-anim">{t('hero.headline')}</h1>
+    <p class="hero-seo load-anim" data-delay="1">{t('hero.seo')}</p>
+  </div>
+
+  <!-- ── Image block ── -->
+  <div class="hero-media load-anim" data-delay="2">
+    <img
+      src="/images/hero-bg.jpg"
+      alt="Alfombra tufting de formas orgánicas en colores vivos — rojo, verde, rosa y azul — creada en el taller Borrissol, Barcelona"
+      class="hero-img"
+      width="890"
+      height="501"
+      loading="eager"
+      decoding="async"
+      fetchpriority="high"
+    />
+
+    <!-- Gradient: dark bottom-left → transparent (aria-hidden — purely decorative) -->
+    <div class="hero-gradient" aria-hidden="true"></div>
+
+    <!-- Text overlay — bottom-left of image -->
+    <div class="hero-overlay">
+      <p class="hero-overlay-text">{t('hero.overlay')}</p>
+    </div>
+  </div>
+
+</section>
+
+<style>
+  /* ── Section shell ── */
+  .hero {
+    background: var(--color-mid);
+    padding: var(--space-lg);
+  }
+
+  /* ── Headline block ── */
+  .hero-text {
+    padding-top: var(--space-xs);
+    padding-bottom: var(--space-xs);
+  }
+
+  .hero-headline {
+    font-size: var(--font-size-display);
+    font-weight: var(--font-weight-heading);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-black);
+    margin: 0;
+  }
+
+  .hero-seo {
+    font-size: var(--font-size-p3);
+    color: var(--color-muted);
+    line-height: var(--line-height-body);
+    margin: var(--space-xs) 0 0;
+  }
+
+  /* ── Image wrapper ── */
+  .hero-media {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-xs);
+    /* Mobile: portrait-leaning so overlay text has breathing room */
+    aspect-ratio: 4 / 3;
+    background: var(--color-mid); /* fallback while image loads */
+  }
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* ── Gradient overlay ── */
+  .hero-gradient {
+    position: absolute;
+    inset: 0;
+    background: var(--overlay-gradient-hero);
+    pointer-events: none;
+  }
+
+  /* ── Text overlay ── */
+  .hero-overlay {
+    position: absolute;
+    bottom: var(--space-lg);
+    left: var(--space-lg);
+    /* Cap width so it never competes with the image on desktop */
+    max-width: 38%;
+  }
+
+  .hero-overlay-text {
+    font-size: var(--font-size-p2);
+    font-weight: var(--font-weight-body);
+    line-height: var(--line-height-body);
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-white);
+    margin: 0;
+  }
+
+  /* ── Tablet & desktop ── */
+  @media (min-width: 768px) {
+    .hero-media {
+      aspect-ratio: 16 / 7;
+    }
+  }
+
+  /* ── Mobile adjustments ── */
+  @media (max-width: 767px) {
+    .hero {
+      padding: var(--space-sm);
+    }
+
+    .hero-overlay {
+      bottom: var(--space-sm);
+      left: var(--space-sm);
+      /* On mobile let overlay span most of the width for legibility */
+      max-width: calc(100% - var(--space-md));
+    }
+
+    .hero-overlay-text {
+      /* Step down one size to keep overlay text compact on small screens */
+      font-size: var(--font-size-p3);
+    }
+  }
+</style>

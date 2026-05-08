@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create *)",
+      "Bash(cp -r /Users/constanzadiaz/Documents/Borrissol/green-galaxy/. /Users/constanzadiaz/Documents/Borrissol/)",
+      "Bash(rm -rf /Users/constanzadiaz/Documents/Borrissol/green-galaxy)",
+      "Bash(mkdir -p /Users/constanzadiaz/Documents/Borrissol/src/styles /Users/constanzadiaz/Documents/Borrissol/src/layouts)",
+      "Bash(mv /Users/constanzadiaz/Documents/Borrissol/theme.css /Users/constanzadiaz/Documents/Borrissol/src/styles/theme.css)",
+      "Bash(npx playwright *)"
+    ]
+  }
+}

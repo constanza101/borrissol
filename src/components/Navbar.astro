@@ -1,0 +1,490 @@
+---
+import { getLangFromUrl, useTranslations, getLocalePath, getAlternatePath } from '../i18n/utils';
+import { languages, type Lang } from '../i18n/ui';
+import { WHATSAPP_HREF } from '../config';
+
+const lang     = getLangFromUrl(Astro.url);
+const t        = useTranslations(lang);
+const altPaths = Object.fromEntries(
+  (Object.keys(languages) as Lang[]).map(l => [l, getAlternatePath(Astro.url, l)])
+) as Record<Lang, string>;
+---
+
+<header class="site-header">
+
+  <!-- ── Main bar ── -->
+  <nav class="site-nav" aria-label="Main navigation">
+
+    <a href="#" class="nav-brand logo-wordmark" aria-label="Borrissol — inicio">
+      Borrissol
+    </a>
+
+    <!-- Desktop links -->
+    <ul class="nav-links" role="list">
+      <li><a href="#offer">{t('nav.services')}</a></li>
+      <li><a href="#workshops">{t('nav.workshops')}</a></li>
+      <li><a href="#process">{t('nav.process')}</a></li>
+      <li><a href="#about">{t('nav.about')}</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+
+    <!-- Desktop language dropdown -->
+    <div class="nav-lang-dropdown" aria-label="Language switcher">
+      <button class="nav-lang-trigger" type="button" aria-haspopup="listbox">
+        {languages[lang]}
+      </button>
+      <ul class="nav-lang-menu" role="listbox">
+        {(Object.entries(languages) as [Lang, string][])
+          .filter(([l]) => l !== lang)
+          .map(([l, label]) => (
+            <li role="option">
+              <a href={altPaths[l]} class="nav-lang-option">{label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- Desktop CTA — last item before hamburger -->
+    <a
+      href={WHATSAPP_HREF}
+      class="btn btn-primary nav-cta"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Contactar por WhatsApp"
+    >
+      {t('nav.cta')}
+    </a>
+
+    <!-- Mobile hamburger: two thin lines that animate into an X -->
+    <button
+      id="nav-hamburger"
+      class="nav-hamburger"
+      aria-label="Abrir menú de navegación"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span class="hb" aria-hidden="true">
+        <span class="hb-line"></span>
+        <span class="hb-line"></span>
+      </span>
+    </button>
+
+  </nav>
+
+  <!-- ── Mobile dropdown ── -->
+  <div id="mobile-menu" class="nav-mobile" aria-hidden="true" role="dialog" aria-label="Menú de navegación">
+
+    <ul class="nav-mobile-links" role="list">
+      <li><a href="#offer">{t('nav.services')}</a></li>
+      <li><a href="#workshops">{t('nav.workshops')}</a></li>
+      <li><a href="#process">{t('nav.process')}</a></li>
+      <li><a href="#about">{t('nav.about')}</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+
+    <div class="nav-mobile-cta-wrap">
+      <a
+        href={WHATSAPP_HREF}
+        class="btn btn-primary nav-mobile-cta"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Contactar por WhatsApp"
+      >
+        {t('nav.cta')}
+      </a>
+    </div>
+
+    <div class="nav-mobile-lang" aria-label="Language switcher">
+      {(Object.entries(languages) as [Lang, string][]).map(([l, label], i) => (
+        <Fragment>
+          {i > 0 && <span class="nav-lang-sep" aria-hidden="true">/</span>}
+          {l === lang
+            ? <span class="nav-lang-current">{label}</span>
+            : <a href={altPaths[l]} class="nav-lang-link">{label}</a>
+          }
+        </Fragment>
+      ))}
+    </div>
+
+  </div>
+
+</header>
+
+<script is:inline>
+  (function () {
+    var btn  = document.getElementById('nav-hamburger');
+    var menu = document.getElementById('mobile-menu');
+    if (!btn || !menu) return;
+
+    function openMenu() {
+      menu.classList.add('is-open');
+      btn.setAttribute('aria-expanded', 'true');
+      menu.setAttribute('aria-hidden', 'false');
+    }
+    function closeMenu() {
+      menu.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+      menu.setAttribute('aria-hidden', 'true');
+    }
+
+    btn.addEventListener('click', function () {
+      menu.classList.contains('is-open') ? closeMenu() : openMenu();
+    });
+    menu.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', closeMenu);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeMenu();
+    });
+  })();
+</script>
+
+<style>
+  /* ── Header shell — sticky pill container ── */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: transparent;
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  /* ── Pill nav bar ── */
+  .site-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: color-mix(in srgb, var(--color-mid) 62%, transparent);
+    backdrop-filter: blur(14px) saturate(1.1);
+    -webkit-backdrop-filter: blur(14px) saturate(1.1);
+    border: 0.5px solid color-mix(in srgb, var(--color-black) 6%, transparent);
+    border-radius: var(--radius-pill);
+    padding: 10px 14px 10px var(--space-md);
+    gap: var(--space-md);
+    transition: background var(--t-normal);
+  }
+
+  /* Darken pill when mobile menu is open */
+  .site-header:has(.nav-mobile.is-open) .site-nav {
+    background: color-mix(in srgb, var(--color-mid) 88%, transparent);
+  }
+
+  /* Progressive scroll shrink — only where supported */
+  @supports (animation-timeline: scroll()) {
+    .site-nav {
+      animation: pill-shrink linear both;
+      animation-timeline: scroll();
+      animation-range: 80px 420px;
+    }
+    @keyframes pill-shrink {
+      to {
+        transform: scale(0.88);
+        box-shadow: var(--shadow-nav-scroll);
+      }
+    }
+  }
+
+  /* ── Brand ── */
+  .nav-brand {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--min-touch-target);
+    font-size: var(--font-size-p3);
+    font-weight: var(--font-weight-btn);
+    letter-spacing: 0.01em;
+    color: var(--color-black);
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ── Desktop links ── */
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    list-style: none;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .nav-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--min-touch-target);
+    font-size: var(--font-size-p3);
+    font-weight: var(--font-weight-body);
+    color: var(--color-black);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color var(--t-fast);
+  }
+  .nav-links a:hover { color: var(--color-muted); }
+
+  /* ── Desktop language dropdown ── */
+  .nav-lang-dropdown {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .nav-lang-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-height: var(--min-touch-target);
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-btn);
+    letter-spacing: var(--letter-spacing-btn);
+    text-transform: uppercase;
+    color: var(--color-black);
+  }
+
+  /* CSS-only down/up chevron */
+  .nav-lang-trigger::after {
+    content: '';
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .nav-lang-dropdown:hover .nav-lang-trigger::after,
+  .nav-lang-dropdown:focus-within .nav-lang-trigger::after {
+    transform: rotate(-135deg) translateY(2px);
+  }
+
+  .nav-lang-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    list-style: none;
+    background: var(--color-white);
+    border: var(--border-default);
+    min-width: 4rem;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    pointer-events: none;
+    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0s linear 0.15s;
+  }
+
+  .nav-lang-dropdown:hover .nav-lang-menu,
+  .nav-lang-dropdown:focus-within .nav-lang-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+
+  .nav-lang-option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-btn);
+    letter-spacing: var(--letter-spacing-btn);
+    text-transform: uppercase;
+    color: var(--color-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.15s, background 0.15s;
+  }
+  .nav-lang-option:hover {
+    color: var(--color-black);
+    background: var(--color-light);
+  }
+
+  /* ── Desktop CTA — pill shape in pill nav ── */
+  .nav-cta {
+    flex-shrink: 0;
+    min-height: var(--min-touch-target);
+    padding: 0 1.5em;
+    font-size: var(--font-size-ui);
+    text-decoration: none;
+  }
+
+  /* ── Shared lang switcher tokens (used in mobile dropdown) ── */
+  .nav-lang-current {
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-btn);
+    letter-spacing: var(--letter-spacing-btn);
+    text-transform: uppercase;
+    color: var(--color-black);
+  }
+
+  .nav-lang-link {
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-btn);
+    letter-spacing: var(--letter-spacing-btn);
+    text-transform: uppercase;
+    color: var(--color-muted);
+    text-decoration: none;
+    transition: color var(--t-fast);
+  }
+  .nav-lang-link:hover { color: var(--color-black); }
+
+  .nav-lang-sep {
+    font-size: var(--font-size-ui);
+    color: var(--color-muted);
+  }
+
+  /* ── Hamburger — hidden on desktop ── */
+  .nav-hamburger { display: none; }
+
+  /* ── Mobile dropdown — hidden outside mobile breakpoint ── */
+  @media (min-width: 768px) {
+    .nav-mobile { display: none; }
+  }
+
+
+  /* ================================================================
+     MOBILE  (≤ 767px)
+     ================================================================ */
+  @media (max-width: 767px) {
+
+    .nav-links         { display: none; }
+    .nav-cta           { display: none; }
+    .nav-lang-dropdown { display: none; }
+
+    /* Tighten pill padding on mobile */
+    .site-nav {
+      padding: 8px 8px 8px var(--space-md);
+    }
+
+    /* ── Hamburger button ── */
+    .nav-hamburger {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width:  var(--min-touch-target);
+      min-height: var(--min-touch-target);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      flex-shrink: 0;
+    }
+
+    /* ── Two-line icon ── */
+    .hb {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 26px;
+    }
+
+    .hb-line {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: var(--color-dark);
+      border-radius: 1px;
+      transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: center;
+    }
+
+    /* Open state → X */
+    .nav-hamburger[aria-expanded="true"] .hb-line:nth-child(1) {
+      transform: translateY(5px) rotate(45deg);
+    }
+    .nav-hamburger[aria-expanded="true"] .hb-line:nth-child(2) {
+      transform: translateY(-5px) rotate(-45deg);
+    }
+
+    /* ── Floating dropdown panel ── */
+    .nav-mobile {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      background: color-mix(in srgb, var(--color-white) 95%, transparent);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 0.5px solid color-mix(in srgb, var(--color-black) 8%, transparent);
+      border-radius: var(--radius-lg);
+      margin-top: var(--space-xs);
+      padding: 0 var(--space-md);
+      gap: var(--space-xs);
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: max-height 0.3s ease, opacity 0.25s ease, padding 0.3s ease;
+    }
+
+    .nav-mobile.is-open {
+      max-height: 520px;
+      opacity: 1;
+      padding: var(--space-sm) var(--space-md) var(--space-md);
+      pointer-events: auto;
+    }
+
+    /* ── Dropdown links ── */
+    .nav-mobile-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-mobile-links li {
+      border-bottom: var(--border-default);
+    }
+    .nav-mobile-links li:first-child {
+      border-top: var(--border-default);
+    }
+
+    .nav-mobile-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: var(--min-touch-target);
+      padding: var(--space-md) 0;
+      font-size: var(--font-size-h4);
+      font-weight: var(--font-weight-body);
+      color: var(--color-black);
+      text-decoration: none;
+      text-align: center;
+      transition: color var(--t-fast);
+    }
+    .nav-mobile-links a:hover { color: var(--color-muted); }
+
+    /* ── Dropdown CTA ── */
+    .nav-mobile-cta-wrap {
+      padding-top: var(--space-md);
+    }
+
+    .nav-mobile-cta {
+      width: 100%;
+      text-decoration: none;
+      justify-content: center;
+      padding: var(--space-sm) 0;
+      font-size: var(--font-size-p3);
+      border-radius: 0;
+    }
+
+    /* ── Dropdown lang switcher ── */
+    .nav-mobile-lang {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding-top: var(--space-md);
+      padding-bottom: var(--space-xs);
+    }
+
+  }
+</style>
