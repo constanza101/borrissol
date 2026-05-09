@@ -15,7 +15,7 @@ const t    = useTranslations(lang);
   <div class="cookie-inner">
     <p class="cookie-text">
       {t('cookie.text')}
-      <a href="#politica-privacitat" class="cookie-link">{t('cookie.learn-more')}</a>
+      <a href="#proteccio-dades" class="cookie-link" onclick="event.preventDefault();document.getElementById('proteccio-dades').scrollIntoView({behavior:'smooth'})">{t('cookie.learn-more')}</a>
     </p>
     <div class="cookie-actions">
       <button id="cookie-decline" class="cookie-btn cookie-btn--decline" type="button">

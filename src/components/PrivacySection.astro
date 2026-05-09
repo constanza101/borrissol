@@ -1,0 +1,96 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t    = useTranslations(lang);
+---
+
+<section id="proteccio-dades" class="privacy">
+  <div class="privacy-inner">
+
+    <h2 class="privacy-title">{t('privacy.section.title')}</h2>
+
+    <p class="privacy-p">
+      <span class="privacy-label">{t('privacy.responsible.label')}:</span>
+      {t('privacy.responsible.text')} <a href="mailto:borrissolespaicreatiu@gmail.com" class="privacy-link">borrissolespaicreatiu@gmail.com</a>
+    </p>
+
+    <p class="privacy-p">
+      <span class="privacy-label">{t('privacy.data.label')}:</span>
+      {t('privacy.data.text')}
+    </p>
+
+    <p class="privacy-p">
+      <span class="privacy-label">{t('privacy.legal.label')}:</span>
+      {t('privacy.legal.text')}
+    </p>
+
+    <p class="privacy-p">
+      <span class="privacy-label">{t('privacy.retention.label')}:</span>
+      {t('privacy.retention.text')}
+    </p>
+
+    <p class="privacy-p">
+      <span class="privacy-label">{t('privacy.rights.label')}:</span>
+      {t('privacy.rights.text')}
+    </p>
+
+    <p class="privacy-p">
+      <span class="privacy-label">{t('privacy.cookies.label')}:</span>
+      {t('privacy.cookies.text')}
+    </p>
+
+  </div>
+</section>
+
+<style>
+  .privacy {
+    background: var(--color-light);
+    border-top: 1px solid var(--color-mid);
+    padding: var(--space-lg) var(--space-lg) var(--space-xl);
+  }
+
+  .privacy-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .privacy-title {
+    font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-heading);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-muted);
+    margin: 0 0 var(--space-xs);
+  }
+
+  .privacy-p {
+    font-size: var(--font-size-p3);
+    font-weight: var(--font-weight-body);
+    line-height: var(--line-height-body);
+    letter-spacing: var(--letter-spacing-body);
+    color: var(--color-muted);
+    margin: 0;
+  }
+
+  .privacy-label {
+    font-weight: var(--font-weight-btn);
+    letter-spacing: var(--letter-spacing-btn);
+    text-transform: uppercase;
+  }
+
+  .privacy-link {
+    color: var(--color-muted);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color var(--t-fast);
+  }
+  .privacy-link:hover { color: var(--color-black); }
+
+  @media (max-width: 767px) {
+    .privacy {
+      padding: var(--space-lg) var(--space-sm) var(--space-xl);
+    }
+  }
+</style>

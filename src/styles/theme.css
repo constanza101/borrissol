@@ -4,8 +4,14 @@
    Fonts: Roboto (UI) · Coiny (wordmark only) · Base: 16px
    ============================================================================= */
 
-/* Roboto — primary UI typeface */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+/* Roboto — primary UI typeface (self-hosted, latin subset) */
+@font-face {
+  font-family: 'Roboto';
+  src: url('/fonts/Roboto-latin.woff2') format('woff2');
+  font-weight: 400 500;
+  font-style: normal;
+  font-display: swap;
+}
 
 /* Coiny — brand display face. Reserved exclusively for .logo-wordmark. */
 @font-face {
