@@ -29,30 +29,28 @@ interface SiteConfig {
   locale: string;
   logo: string;
   defaultOgImage: string;
-  twitter?: string;
   business: BusinessConfig;
 }
 
 export const SITE: SiteConfig = {
-  name: 'Arte que conecta',
-  url: 'https://artequeconecta.com',   // ← replace before go-live
+  name: 'Borrissol',
+  url: 'https://borrissol.netlify.app',
   locale: 'es_ES',
   logo: '/logo.svg',
   defaultOgImage: '/og-default.png',
-  twitter: '@artequeconecta',           // ← replace or remove if no Twitter
 
   business: {
     type: 'ProfessionalService',
-    name: 'Arte que conecta',
+    name: 'Borrissol Espai Creatiu',
     description:
-      'Servicios creativos, tienda de arte y portfolio. Conectamos artistas con su audiencia a través del diseño y la creatividad.',
-    email: 'hola@artequeconecta.com',   // ← replace
-    telephone: '',                       // ← add when known, e.g. '+34 600 000 000'
+      'Espai creatiu de tallers tèxtils a Mataró. Especialistes en tufting, bordats i experiències artístiques.',
+    email: 'borrissolespaicreatiu@gmail.com',
+    telephone: '+34673247520',
     address: {
-      streetAddress: '',                 // ← add street when known
-      addressLocality: '',               // ← city, e.g. 'Madrid'
-      addressRegion: '',                 // ← region, e.g. 'Madrid'
-      postalCode: '',                    // ← e.g. '28001'
+      streetAddress: '',
+      addressLocality: 'Mataró',
+      addressRegion: 'Catalunya',
+      postalCode: '',
       addressCountry: 'ES',
     },
     priceRange: '€€',

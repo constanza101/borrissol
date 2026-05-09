@@ -15,8 +15,8 @@ const altPaths = Object.fromEntries(
   <!-- ── Main bar ── -->
   <nav class="site-nav" aria-label="Main navigation">
 
-    <a href="#" class="nav-brand logo-wordmark" aria-label="Borrissol — inicio">
-      Borrissol
+    <a href="#" class="nav-brand" aria-label="Borrissol — inicio">
+      <img src="/images/borrissol_pompom.svg" alt="Borrissol" class="nav-brand-logo" />
     </a>
 
     <!-- Desktop links -->
@@ -55,6 +55,19 @@ const altPaths = Object.fromEntries(
     >
       {t('nav.cta')}
     </a>
+
+    <!-- Mobile lang — pill bar, left of hamburger -->
+    <div class="nav-bar-lang" aria-label="Language switcher">
+      {(Object.entries(languages) as [Lang, string][]).map(([l, label], i) => (
+        <Fragment>
+          {i > 0 && <span class="nav-lang-sep" aria-hidden="true">/</span>}
+          {l === lang
+            ? <span class="nav-lang-current">{label}</span>
+            : <a href={altPaths[l]} class="nav-lang-link">{label}</a>
+          }
+        </Fragment>
+      ))}
+    </div>
 
     <!-- Mobile hamburger: two thin lines that animate into an X -->
     <button
@@ -190,13 +203,14 @@ const altPaths = Object.fromEntries(
     display: inline-flex;
     align-items: center;
     min-height: var(--min-touch-target);
-    font-size: var(--font-size-p3);
-    font-weight: var(--font-weight-btn);
-    letter-spacing: 0.01em;
-    color: var(--color-black);
     text-decoration: none;
-    white-space: nowrap;
     flex-shrink: 0;
+  }
+
+  .nav-brand-logo {
+    height: 32px;
+    width: auto;
+    display: block;
   }
 
   /* ── Desktop links ── */
@@ -213,7 +227,7 @@ const altPaths = Object.fromEntries(
     display: inline-flex;
     align-items: center;
     min-height: var(--min-touch-target);
-    font-size: var(--font-size-p3);
+    font-size: var(--font-size-p2);
     font-weight: var(--font-weight-body);
     color: var(--color-black);
     text-decoration: none;
@@ -343,6 +357,9 @@ const altPaths = Object.fromEntries(
     color: var(--color-muted);
   }
 
+  /* ── Mobile bar lang — hidden on desktop ── */
+  .nav-bar-lang { display: none; }
+
   /* ── Hamburger — hidden on desktop ── */
   .nav-hamburger { display: none; }
 
@@ -360,6 +377,13 @@ const altPaths = Object.fromEntries(
     .nav-links         { display: none; }
     .nav-cta           { display: none; }
     .nav-lang-dropdown { display: none; }
+
+    .nav-bar-lang {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
 
     /* Tighten pill padding on mobile */
     .site-nav {

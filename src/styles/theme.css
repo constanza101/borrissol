@@ -26,8 +26,9 @@
   --color-light:  #F5F5F5;   /* Secondary background · section fills · button preview */
   --color-mid:    #D9D9D9;   /* Borders · dividers · component separators */
   --color-muted:  #797979;   /* Secondary text · labels · metadata */
-  --color-dark:   #1a1a1a;   /* Dark backgrounds · buttons · UI surfaces — softer than pure black */
-  --color-black:  #000000;   /* Primary text · active borders — reserved for text only */
+  --color-dark:       #1a1a1a;   /* Dark backgrounds · buttons · UI surfaces — softer than pure black */
+  --color-footer-bg:  #13141a;   /* Footer background — deepest surface */
+  --color-black:      #000000;   /* Primary text · active borders — reserved for text only */
 
   /* Tufting level accent colors — per-card identifier palette */
   --color-tufting-express:      #fda543;

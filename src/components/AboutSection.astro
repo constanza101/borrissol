@@ -5,7 +5,6 @@ const lang = getLangFromUrl(Astro.url);
 const t    = useTranslations(lang);
 
 const tags = [
-  t('about.tag1'),
   t('about.tag2'),
   t('about.tag3'),
   t('about.tag4'),
@@ -22,8 +21,11 @@ const tags = [
       <h2 class="ab-headline reveal" data-delay="1">{t('about.headline')}</h2>
     </div>
 
-    <!-- Block 1: Studio story — text left, image right -->
+    <!-- Block 1: Studio story — image left, text right -->
     <div class="ab-block">
+      <div class="ab-img-wrap ab-img-wrap--landscape reveal">
+        <img src="/images/belu1.jpg" alt="Borrissol studio" class="ab-img ab-img--bottom" loading="lazy" />
+      </div>
       <div class="ab-text reveal" data-delay="1">
         <p class="ab-p">{t('about.p1')}</p>
         <p class="ab-p">{t('about.p2')}</p>
@@ -34,8 +36,25 @@ const tags = [
           ))}
         </div>
       </div>
-      <div class="ab-img-wrap reveal" data-delay="2">
-        <img src="/images/grupo2.jpg" alt="Borrissol studio" class="ab-img" loading="lazy" />
+    </div>
+
+    <!-- Block: MataróTV interview -->
+    <div class="ab-block ab-video-block">
+      <div class="ab-text reveal" data-delay="1">
+        <span class="eyebrow">{t('about.video.label')}</span>
+        <h3 class="ab-subtitle">{t('about.video.headline')}</h3>
+        <p class="ab-p">{t('about.video.text')}</p>
+        <p class="ab-video-source">{t('about.video.source')}</p>
+      </div>
+      <div class="ab-video-wrap reveal" data-delay="2">
+        <iframe
+          src="https://www.youtube.com/embed/2BAK8-bmz0s?si=Ol5yViPuthl0ly98"
+          title="Borrissol Espai Creatiu a MataróTV — Art i Part"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+          loading="lazy"
+        ></iframe>
       </div>
     </div>
 
@@ -93,9 +112,9 @@ const tags = [
     align-items: start;
   }
 
-  /* Block 1: text gets more breathing room, portrait image stays contained */
+  /* Block 1: portrait image left, text gets more room on the right */
   .ab-block:not(.ab-block--reverse) {
-    grid-template-columns: 3fr 2fr;
+    grid-template-columns: 2fr 3fr;
   }
 
   .ab-block + .ab-block {
@@ -153,6 +172,34 @@ const tags = [
     border-radius: var(--radius-pill);
   }
 
+  /* ── Video block overrides ── */
+  .ab-video-block {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ab-video-source {
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-btn);
+    letter-spacing: var(--letter-spacing-btn);
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .ab-video-wrap {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    min-height: 315px;
+  }
+
+  .ab-video-wrap iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+
   /* ── Image column ── */
   .ab-img-wrap {
     border-radius: var(--radius-xs);
@@ -169,6 +216,10 @@ const tags = [
     height: 100%;
     object-fit: cover;
     display: block;
+  }
+
+  .ab-img--bottom {
+    object-position: bottom;
   }
 
   /* ── Tablet ── */
@@ -202,10 +253,12 @@ const tags = [
       grid-template-columns: 1fr;
     }
 
-    /* Block 1: image is DOM-second — pull it above text */
-    .ab-block:not(.ab-block--reverse) .ab-img-wrap {
-      order: -1;
-      aspect-ratio: 4 / 3;
+    .ab-video-block {
+      grid-template-columns: 1fr;
+    }
+
+    .ab-video-wrap {
+      min-height: 220px;
     }
 
     .ab-headline {

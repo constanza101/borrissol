@@ -22,7 +22,9 @@ const {
   description,
   ogImage = SITE.defaultOgImage,
   ogType = 'website',
-  canonicalUrl = Astro.url.href,
+  canonicalUrl = Astro.site
+    ? new URL(Astro.url.pathname, Astro.site).href
+    : Astro.url.href,
   noindex = false,
   publishedAt,
   updatedAt,
@@ -30,7 +32,7 @@ const {
 } = Astro.props;
 
 const fullTitle    = `${title} · ${SITE.name}`;
-const origin       = Astro.url.origin;
+const origin       = (Astro.site ?? Astro.url).origin;
 const absOgImage   = new URL(ogImage, origin).href;
 const absLogo      = new URL(SITE.logo, origin).href;
 const absOgDefault = new URL(SITE.defaultOgImage, origin).href;
@@ -95,14 +97,6 @@ const jsonLd = {
 {publishedAt && <meta property="article:published_time" content={publishedAt.toISOString()} />}
 {updatedAt   && <meta property="article:modified_time"  content={updatedAt.toISOString()} />}
 {author      && <meta property="article:author"         content={author} />}
-
-<!-- ── Twitter Card ───────────────────────────────────────────────────────── -->
-<meta name="twitter:card"        content="summary_large_image" />
-{SITE.twitter && <meta name="twitter:site" content={SITE.twitter} />}
-<meta name="twitter:title"       content={fullTitle} />
-<meta name="twitter:description" content={description} />
-<meta name="twitter:image"       content={absOgImage} />
-<meta name="twitter:image:alt"   content={fullTitle} />
 
 <!-- ── Hreflang ─────────────────────────────────────────────────────────── -->
 {hreflangLinks.map(({ lang, href }) => (
