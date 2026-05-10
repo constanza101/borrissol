@@ -1,5 +1,7 @@
 ---
+import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import heroBg from '../assets/images/hero-bg.jpg';
 
 const lang = getLangFromUrl(Astro.url);
 const t    = useTranslations(lang);
@@ -15,14 +17,14 @@ const t    = useTranslations(lang);
 
   <!-- ── Image block ── -->
   <div class="hero-media load-anim" data-delay="2">
-    <img
-      src="/images/hero-bg.jpg"
+    <Picture
+      src={heroBg}
+      widths={[480, 768, 1200, 1600]}
+      sizes="100vw"
+      formats={['avif', 'webp']}
       alt="Alfombra tufting de formas orgánicas en colores vivos — rojo, verde, rosa y azul — creada en el taller Borrissol, Barcelona"
       class="hero-img"
-      width="890"
-      height="501"
       loading="eager"
-      decoding="async"
       fetchpriority="high"
     />
 

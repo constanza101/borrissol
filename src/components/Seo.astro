@@ -1,6 +1,6 @@
 ---
 import { SITE } from '../config/site';
-import { getLangFromUrl, getAlternatePath, localeMap } from '../i18n/utils';
+import { getLangFromUrl, getAlternatePath, localeMap, useTranslations } from '../i18n/utils';
 import { languages, defaultLang, type Lang } from '../i18n/ui';
 
 interface Props {
@@ -38,6 +38,7 @@ const absLogo      = new URL(SITE.logo, origin).href;
 const absOgDefault = new URL(SITE.defaultOgImage, origin).href;
 
 const currentLang  = getLangFromUrl(Astro.url);
+const t            = useTranslations(currentLang);
 const hreflangLinks = (Object.keys(languages) as Lang[]).map(l => ({
   lang: l,
   href: `${origin}${getAlternatePath(Astro.url, l)}`,
@@ -58,11 +59,24 @@ const schemaAddress = address.addressCountry
     }
   : undefined;
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type':    'FAQPage',
+  mainEntity: [1, 2, 3, 4, 5, 6, 7].map(n => ({
+    '@type': 'Question',
+    name:    t(`faq.q${n}` as any),
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text:    t(`faq.a${n}` as any),
+    },
+  })),
+};
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': SITE.business.type,
   name:        SITE.business.name,
-  url:         origin,
+  url:         `${origin}/`,
   logo: {
     '@type': 'ImageObject',
     url: absLogo,
@@ -75,6 +89,13 @@ const jsonLd = {
   ...(SITE.business.priceRange        && { priceRange:    SITE.business.priceRange }),
   ...(SITE.business.openingHours?.length && { openingHours: SITE.business.openingHours }),
   ...(SITE.business.sameAs?.length       && { sameAs:       SITE.business.sameAs }),
+  aggregateRating: {
+    '@type':      'AggregateRating',
+    ratingValue:  '5.0',
+    reviewCount:  '27',
+    bestRating:   '5',
+    worstRating:  '1',
+  },
 };
 ---
 
@@ -91,8 +112,16 @@ const jsonLd = {
 <meta property="og:title"       content={fullTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:url"         content={canonicalUrl} />
-<meta property="og:image"       content={absOgImage} />
-<meta property="og:image:alt"   content={fullTitle} />
+<meta property="og:image"        content={absOgImage} />
+<meta property="og:image:width"  content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt"    content={fullTitle} />
+
+<!-- ── Twitter / X Card ──────────────────────────────────────────────────── -->
+<meta name="twitter:card"        content="summary_large_image" />
+<meta name="twitter:title"       content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image"       content={absOgImage} />
 
 {publishedAt && <meta property="article:published_time" content={publishedAt.toISOString()} />}
 {updatedAt   && <meta property="article:modified_time"  content={updatedAt.toISOString()} />}
@@ -106,3 +135,4 @@ const jsonLd = {
 
 <!-- ── Schema.org JSON-LD ────────────────────────────────────────────────── -->
 <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />

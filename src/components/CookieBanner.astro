@@ -15,7 +15,7 @@ const t    = useTranslations(lang);
   <div class="cookie-inner">
     <p class="cookie-text">
       {t('cookie.text')}
-      <a href="#proteccio-dades" class="cookie-link" onclick="event.preventDefault();document.getElementById('proteccio-dades').scrollIntoView({behavior:'smooth'})">{t('cookie.learn-more')}</a>
+      <a href="#privacy-policy" class="cookie-link" onclick="event.preventDefault();document.getElementById('privacy-policy').scrollIntoView({behavior:'smooth'})">{t('cookie.learn-more')}</a>
     </p>
     <div class="cookie-actions">
       <button id="cookie-decline" class="cookie-btn cookie-btn--decline" type="button">
@@ -71,11 +71,15 @@ const t    = useTranslations(lang);
       localStorage.setItem('cookie_consent', 'accepted');
       hideBanner();
       loadAnalytics();
+      window.dispatchEvent(new Event('cookie-resolved'));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
     document.getElementById('cookie-decline').addEventListener('click', function () {
       localStorage.setItem('cookie_consent', 'rejected');
       hideBanner();
+      window.dispatchEvent(new Event('cookie-resolved'));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   })();
 </script>

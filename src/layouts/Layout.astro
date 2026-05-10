@@ -28,7 +28,10 @@ const seoProps = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="generator" content={Astro.generator} />
+    <!-- Preconnect hints -->
+    <link rel="preconnect" href="https://www.youtube.com" />
+    <link rel="preconnect" href="https://i.ytimg.com" />
+    <link rel="dns-prefetch" href="https://www.youtube.com" />
 
     <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
@@ -40,10 +43,6 @@ const seoProps = Astro.props;
     <slot />
     <WhatsAppFab />
     <CookieBanner />
-    <!-- Lucide Icons — loaded once, available to all components -->
-    <script is:inline src="https://unpkg.com/lucide@latest"></script>
-    <script is:inline>lucide.createIcons();</script>
-
     <!-- Scroll reveal — IntersectionObserver, fires once, respects prefers-reduced-motion -->
     <script is:inline>
       (function () {

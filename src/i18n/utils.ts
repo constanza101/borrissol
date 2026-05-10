@@ -9,9 +9,9 @@ export const localeMap: Record<Lang, string> = {
 
 // Slug pairs for every page — add a row here when creating a new page.
 const pageRoutes: Record<string, Record<Lang, string>> = {
-  home:     { es: '/',          en: '/en',           ca: '/ca',           fr: '/fr' },
-  services: { es: '/servicios', en: '/en/services',  ca: '/ca/serveis',   fr: '/fr/services' },
-  contact:  { es: '/contacto',  en: '/en/contact',   ca: '/ca/contacte',  fr: '/fr/contact' },
+  home:     { ca: '/',          en: '/en',           es: '/es',           fr: '/fr' },
+  services: { ca: '/serveis',   en: '/en/services',  es: '/es/servicios', fr: '/fr/services' },
+  contact:  { ca: '/contacte',  en: '/en/contact',   es: '/es/contacto',  fr: '/fr/contact' },
 };
 
 export function getLangFromUrl(url: URL): Lang {

@@ -1,5 +1,8 @@
 ---
+import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import belu1 from '../assets/images/belu1.jpg';
+import materialsYarn from '../assets/images/materials-yarn.jpg';
 
 const lang = getLangFromUrl(Astro.url);
 const t    = useTranslations(lang);
@@ -24,7 +27,15 @@ const tags = [
     <!-- Block 1: Studio story — image left, text right -->
     <div class="ab-block">
       <div class="ab-img-wrap ab-img-wrap--landscape reveal">
-        <img src="/images/belu1.jpg" alt="Borrissol studio" class="ab-img ab-img--bottom" loading="lazy" />
+        <Picture
+          src={belu1}
+          widths={[400, 700, 900]}
+          sizes="(max-width: 540px) 100vw, 40vw"
+          formats={['avif', 'webp']}
+          alt="Borrissol studio"
+          class="ab-img ab-img--bottom"
+          loading="lazy"
+        />
       </div>
       <div class="ab-text reveal" data-delay="1">
         <p class="ab-p">{t('about.p1')}</p>
@@ -61,7 +72,29 @@ const tags = [
     <!-- Block 2: Materials — image left, text right -->
     <div class="ab-block ab-block--reverse">
       <div class="ab-img-wrap ab-img-wrap--landscape reveal">
-        <img src="/images/materials-yarn.jpg" alt="Recycled acrylic yarn" class="ab-img" loading="lazy" />
+        <Picture
+          src={materialsYarn}
+          widths={[400, 700, 900]}
+          sizes="(max-width: 540px) 100vw, 40vw"
+          formats={['avif', 'webp']}
+          alt="Recycled acrylic yarn"
+          class="ab-img"
+          loading="lazy"
+        />
+        <div class="ab-gradient" aria-hidden="true"></div>
+        <img
+          src="/images/fiber-fever-logo.svg"
+          alt="Fiber Fever"
+          class="ab-fiber-logo"
+          aria-hidden="true"
+        />
+        <a
+          href="https://www.fiberfever.es/en/about/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="ab-img-link"
+          aria-label="Fiber Fever — about"
+        ></a>
       </div>
       <div class="ab-text reveal" data-delay="1">
         <div class="ab-text-header">
@@ -69,7 +102,9 @@ const tags = [
           <h3 class="ab-subtitle">{t('materials.headline')}</h3>
         </div>
         <p class="ab-p">{t('about.materials.p1')}</p>
-        <p class="ab-p">{t('about.materials.p2')}</p>
+        <p class="ab-p">
+          {t('about.materials.p2.before')}<a href="https://www.fiberfever.es/en/about/" target="_blank" rel="noopener noreferrer" class="ab-materials-link">{t('about.materials.p2.link')}</a>{t('about.materials.p2.after')}
+        </p>
         <p class="ab-p">{t('about.materials.p3')}</p>
       </div>
     </div>
@@ -202,9 +237,44 @@ const tags = [
 
   /* ── Image column ── */
   .ab-img-wrap {
+    position: relative;
     border-radius: var(--radius-xs);
     overflow: hidden;
     aspect-ratio: 4 / 5;
+  }
+
+  .ab-gradient {
+    position: absolute;
+    inset: 0;
+    background: var(--overlay-gradient-hero);
+    pointer-events: none;
+  }
+
+  .ab-img-link {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+  }
+
+  .ab-materials-link {
+    color: inherit;
+    font-weight: var(--font-weight-btn);
+    text-decoration: none;
+    transition: text-decoration var(--t-fast);
+  }
+  .ab-materials-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .ab-fiber-logo {
+    position: absolute;
+    bottom: var(--space-md);
+    left: var(--space-md);
+    width: 60%;
+    max-width: 320px;
+    height: auto;
+    pointer-events: none;
   }
 
   .ab-img-wrap--landscape {

@@ -1,96 +1,201 @@
 ---
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
-
-const lang = getLangFromUrl(Astro.url);
-const t    = useTranslations(lang);
 ---
 
-<section id="proteccio-dades" class="privacy">
-  <div class="privacy-inner">
+<section id="privacy-policy" class="prv">
+  <div class="prv-inner">
 
-    <h2 class="privacy-title">{t('privacy.section.title')}</h2>
+    <ul class="prv-list" role="list">
+      <li class="prv-item">
 
-    <p class="privacy-p">
-      <span class="privacy-label">{t('privacy.responsible.label')}:</span>
-      {t('privacy.responsible.text')} <a href="mailto:borrissolespaicreatiu@gmail.com" class="privacy-link">borrissolespaicreatiu@gmail.com</a>
-    </p>
+        <button class="prv-question" type="button" aria-expanded="false" aria-controls="prv-body">
+          <span class="prv-q-text">Política de Privacidad — Borrissol Espai Creatiu</span>
+          <span class="prv-icon" aria-hidden="true">+</span>
+        </button>
 
-    <p class="privacy-p">
-      <span class="privacy-label">{t('privacy.data.label')}:</span>
-      {t('privacy.data.text')}
-    </p>
+        <div class="prv-answer" id="prv-body" role="region">
+          <div class="prv-body">
 
-    <p class="privacy-p">
-      <span class="privacy-label">{t('privacy.legal.label')}:</span>
-      {t('privacy.legal.text')}
-    </p>
+            <p class="prv-p">
+              <span class="prv-label">Responsable del tratamiento:</span>
+              Borrissol Espai Creatiu. Mataró, Barcelona. Contacto:
+              <a href="mailto:borrissolespaicreatiu@gmail.com" class="prv-link">borrissolespaicreatiu@gmail.com</a>
+            </p>
 
-    <p class="privacy-p">
-      <span class="privacy-label">{t('privacy.retention.label')}:</span>
-      {t('privacy.retention.text')}
-    </p>
+            <p class="prv-p">
+              <span class="prv-label">Qué datos recogemos y para qué:</span>
+              Cuando nos escribes por WhatsApp o rellenas un formulario de contacto, recogemos tu nombre y teléfono o correo únicamente para gestionar tu reserva o responder tu consulta. No los usaremos para ninguna otra finalidad.
+            </p>
 
-    <p class="privacy-p">
-      <span class="privacy-label">{t('privacy.rights.label')}:</span>
-      {t('privacy.rights.text')}
-    </p>
+            <p class="prv-p">
+              <span class="prv-label">Base legal:</span>
+              Tu consentimiento explícito al ponerte en contacto con nosotros (art. 6.1.a RGPD).
+            </p>
 
-    <p class="privacy-p">
-      <span class="privacy-label">{t('privacy.cookies.label')}:</span>
-      {t('privacy.cookies.text')}
-    </p>
+            <p class="prv-p">
+              <span class="prv-label">Cuánto tiempo guardamos los datos:</span>
+              El tiempo necesario para gestionar tu solicitud y, si haces una reserva, hasta 3 años por posibles reclamaciones.
+            </p>
+
+            <p class="prv-p">
+              <span class="prv-label">Tus derechos:</span>
+              Puedes acceder, rectificar, suprimir, limitar el tratamiento, oponerte o solicitar la portabilidad de tus datos en cualquier momento escribiendo a
+              <a href="mailto:borrissolespaicreatiu@gmail.com" class="prv-link">borrissolespaicreatiu@gmail.com</a>.
+              También puedes reclamar ante la Agencia Española de Protección de Datos
+              (<a href="https://www.aepd.es" target="_blank" rel="noopener noreferrer" class="prv-link">aepd.es</a>).
+            </p>
+
+            <p class="prv-p">
+              <span class="prv-label">Cookies:</span>
+              Este sitio web utiliza únicamente cookies técnicas necesarias para el funcionamiento. No usamos cookies de seguimiento ni publicidad.
+            </p>
+
+          </div>
+        </div>
+
+      </li>
+    </ul>
 
   </div>
 </section>
 
+<script is:inline>
+  (function () {
+    var item = document.querySelector('.prv-item');
+    var btn  = item.querySelector('.prv-question');
+    var ans  = item.querySelector('.prv-answer');
+
+    function open() {
+      item.classList.add('is-open');
+      btn.setAttribute('aria-expanded', 'true');
+      ans.style.maxHeight = '2000px';
+    }
+    function close() {
+      item.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+      ans.style.maxHeight = '0';
+    }
+
+    ans.style.maxHeight = '0';
+
+    var section = document.getElementById('privacy-policy');
+    if (localStorage.getItem('cookie_consent')) {
+      section.style.paddingBottom = '0';
+    } else {
+      open();
+    }
+
+    btn.addEventListener('click', function () {
+      item.classList.contains('is-open') ? close() : open();
+    });
+
+    window.addEventListener('cookie-resolved', function () {
+      close();
+      section.style.paddingBottom = '0';
+    });
+  })();
+</script>
+
 <style>
-  .privacy {
+  .prv {
     background: var(--color-light);
-    border-top: 1px solid var(--color-mid);
-    padding: var(--space-lg) var(--space-lg) var(--space-xl);
+    border-top: var(--border-default);
+    padding: 0 var(--space-xl) var(--space-2xl) 0;
   }
 
-  .privacy-inner {
+  .prv-inner {
+    padding: 0 var(--space-lg);
+  }
+
+  .prv-list {
+    list-style: none;
+    border-top: var(--border-default);
+  }
+
+  .prv-item {
+    border-bottom: var(--border-default);
+  }
+
+  .prv-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    width: 100%;
+    padding: var(--space-md) 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-family-base);
+    color: var(--color-black);
+  }
+
+  .prv-q-text {
+    font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-body);
+    line-height: var(--line-height-body);
+    letter-spacing: var(--letter-spacing-body);
+  }
+
+  .prv-icon {
+    font-size: var(--font-size-h3);
+    font-weight: var(--font-weight-body);
+    line-height: 1;
+    flex-shrink: 0;
+    transition: transform var(--t-normal);
+    user-select: none;
+  }
+
+  .prv-item.is-open .prv-icon {
+    transform: rotate(45deg);
+  }
+
+  .prv-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+
+  .prv-body {
     display: flex;
     flex-direction: column;
-    gap: var(--space-sm);
+    gap: var(--space-xs);
+    padding-bottom: var(--space-md);
   }
 
-  .privacy-title {
-    font-size: var(--font-size-h4);
-    font-weight: var(--font-weight-heading);
-    line-height: var(--line-height-heading);
-    letter-spacing: var(--letter-spacing-heading);
-    color: var(--color-muted);
-    margin: 0 0 var(--space-xs);
-  }
-
-  .privacy-p {
-    font-size: var(--font-size-p3);
+  .prv-p {
+    font-size: var(--font-size-p2);
     font-weight: var(--font-weight-body);
     line-height: var(--line-height-body);
     letter-spacing: var(--letter-spacing-body);
     color: var(--color-muted);
-    margin: 0;
+    max-width: 680px;
   }
 
-  .privacy-label {
+  .prv-label {
     font-weight: var(--font-weight-btn);
-    letter-spacing: var(--letter-spacing-btn);
-    text-transform: uppercase;
+    color: var(--color-black);
   }
 
-  .privacy-link {
+  .prv-link {
     color: var(--color-muted);
     text-decoration: underline;
     text-underline-offset: 2px;
     transition: color var(--t-fast);
   }
-  .privacy-link:hover { color: var(--color-black); }
+  .prv-link:hover { color: var(--color-black); }
 
-  @media (max-width: 767px) {
-    .privacy {
-      padding: var(--space-lg) var(--space-sm) var(--space-xl);
+  @media (max-width: 540px) {
+    .prv-inner {
+      padding: 0 var(--space-sm);
+    }
+
+    .prv-q-text {
+      font-size: var(--font-size-p2);
+    }
+
+    .prv-icon {
+      font-size: var(--font-size-h4);
     }
   }
 </style>

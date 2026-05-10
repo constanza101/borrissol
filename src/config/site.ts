@@ -40,7 +40,7 @@ export const SITE: SiteConfig = {
   defaultOgImage: '/og-default.png',
 
   business: {
-    type: 'ProfessionalService',
+    type: 'LocalBusiness',
     name: 'Borrissol Espai Creatiu',
     description:
       'Espai creatiu de tallers tèxtils a Mataró. Especialistes en tufting, bordats i experiències artístiques.',

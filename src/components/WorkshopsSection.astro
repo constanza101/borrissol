@@ -1,6 +1,12 @@
 ---
+import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 import { WHATSAPP_HREF } from '../config';
+import tuftingInd2 from '../assets/images/tufting_ind2.jpg';
+import tallerTufting from '../assets/images/taller_tufting.jpg';
+import grupal from '../assets/images/grupal.png';
+import toteBag from '../assets/images/tote_bag1.png';
+import grupo2 from '../assets/images/grupo2.jpg';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -67,12 +73,17 @@ const tuftingRows = [
         <div class="tufting-left reveal">
           <h3 class="tufting-title">Tufting</h3>
           <p class="tufting-intro">{t('tufting.intro')}</p>
-          <img
-            src="/images/tufting_ind2.jpg"
-            alt="Tufting workshop"
-            class="tufting-img"
-            loading="lazy"
-          />
+          <div class="tufting-img-wrap">
+            <Picture
+              src={tuftingInd2}
+              widths={[480, 768, 1100]}
+              sizes="(max-width: 767px) 100vw, 55vw"
+              formats={['avif', 'webp']}
+              alt="Tufting workshop"
+              class="tufting-img"
+              loading="lazy"
+            />
+          </div>
         </div>
 
         <!-- Right: service-selection panel -->
@@ -115,7 +126,7 @@ const tuftingRows = [
         <!-- Group Tufting -->
         <div class="ws-card reveal">
           <div class="ws-card-img">
-            <img src="/images/taller_tufting.jpg" alt="Taller Grupal de Tufting" loading="lazy" />
+            <Picture src={tallerTufting} widths={[300, 500, 700]} sizes="(max-width: 767px) 100vw, 25vw" formats={['avif', 'webp']} alt="Taller Grupal de Tufting" loading="lazy" />
           </div>
           <div class="ws-card-body">
             <h4 class="ws-name">{t('ws.group.name')}</h4>
@@ -128,7 +139,7 @@ const tuftingRows = [
         <!-- Borla (monthly) -->
         <div class="ws-card reveal" data-delay="1">
           <div class="ws-card-img">
-            <img src="/images/grupal.png" alt="Borla" loading="lazy" />
+            <Picture src={grupal} widths={[300, 500, 700]} sizes="(max-width: 767px) 100vw, 25vw" formats={['avif', 'webp']} alt="Borla" loading="lazy" />
             <span class="ws-badge badge badge-light">{t('ws.borla.subtitle')}</span>
           </div>
           <div class="ws-card-body">
@@ -142,7 +153,7 @@ const tuftingRows = [
         <!-- Tote Bag -->
         <div class="ws-card reveal" data-delay="2">
           <div class="ws-card-img">
-            <img src="/images/tote_bag1.png" alt="Tote Bag Bordada" loading="lazy" />
+            <Picture src={toteBag} widths={[300, 500, 700]} sizes="(max-width: 767px) 100vw, 25vw" formats={['avif', 'webp']} alt="Tote Bag Bordada" loading="lazy" />
           </div>
           <div class="ws-card-body">
             <h4 class="ws-name">{t('ws.totebag.name')}</h4>
@@ -157,7 +168,7 @@ const tuftingRows = [
       <!-- Summer Textile Lab — featured, full width, horizontal layout -->
       <div class="summer-card reveal">
         <div class="summer-card-img">
-          <img src="/images/grupo2.jpg" alt="Laboratorio Textil de Verano" loading="lazy" />
+          <Picture src={grupo2} widths={[480, 768, 1000]} sizes="(max-width: 767px) 100vw, 40vw" formats={['avif', 'webp']} alt="Laboratorio Textil de Verano" loading="lazy" />
         </div>
         <div class="summer-card-body">
           <span class="eyebrow">{t('ws.summer.techniques')}</span>
@@ -258,12 +269,18 @@ const tuftingRows = [
     color: var(--color-muted);
   }
 
+  .tufting-img-wrap {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 0;
+  }
+
   .tufting-img {
     display: block;
     width: 100%;
-    aspect-ratio: 16 / 16;
+    height: 100%;
     object-fit: cover;
-    border-radius: 0;
   }
 
   /* Right panel */
@@ -523,8 +540,8 @@ const tuftingRows = [
       gap: var(--space-lg);
     }
 
-    .tufting-img {
-      aspect-ratio: 16 / 16;
+    .tufting-img-wrap {
+      aspect-ratio: 1 / 1;
     }
 
     .other-grid {

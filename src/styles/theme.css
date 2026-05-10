@@ -156,6 +156,7 @@
   --space-md:  24px;   /* Nav padding · column gap */
   --space-lg:  40px;   /* Section separation */
   --space-xl:  80px;   /* Hero padding · large sections */
+  --space-2xl: 120px;  /* Extra-large section padding */
 
   /* ---------------------------------------------------------------------------
      BORDER RADIUS

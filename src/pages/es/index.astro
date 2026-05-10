@@ -1,0 +1,44 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import HeroSection from '../../components/HeroSection.astro';
+import OfferSection from '../../components/OfferSection.astro';
+import ProcessSection from '../../components/ProcessSection.astro';
+import WorkshopsSection from '../../components/WorkshopsSection.astro';
+import TestimonialsSection from '../../components/TestimonialsSection.astro';
+import AboutSection from '../../components/AboutSection.astro';
+import FAQSection from '../../components/FAQSection.astro';
+import CTASection from '../../components/CTASection.astro';
+import Footer from '../../components/Footer.astro';
+import PrivacySection from '../../components/PrivacySection.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t    = useTranslations(lang);
+---
+
+<Layout
+  title={t('page.home.title')}
+  description={t('page.home.description')}
+  ogType="website"
+>
+  <Navbar />
+  <main>
+    <HeroSection />
+    <OfferSection />
+    <WorkshopsSection />
+    <ProcessSection />
+    <TestimonialsSection />
+    <AboutSection />
+    <FAQSection />
+    <CTASection />
+  </main>
+  <Footer />
+  <PrivacySection />
+</Layout>
+
+<style is:global>
+  body {
+    background: var(--color-mid);
+  }
+</style>
