@@ -79,7 +79,7 @@ const tuftingRows = [
               widths={[480, 768, 1100]}
               sizes="(max-width: 767px) 100vw, 55vw"
               formats={['avif', 'webp']}
-              alt="Tufting workshop"
+              alt="Alumna usando pistola de tufting en taller individual en Borrissol Espai Creatiu, Mataró"
               class="tufting-img"
               loading="lazy"
             />
@@ -89,10 +89,7 @@ const tuftingRows = [
         <!-- Right: service-selection panel -->
         <div class="tufting-panel reveal" data-delay="1">
           <div class="panel-header">
-            <i
-              data-lucide="square-mouse-pointer"
-              style="width: var(--icon-size-inline); height: var(--icon-size-inline); stroke-width: var(--icon-stroke-width); display: inline-block; flex-shrink: 0;"
-            ></i>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="width: var(--icon-size-inline); height: var(--icon-size-inline); stroke-width: var(--icon-stroke-width); display: inline-block; flex-shrink: 0;" aria-hidden="true"><path d="M12.034 12.681a.498.498 0 0 1 .647-.647l9 3.5a.5.5 0 0 1-.033.943l-3.444 1.068a1 1 0 0 0-.66.66l-1.067 3.443a.5.5 0 0 1-.943.033z"/><path d="M21 11V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/></svg>
             <span class="panel-header-label">{t('tufting.panel.header')}</span>
           </div>
           {tuftingRows.map(row => (
@@ -139,7 +136,7 @@ const tuftingRows = [
         <!-- Borla (monthly) -->
         <div class="ws-card reveal" data-delay="1">
           <div class="ws-card-img">
-            <Picture src={grupal} widths={[300, 500, 700]} sizes="(max-width: 767px) 100vw, 25vw" formats={['avif', 'webp']} alt="Borla" loading="lazy" />
+            <Picture src={grupal} widths={[300, 500, 700]} sizes="(max-width: 767px) 100vw, 25vw" formats={['avif', 'webp']} alt="Grupo de alumnas practicando técnica textil en el taller mensual Borla de Borrissol, Mataró" loading="lazy" />
             <span class="ws-badge badge badge-light">{t('ws.borla.subtitle')}</span>
           </div>
           <div class="ws-card-body">
