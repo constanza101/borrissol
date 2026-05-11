@@ -47,10 +47,10 @@ export const SITE: SiteConfig = {
     email: 'borrissolespaicreatiu@gmail.com',
     telephone: '+34673247520',
     address: {
-      streetAddress: '',
+      streetAddress: 'Carrer de Sant Antoni, 17, baix',
       addressLocality: 'Mataró',
       addressRegion: 'Catalunya',
-      postalCode: '',
+      postalCode: '08301',
       addressCountry: 'ES',
     },
     priceRange: '€€',

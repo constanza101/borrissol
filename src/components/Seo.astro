@@ -82,7 +82,7 @@ const jsonLd = {
     url: absLogo,
   },
   image:       absOgDefault,
-  description: SITE.business.description,
+  description: description,
   ...(SITE.business.email     && { email:     SITE.business.email }),
   ...(SITE.business.telephone && { telephone: SITE.business.telephone }),
   ...(schemaAddress            && { address:   schemaAddress }),
