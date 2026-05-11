@@ -22,7 +22,7 @@ export const ui = {
     'hero.overlay':  'Creamos piezas originales y experiencias artísticas para que llenes tus espacios de inspiración. Especialistas en Team Building y talleres creativos.',
 
     'page.home.title':       'Taller de Arte en Mataró · Tufting y Team Building',
-    'page.home.description': 'Borrissol Espai Creatiu · Taller de tufting, bordado con punch needle y aguja mágica en Mataró. Perfecto para team building, cumpleaños y grupos. Sin experiencia previa. ¡Reserva!',
+    'page.home.description': 'Taller de tufting, bordado y punch needle en Mataró, Barcelona. Perfecto para team building, cumpleaños y grupos. Sin experiencia previa. ¡Reserva en Borrissol!',
 
     // ── Qué ofrecemos — Block 1 ──────────────────────────────────────────
     'offer.eyebrow':          'Qué ofrecemos',
@@ -211,7 +211,7 @@ export const ui = {
     'hero.overlay':  'We create original pieces and artistic experiences to fill your spaces with inspiration. Specialists in Team Building and creative workshops.',
 
     'page.home.title':       'Art Workshop Mataró · Tufting & Team Building',
-    'page.home.description': 'Borrissol Espai Creatiu · Tufting, embroidery with punch needle and magic needle in Mataró. Perfect for team building, birthdays and groups. No experience needed. Book now!',
+    'page.home.description': 'Tufting, embroidery and punch needle workshop in Mataró, Barcelona. Perfect for team building, birthdays and groups. No experience needed. Book now at Borrissol!',
 
     // ── What we offer — Block 1 ──────────────────────────────────────────
     'offer.eyebrow':          'What we offer',
@@ -400,7 +400,7 @@ export const ui = {
     'hero.overlay':  "Creem peces originals i experiències artístiques perquè omplis els teus espais d'inspiració. Especialistes en Team Building i tallers creatius.",
 
     'page.home.title':       "Taller d'Art a Mataró · Tufting i Team Building",
-    'page.home.description': 'Borrissol Espai Creatiu · Taller de tufting, brodat amb punch needle i agulla màgica a Mataró. Ideal per a team building, aniversaris i grups. Sense experiència prèvia. Reserva ara!',
+    'page.home.description': 'Taller de tufting, brodat i punch needle a Mataró, Barcelona. Ideal per a team building, aniversaris i grups. Sense experiència prèvia. Reserva ara a Borrissol!',
 
     // ── Què oferim — Bloc 1 ──────────────────────────────────────────────
     'offer.eyebrow':          'Què oferim',
@@ -589,7 +589,7 @@ export const ui = {
     'hero.overlay':  "Nous créons des pièces originales et des expériences artistiques pour remplir vos espaces d'inspiration. Spécialistes en Team Building et ateliers créatifs.",
 
     'page.home.title':       "Atelier d'Art Mataró · Tufting & Team Building",
-    'page.home.description': 'Borrissol Espai Creatiu · Atelier de tufting, broderie au punch needle et aiguille magique à Mataró. Idéal pour team building, anniversaires et groupes. Sans expérience. Réservez!',
+    'page.home.description': 'Atelier tufting, broderie et punch needle à Mataró, Barcelone. Idéal pour team building, anniversaires et groupes. Sans expérience. Réservez chez Borrissol!',
 
     // ── Ce que nous offrons — Bloc 1 ─────────────────────────────────────
     'offer.eyebrow':          'Ce que nous offrons',

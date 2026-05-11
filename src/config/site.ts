@@ -54,7 +54,7 @@ export const SITE: SiteConfig = {
       addressCountry: 'ES',
     },
     priceRange: '€€',
-    openingHours: ['Mo-Fr 09:00-18:00'],
+    openingHours: ['Mo-Sa 09:30-13:30', 'Mo-Sa 16:30-20:30'],
     sameAs: [
       // Add live URLs before publishing:
       // 'https://www.instagram.com/artequeconecta',
