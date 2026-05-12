@@ -26,7 +26,7 @@ const tags = [
 
     <!-- Block 1: Studio story — image left, text right -->
     <div class="ab-block">
-      <div class="ab-img-wrap ab-img-wrap--landscape reveal">
+      <div class="ab-img-wrap ab-img-wrap--square reveal">
         <Picture
           src={belu1}
           widths={[400, 700, 900]}
@@ -285,6 +285,10 @@ const tags = [
 
   .ab-img-wrap--landscape {
     aspect-ratio: 4 / 3;
+  }
+
+  .ab-img-wrap--square {
+    aspect-ratio: 1 / 1;
   }
 
   .ab-img {
