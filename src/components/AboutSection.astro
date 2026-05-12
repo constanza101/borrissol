@@ -26,15 +26,15 @@ const tags = [
 
     <!-- Block 1: Studio story — image left, text right -->
     <div class="ab-block">
-      <div class="ab-img-wrap ab-img-wrap--square reveal">
+      <div class="ab-img-wrap ab-img-wrap--landscape reveal">
         <Picture
           src={belu1}
           widths={[400, 700, 900]}
           sizes="(max-width: 540px) 100vw, 40vw"
           formats={['avif', 'webp']}
           alt="Belén Vilanova, fundadora de Borrissol Espai Creatiu, en el taller de arte de Mataró"
-          width={512}
-          height={384}
+          width={816}
+          height={612}
           class="ab-img ab-img--bottom"
           loading="lazy"
         />
@@ -287,9 +287,6 @@ const tags = [
     aspect-ratio: 4 / 3;
   }
 
-  .ab-img-wrap--square {
-    aspect-ratio: 1 / 1;
-  }
 
   .ab-img {
     width: 100%;
