@@ -6,7 +6,16 @@
       "Bash(rm -rf /Users/constanzadiaz/Documents/Borrissol/green-galaxy)",
       "Bash(mkdir -p /Users/constanzadiaz/Documents/Borrissol/src/styles /Users/constanzadiaz/Documents/Borrissol/src/layouts)",
       "Bash(mv /Users/constanzadiaz/Documents/Borrissol/theme.css /Users/constanzadiaz/Documents/Borrissol/src/styles/theme.css)",
-      "Bash(npx playwright *)"
+      "Bash(npx playwright *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(npm list *)",
+      "Bash(sips *)",
+      "Bash(git -C /Users/constanzadiaz/Documents/Borrissol status)",
+      "Bash(git -C /Users/constanzadiaz/Documents/Borrissol log --oneline -3)",
+      "Bash(git *)",
+      "Bash(node *)"
     ]
   }
 }
