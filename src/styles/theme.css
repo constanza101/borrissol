@@ -13,14 +13,6 @@
   font-display: swap;
 }
 
-/* Coiny — brand display face. Reserved exclusively for .logo-wordmark. */
-@font-face {
-  font-family: 'Coiny';
-  src: url('/fonts/Coiny-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
 
 :root {
 
@@ -58,7 +50,6 @@
      --------------------------------------------------------------------------- */
 
   --font-sans:    'Roboto', system-ui, -apple-system, Segoe UI, Arial, sans-serif;
-  --font-display: 'Coiny', 'Roboto', system-ui, sans-serif;   /* wordmark only */
   --font-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   --font-base:    var(--font-sans);
   --font-family-base: var(--font-sans);   /* alias for backward compat */
@@ -367,14 +358,6 @@ a:hover { opacity: var(--hover-opacity); }
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-muted);
-}
-
-/* Logo / wordmark — Coiny display face. Use ONLY on the brand name element. */
-.logo-wordmark {
-  font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 1.0;
 }
 
 
