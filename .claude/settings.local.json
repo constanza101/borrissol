@@ -15,7 +15,9 @@
       "Bash(git -C /Users/constanzadiaz/Documents/Borrissol status)",
       "Bash(git -C /Users/constanzadiaz/Documents/Borrissol log --oneline -3)",
       "Bash(git *)",
-      "Bash(node *)"
+      "Bash(node *)",
+      "Bash(sed -i '' 's|borrissol_espai_logo.svg|borrissol-espai-logo.svg|g' /Users/constanzadiaz/Documents/Borrissol/src/components/HeroSection.astro)",
+      "Bash(sed -i '' 's|borrissol_pompom.svg|borrissol-pompom.svg|g' /Users/constanzadiaz/Documents/Borrissol/src/components/Navbar.astro)"
     ]
   }
 }
