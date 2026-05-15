@@ -178,10 +178,13 @@ const reviews = [
     list-style: none;
     display: flex;
     gap: var(--space-sm);
-    /* No overflow here — clipped by wrapper */
+    overflow-x: auto;
     scroll-snap-type: x mandatory;
-    transition: transform 0s; /* JS drives scroll via scrollBy */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
+
+  .t-carousel::-webkit-scrollbar { display: none; }
 
   /* ── Card: 1/3 of container minus 2 gaps ── */
   .t-card {
