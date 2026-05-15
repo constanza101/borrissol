@@ -1,14 +1,19 @@
 ---
+import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import imgTufting    from '../assets/images/offer-tufting.jpg';
+import imgFelting    from '../assets/images/offer-felting.jpg';
+import imgPunchNeedle from '../assets/images/offer-punch-needle.jpg';
+import imgLoom       from '../assets/images/offer-loom.jpg';
 
 const lang = getLangFromUrl(Astro.url);
 const t    = useTranslations(lang);
 
 const techniques = [
-  { name: t('offer.tufting.name'),    desc: t('offer.tufting.desc') },
-  { name: t('offer.embroidery.name'), desc: t('offer.embroidery.desc') },
-  { name: t('offer.punch.name'),      desc: t('offer.punch.desc') },
-  { name: t('offer.loom.name'),       desc: t('offer.loom.desc') },
+  { name: t('offer.tufting.name'),    desc: t('offer.tufting.desc'),    img: imgTufting,     width: 4000, height: 3000, alt: 'Persona trabajando con pistola de tufting en el taller Borrissol, Mataró' },
+  { name: t('offer.embroidery.name'), desc: t('offer.embroidery.desc'), img: imgFelting,     width: 640,  height: 640,  alt: 'Figuras de animales creadas con técnica de fieltro agujado' },
+  { name: t('offer.punch.name'),      desc: t('offer.punch.desc'),      img: imgPunchNeedle, width: 3000, height: 4000, alt: 'Tote bag con diseño colorido hecho con técnica punch needle' },
+  { name: t('offer.loom.name'),       desc: t('offer.loom.desc'),       img: imgLoom,        width: 960,  height: 720,  alt: 'Manos tejiendo en un telar con hilos de colores' },
 ];
 ---
 
@@ -21,15 +26,29 @@ const techniques = [
     <p class="offer-body reveal" data-delay="2">{t('offer.body')}</p>
 
     <div class="offer-grid">
-      {techniques.map(({ name, desc }, i) => (
+      {techniques.map(({ name, desc, img, width, height, alt }, i) => (
         <article class="technique-card reveal" data-delay={i > 0 ? String(i) : undefined}>
-          <h3 class="technique-name">{name}</h3>
-          <p class="technique-desc">{desc}</p>
+          <div class="technique-img-wrap">
+            <Picture
+              src={img}
+              widths={[400, 600, 800]}
+              sizes="(max-width: 767px) 50vw, 25vw"
+              formats={['avif', 'webp']}
+              alt={alt}
+              width={width}
+              height={height}
+              loading="lazy"
+              class="technique-img"
+            />
+          </div>
+          <div class="technique-body">
+            <h3 class="technique-name">{name}</h3>
+            <p class="technique-desc">{desc}</p>
+          </div>
         </article>
       ))}
     </div>
   </div>
-
 
 </section>
 
@@ -82,10 +101,35 @@ const techniques = [
     margin-top: var(--space-lg);
   }
 
+  /* ── Card ── */
   .technique-card {
-    background: var(--color-light);
     border: var(--border-default);
-    padding: var(--space-md);
+    border-radius: var(--radius-xs);
+    overflow: hidden;
+    background: var(--color-white);
+  }
+
+  /* ── Image ── */
+  .technique-img-wrap {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+  }
+
+  .technique-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .technique-card:hover .technique-img {
+    transform: scale(1.04);
+  }
+
+  /* ── Text body ── */
+  .technique-body {
+    padding: var(--space-sm) var(--space-md) var(--space-md);
   }
 
   .technique-name {
@@ -107,7 +151,16 @@ const techniques = [
   }
 
   /* ════════════════════════════════════════════════
-     Mobile  (≤ 767px)
+     Tablet (≤ 1024px)
+     ════════════════════════════════════════════════ */
+  @media (max-width: 1024px) {
+    .offer-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* ════════════════════════════════════════════════
+     Mobile (≤ 767px)
      ════════════════════════════════════════════════ */
   @media (max-width: 767px) {
     .offer-block-1 {
@@ -119,8 +172,8 @@ const techniques = [
       gap: var(--space-xs);
     }
 
-    .technique-card {
-      padding: var(--space-sm);
+    .technique-body {
+      padding: var(--space-xs) var(--space-sm) var(--space-sm);
     }
   }
 </style>
