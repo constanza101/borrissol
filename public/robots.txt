@@ -10,4 +10,4 @@ Allow: /
 User-agent: WhatsApp
 Allow: /
 
-Sitemap: https://borrissol.netlify.app/sitemap-index.xml
+Sitemap: https://borrissol.com/sitemap-index.xml

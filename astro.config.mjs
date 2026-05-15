@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://borrissol.netlify.app',
+  site: 'https://borrissol.com',
   trailingSlash: 'never',
   integrations: [
     sitemap({

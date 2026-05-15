@@ -34,7 +34,7 @@ interface SiteConfig {
 
 export const SITE: SiteConfig = {
   name: 'Borrissol',
-  url: 'https://borrissol.netlify.app',
+  url: 'https://borrissol.com',
   locale: 'es_ES',
   logo: '/logo.svg',
   defaultOgImage: '/og-default.png',
