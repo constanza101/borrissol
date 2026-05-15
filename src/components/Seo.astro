@@ -81,7 +81,12 @@ const jsonLd = {
     '@type': 'ImageObject',
     url: absLogo,
   },
-  image:       absOgDefault,
+  image: {
+    '@type':  'ImageObject',
+    url:      absOgDefault,
+    width:    2398,
+    height:   1262,
+  },
   description: description,
   ...(SITE.business.email     && { email:     SITE.business.email }),
   ...(SITE.business.telephone && { telephone: SITE.business.telephone }),
