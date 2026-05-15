@@ -41,6 +41,15 @@ const seoProps = Astro.props;
 
     <!-- All SEO, OG, Twitter Card and JSON-LD -->
     <Seo {...seoProps} />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M3T85NNEB"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-7M3T85NNEB');
+    </script>
   </head>
   <body>
     <slot />
