@@ -33,50 +33,31 @@ const t    = useTranslations(lang);
     var banner  = document.getElementById('cookie-banner');
     var consent = localStorage.getItem('cookie_consent');
 
-    function loadAnalytics() {
-      /* Activate GA when a measurement ID is configured */
-      if (window.GA_MEASUREMENT_ID) {
-        var s = document.createElement('script');
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.GA_MEASUREMENT_ID;
-        s.async = true;
-        document.head.appendChild(s);
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { window.dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', window.GA_MEASUREMENT_ID);
-      }
-    }
-
     function hideBanner() {
       banner.classList.remove('is-visible');
-      /* remove from tab order once hidden */
       setTimeout(function () { banner.setAttribute('aria-hidden', 'true'); }, 400);
     }
 
-    /* On return visits, fire GA immediately if previously accepted */
-    if (consent === 'accepted') {
-      loadAnalytics();
-      return;
-    }
+    // Return visit — choice already made, don't show banner
+    if (consent) return;
 
-    /* First visit — show banner after page animations settle */
-    if (!consent) {
-      setTimeout(function () {
-        banner.classList.add('is-visible');
-        banner.removeAttribute('aria-hidden');
-      }, 900);
-    }
+    // First visit — show banner after page animations settle
+    setTimeout(function () {
+      banner.classList.add('is-visible');
+      banner.removeAttribute('aria-hidden');
+    }, 900);
 
     document.getElementById('cookie-accept').addEventListener('click', function () {
       localStorage.setItem('cookie_consent', 'accepted');
+      gtag('consent', 'update', { analytics_storage: 'granted' });
       hideBanner();
-      loadAnalytics();
       window.dispatchEvent(new Event('cookie-resolved'));
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
     document.getElementById('cookie-decline').addEventListener('click', function () {
       localStorage.setItem('cookie_consent', 'rejected');
+      gtag('consent', 'update', { analytics_storage: 'denied' });
       hideBanner();
       window.dispatchEvent(new Event('cookie-resolved'));
       window.scrollTo({ top: 0, behavior: 'smooth' });

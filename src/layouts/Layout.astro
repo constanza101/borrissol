@@ -43,7 +43,22 @@ const seoProps = Astro.props;
     <!-- All SEO, OG, Twitter Card and JSON-LD -->
     <Seo {...seoProps} />
 
-    <!-- Google tag (gtag.js) -->
+    <!-- Google Consent Mode v2 — must run BEFORE gtag.js loads -->
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        analytics_storage:  'denied',
+        ad_storage:         'denied',
+        ad_user_data:       'denied',
+        ad_personalization: 'denied',
+        wait_for_update:    500
+      });
+      // Restore previous consent on return visits before GA fires
+      if (localStorage.getItem('cookie_consent') === 'accepted') {
+        gtag('consent', 'update', { analytics_storage: 'granted' });
+      }
+    </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7M3T85NNEB"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
