@@ -1,6 +1,6 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import { WHATSAPP_HREF } from '../config';
+import { waHref } from '../config';
 
 const lang = getLangFromUrl(Astro.url);
 const t    = useTranslations(lang);
@@ -16,7 +16,7 @@ const t    = useTranslations(lang);
   <!-- Subtext, button and note in a centred column -->
   <div class="cta-inner">
     <p class="cta-subtext reveal" data-delay="1">{t('cta.subtext')}</p>
-    <a href={WHATSAPP_HREF} class="cta-btn reveal" data-delay="2" target="_blank" rel="noopener noreferrer">
+    <a href={waHref(t('wa.cta'))} class="cta-btn reveal" data-delay="2" target="_blank" rel="noopener noreferrer">
       {t('cta.btn')}
     </a>
     <p class="cta-note reveal" data-delay="3">{t('cta.note')}</p>

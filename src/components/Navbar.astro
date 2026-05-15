@@ -1,7 +1,7 @@
 ---
 import { getLangFromUrl, useTranslations, getLocalePath, getAlternatePath } from '../i18n/utils';
 import { languages, type Lang } from '../i18n/ui';
-import { WHATSAPP_HREF } from '../config';
+import { waHref } from '../config';
 
 const lang     = getLangFromUrl(Astro.url);
 const t        = useTranslations(lang);
@@ -47,7 +47,7 @@ const altPaths = Object.fromEntries(
 
     <!-- Desktop CTA — last item before hamburger -->
     <a
-      href={WHATSAPP_HREF}
+      href={waHref(t('wa.general'))}
       class="btn btn-primary nav-cta"
       target="_blank"
       rel="noopener noreferrer"
@@ -98,7 +98,7 @@ const altPaths = Object.fromEntries(
 
     <div class="nav-mobile-cta-wrap">
       <a
-        href={WHATSAPP_HREF}
+        href={waHref(t('wa.general'))}
         class="btn btn-primary nav-mobile-cta"
         target="_blank"
         rel="noopener noreferrer"

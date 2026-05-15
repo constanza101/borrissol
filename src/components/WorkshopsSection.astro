@@ -1,7 +1,7 @@
 ---
 import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import { WHATSAPP_HREF } from '../config';
+import { waHref } from '../config';
 import tuftingInd2 from '../assets/images/tufting-ind2.jpg';
 import tallerTufting from '../assets/images/taller-tufting.jpg';
 import grupal from '../assets/images/grupal.png';
@@ -10,8 +10,6 @@ import grupo2 from '../assets/images/grupo2.jpg';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const contactHref = WHATSAPP_HREF;
-
 const tuftingRows = [
   {
     name: 'Pelusa',
@@ -22,6 +20,7 @@ const tuftingRows = [
     drawing:   t('tufting.drawing.basic'),
     finishing: t('tufting.finishing.simple'),
     materials: t('tufting.materials'),
+    href:      waHref(t('wa.tufting.pelusa')),
   },
   {
     name: 'Floc',
@@ -32,6 +31,7 @@ const tuftingRows = [
     drawing:   t('tufting.drawing.basic'),
     finishing: t('tufting.finishing.improved'),
     materials: t('tufting.materials'),
+    href:      waHref(t('wa.tufting.floc')),
   },
   {
     name: 'Vellut',
@@ -42,6 +42,7 @@ const tuftingRows = [
     drawing:   t('tufting.drawing.choice'),
     finishing: t('tufting.finishing.improved'),
     materials: t('tufting.materials'),
+    href:      waHref(t('wa.tufting.vellut')),
   },
   {
     name: 'Pelut',
@@ -52,6 +53,7 @@ const tuftingRows = [
     drawing:   t('tufting.drawing.choice'),
     finishing: t('tufting.finishing.improved'),
     materials: t('tufting.materials'),
+    href:      waHref(t('wa.tufting.pelut')),
   },
 ];
 ---
@@ -105,7 +107,7 @@ const tuftingRows = [
                   {row.drawing} &middot; {row.finishing} &middot; {row.materials}
                 </p>
               </div>
-              <a href={contactHref} target="_blank" rel="noopener noreferrer" class="tufting-row-btn">{t('ws.cta')}</a>
+              <a href={row.href} target="_blank" rel="noopener noreferrer" class="tufting-row-btn">{t('ws.cta')}</a>
             </div>
           ))}
         </div>
@@ -131,7 +133,7 @@ const tuftingRows = [
             <h4 class="ws-name">{t('ws.group.name')}</h4>
             <p class="ws-desc">{t('ws.group.desc')}</p>
             <p class="ws-details">{t('ws.group.details')}</p>
-            <a href={contactHref} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
+            <a href={waHref(t('wa.ws.group'))} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
           </div>
         </div>
 
@@ -145,7 +147,7 @@ const tuftingRows = [
             <h4 class="ws-name">{t('ws.borla.name')}</h4>
             <p class="ws-desc">{t('ws.borla.desc')}</p>
             <p class="ws-details">{t('ws.borla.details')}</p>
-            <a href={contactHref} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
+            <a href={waHref(t('wa.ws.borla'))} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
           </div>
         </div>
 
@@ -158,7 +160,7 @@ const tuftingRows = [
             <h4 class="ws-name">{t('ws.totebag.name')}</h4>
             <p class="ws-desc">{t('ws.totebag.desc')}</p>
             <p class="ws-details">{t('ws.totebag.details')}</p>
-            <a href={contactHref} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
+            <a href={waHref(t('wa.ws.totebag'))} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
           </div>
         </div>
 
@@ -174,7 +176,7 @@ const tuftingRows = [
           <h4 class="ws-name summer-name">{t('ws.summer.name')}</h4>
           <p class="ws-desc">{t('ws.summer.desc')}</p>
           <p class="ws-details">{t('ws.summer.details')}</p>
-          <a href={contactHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary summer-cta">{t('ws.consult')}</a>
+          <a href={waHref(t('wa.ws.summer'))} target="_blank" rel="noopener noreferrer" class="btn btn-primary summer-cta">{t('ws.consult')}</a>
         </div>
       </div>
 

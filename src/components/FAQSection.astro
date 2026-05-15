@@ -1,6 +1,6 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import { WHATSAPP_HREF } from '../config';
+import { waHref } from '../config';
 
 const lang = getLangFromUrl(Astro.url);
 const t    = useTranslations(lang);
@@ -45,7 +45,7 @@ const items = [
 
     <div class="faq-cta-wrap reveal">
       <a
-        href={WHATSAPP_HREF}
+        href={waHref(t('wa.faq'))}
         target="_blank"
         rel="noopener noreferrer"
         class="faq-cta-link"

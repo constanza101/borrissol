@@ -197,6 +197,18 @@ export const ui = {
     'privacy.rights.text':           'Puedes acceder, rectificar, suprimir, limitar el tratamiento, oponerte o solicitar la portabilidad de tus datos en cualquier momento escribiendo a borrissolespaicreatiu@gmail.com. También puedes reclamar ante la Agencia Española de Protección de Datos (aepd.es).',
     'privacy.cookies.label':         'Cookies',
     'privacy.cookies.text':          'Este sitio web utiliza únicamente cookies técnicas necesarias para el funcionamiento. No usamos cookies de seguimiento ni publicidad.',
+
+    'wa.general':        'Hola! Vengo de vuestra web y me gustaría más información.',
+    'wa.cta':            'Hola! Me interesa reservar un taller. ¿Me podéis dar más información?',
+    'wa.faq':            'Hola! Tengo una pregunta sobre vuestros talleres.',
+    'wa.tufting.pelusa': 'Hola! Me interesa el taller Pelusa (Tufting 50×50 cm, 78€). ¿Hay plazas disponibles?',
+    'wa.tufting.floc':   'Hola! Me interesa el taller Floc (Tufting 50×50 cm, 108€). ¿Hay plazas disponibles?',
+    'wa.tufting.vellut': 'Hola! Me interesa el taller Vellut (Tufting 70×70 cm, 158€). ¿Hay plazas disponibles?',
+    'wa.tufting.pelut':  'Hola! Me interesa el taller Pelut (Tufting 80×80 cm, 181€). ¿Hay plazas disponibles?',
+    'wa.ws.group':       'Hola! Me interesa el taller grupal de Tufting. ¿Me podéis dar más información?',
+    'wa.ws.borla':       'Hola! Me interesa el taller mensual Borla. ¿Cómo puedo apuntarme?',
+    'wa.ws.totebag':     'Hola! Me interesa el taller de Tote Bag bordada. ¿Hay plazas disponibles?',
+    'wa.ws.summer':      'Hola! Me interesa el Laboratorio Textil de Verano. ¿Me podéis dar más información?',
   },
 
   en: {
@@ -387,6 +399,18 @@ export const ui = {
     'privacy.rights.text':           'You may access, rectify, erase, restrict processing, object, or request portability of your data at any time by writing to borrissolespaicreatiu@gmail.com. You may also lodge a complaint with the Spanish Data Protection Agency (aepd.es).',
     'privacy.cookies.label':         'Cookies',
     'privacy.cookies.text':          'This website uses only technically necessary cookies for its operation. We do not use tracking or advertising cookies.',
+
+    'wa.general':        'Hi! I found your website and I'd like more information.',
+    'wa.cta':            'Hi! I'm interested in booking a workshop. Could you give me more information?',
+    'wa.faq':            'Hi! I have a question about your workshops.',
+    'wa.tufting.pelusa': 'Hi! I'm interested in the Pelusa workshop (Tufting 50×50 cm, 78€). Are there spots available?',
+    'wa.tufting.floc':   'Hi! I'm interested in the Floc workshop (Tufting 50×50 cm, 108€). Are there spots available?',
+    'wa.tufting.vellut': 'Hi! I'm interested in the Vellut workshop (Tufting 70×70 cm, 158€). Are there spots available?',
+    'wa.tufting.pelut':  'Hi! I'm interested in the Pelut workshop (Tufting 80×80 cm, 181€). Are there spots available?',
+    'wa.ws.group':       'Hi! I'm interested in the group Tufting workshop. Could you give me more information?',
+    'wa.ws.borla':       'Hi! I'm interested in the monthly Borla workshop. How can I sign up?',
+    'wa.ws.totebag':     'Hi! I'm interested in the embroidered Tote Bag workshop. Are there spots available?',
+    'wa.ws.summer':      'Hi! I'm interested in the Summer Textile Lab. Could you give me more information?',
   },
 
   ca: {
@@ -577,6 +601,18 @@ export const ui = {
     'privacy.rights.text':           "Pots accedir, rectificar, suprimir, limitar el tractament, oposar-te'n o sol·licitar la portabilitat de les teves dades en qualsevol moment escrivint a borrissolespaicreatiu@gmail.com. També pots reclamar davant l'Agència Espanyola de Protecció de Dades (aepd.es).",
     'privacy.cookies.label':         'Cookies',
     'privacy.cookies.text':          "Aquest lloc web utilitza únicament cookies tècniques necessàries per al funcionament. No fem servir cookies de seguiment ni publicitat.",
+
+    'wa.general':        "Hola! Vinc de la vostra web i m'agradaria més informació.",
+    'wa.cta':            "Hola! M'interessa reservar un taller. Em podeu donar més informació?",
+    'wa.faq':            "Hola! Tinc una pregunta sobre els vostres tallers.",
+    'wa.tufting.pelusa': "Hola! M'interessa el taller Pelusa (Tufting 50×50 cm, 78€). Hi ha places disponibles?",
+    'wa.tufting.floc':   "Hola! M'interessa el taller Floc (Tufting 50×50 cm, 108€). Hi ha places disponibles?",
+    'wa.tufting.vellut': "Hola! M'interessa el taller Vellut (Tufting 70×70 cm, 158€). Hi ha places disponibles?",
+    'wa.tufting.pelut':  "Hola! M'interessa el taller Pelut (Tufting 80×80 cm, 181€). Hi ha places disponibles?",
+    'wa.ws.group':       "Hola! M'interessa el taller grupal de Tufting. Em podeu donar més informació?",
+    'wa.ws.borla':       "Hola! M'interessa el taller mensual Borla. Com puc apuntar-me?",
+    'wa.ws.totebag':     "Hola! M'interessa el taller de Tote Bag brodada. Hi ha places disponibles?",
+    'wa.ws.summer':      "Hola! M'interessa el Laboratori Tèxtil d'Estiu. Em podeu donar més informació?",
   },
 
   fr: {
@@ -767,5 +803,17 @@ export const ui = {
     'privacy.rights.text':           "Vous pouvez accéder, rectifier, supprimer, limiter le traitement, vous opposer ou demander la portabilité de vos données à tout moment en écrivant à borrissolespaicreatiu@gmail.com. Vous pouvez également déposer une réclamation auprès de l'Agence Espagnole de Protection des Données (aepd.es).",
     'privacy.cookies.label':         'Cookies',
     'privacy.cookies.text':          "Ce site web utilise uniquement des cookies techniques nécessaires au fonctionnement. Nous n'utilisons pas de cookies de suivi ni de publicité.",
+
+    'wa.general':        "Bonjour! J'ai visité votre site et j'aimerais plus d'informations.",
+    'wa.cta':            "Bonjour! Je souhaite réserver un atelier. Pouvez-vous me donner plus d'informations?",
+    'wa.faq':            "Bonjour! J'ai une question sur vos ateliers.",
+    'wa.tufting.pelusa': "Bonjour! Je suis intéressé(e) par l'atelier Pelusa (Tufting 50×50 cm, 78€). Y a-t-il des places disponibles?",
+    'wa.tufting.floc':   "Bonjour! Je suis intéressé(e) par l'atelier Floc (Tufting 50×50 cm, 108€). Y a-t-il des places disponibles?",
+    'wa.tufting.vellut': "Bonjour! Je suis intéressé(e) par l'atelier Vellut (Tufting 70×70 cm, 158€). Y a-t-il des places disponibles?",
+    'wa.tufting.pelut':  "Bonjour! Je suis intéressé(e) par l'atelier Pelut (Tufting 80×80 cm, 181€). Y a-t-il des places disponibles?",
+    'wa.ws.group':       "Bonjour! Je suis intéressé(e) par l'atelier collectif de Tufting. Pouvez-vous me donner plus d'informations?",
+    'wa.ws.borla':       "Bonjour! Je suis intéressé(e) par l'atelier mensuel Borla. Comment puis-je m'inscrire?",
+    'wa.ws.totebag':     "Bonjour! Je suis intéressé(e) par l'atelier Tote Bag brodé. Y a-t-il des places disponibles?",
+    'wa.ws.summer':      "Bonjour! Je suis intéressé(e) par le Laboratoire Textile d'Été. Pouvez-vous me donner plus d'informations?",
   },
 } as const;

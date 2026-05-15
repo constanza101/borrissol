@@ -1,7 +1,10 @@
 ---
-import { WHATSAPP_HREF } from '../config';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { waHref } from '../config';
 
-const href = WHATSAPP_HREF + '?text=' + encodeURIComponent('Hola, vengo de la web de Borrissol');
+const lang = getLangFromUrl(Astro.url);
+const t    = useTranslations(lang);
+const href = waHref(t('wa.general'));
 ---
 
 <div class="fab-stack">
