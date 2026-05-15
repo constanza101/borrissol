@@ -6,11 +6,11 @@ const lang = getLangFromUrl(Astro.url);
 const t    = useTranslations(lang);
 ---
 
-<section class="cta">
+<section class="cta" aria-labelledby="cta-heading">
 
   <!-- Headline spans full section width, not constrained by inner wrapper -->
   <div class="cta-headline-wrap">
-    <h2 class="cta-headline reveal">{t('cta.headline')}</h2>
+    <h2 id="cta-heading" class="cta-headline reveal">{t('cta.headline')}</h2>
   </div>
 
   <!-- Subtext, button and note in a centred column -->

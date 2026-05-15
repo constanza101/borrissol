@@ -29,14 +29,14 @@ const reviews = [
 ];
 ---
 
-<section id="testimonials" class="testimonials">
+<section id="testimonials" class="testimonials" aria-labelledby="testimonials-heading">
   <div class="t-inner">
 
     <!-- Header row: text left, arrows right -->
     <div class="t-header">
       <div class="t-header-text">
         <span class="eyebrow reveal">{t('testimonials.eyebrow')}</span>
-        <h2 class="t-headline reveal" data-delay="1">{t('testimonials.headline')}</h2>
+        <h2 id="testimonials-heading" class="t-headline reveal" data-delay="1">{t('testimonials.headline')}</h2>
       </div>
       <div class="t-nav" aria-label="Carousel navigation">
         <button class="t-nav-btn" id="t-prev" aria-label="Previous">

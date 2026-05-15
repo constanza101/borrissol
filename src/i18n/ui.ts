@@ -10,6 +10,7 @@ export type Lang = keyof typeof languages;
 
 export const ui = {
   es: {
+    'skip.link':      'Saltar al contenido',
     'nav.services':   'Servicios',
     'nav.process':    'Proceso',
     'nav.workshops':  'Talleres',
@@ -199,6 +200,7 @@ export const ui = {
   },
 
   en: {
+    'skip.link':      'Skip to content',
     'nav.services':   'Services',
     'nav.process':    'Process',
     'nav.workshops':  'Workshops',
@@ -388,6 +390,7 @@ export const ui = {
   },
 
   ca: {
+    'skip.link':      'Saltar al contingut',
     'nav.services':   'Serveis',
     'nav.process':    'Procés',
     'nav.workshops':  'Tallers',
@@ -577,6 +580,7 @@ export const ui = {
   },
 
   fr: {
+    'skip.link':      'Passer au contenu',
     'nav.services':   'Services',
     'nav.process':    'Processus',
     'nav.workshops':  'Ateliers',
