@@ -189,6 +189,30 @@ Usage: `<i data-lucide="icon-name"></i>` + `lucide.createIcons()`
 
 ---
 
+## Netlify Deploy — Rules to Avoid Exceeding Free Tier
+
+Free tier limits: **300 build minutes/month** + limited serverless function invocations.
+
+### Before every deploy
+- **Batch changes.** Never push one commit per small fix. Group all related changes into a single push.
+- **Use `[skip ci]`** in the commit message for changes that don't affect the live site (docs, comments, README):
+  ```bash
+  git commit -m "update readme [skip ci]"
+  ```
+  Netlify will not trigger a build for that commit.
+
+### Deploy previews (already disabled)
+- Deploy previews are **off**. Netlify will not build `keystatic/*` branches automatically.
+- This saves ~2 build minutes per blog post that Belén publishes via Keystatic.
+- If a preview is ever needed, enable it manually in Netlify → Site configuration → Build & deploy → Deploy contexts.
+
+### Who triggers function invocations
+- **Only Belén** using the Keystatic panel (`/keystatic/*`) triggers serverless functions.
+- Regular visitors load fully static pages — zero function cost.
+- Keep all non-Keystatic pages statically prerendered (they already are via `getStaticPaths`).
+
+---
+
 ## Hard Rules for Code Generation
 
 1. **No hardcoded values.** Every color, size, space, radius, or border must reference a `--token`.
@@ -199,6 +223,7 @@ Usage: `<i data-lucide="icon-name"></i>` + `lucide.createIcons()`
 6. **Lucide Icons only** for iconography. Stroke `1.5px`, fill `none`, color `var(--icon-color)`.
 7. **All buttons** use uppercase, weight 500, and `letter-spacing: 0.05em` — never override these.
 8. **Import `theme.css`** as the first stylesheet in every page/component.
-9. **No automatic testing:** Do not run tests (Vitest/Playwright) automatically. Only run them when explicitly requested.
+9. **Never push after every small change.** Accumulate all changes for the session and propose a single deploy at the end. Every push triggers a Netlify build (~3-5 min) and the free tier has 300 build minutes/month. Use `[skip ci]` in the commit message for docs or comments that don't affect the live site.
+10. **No automatic testing:** Do not run tests (Vitest/Playwright) automatically. Only run them when explicitly requested.
 10. **Manual verification:** Prioritize visual accuracy in the browser over terminal test results during the UI build phase.
 11. Guided manual testing: After every significant change, do not run tests. Instead, provide the command to run the dev server or the specific test needed, give me the local URL (e.g., http://localhost:4321), and ask me to verify if the result matches my expectations.

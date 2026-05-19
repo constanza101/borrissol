@@ -1,11 +1,11 @@
 import { config, collection, fields } from '@keystatic/core';
 
+const isDev = process.env.NODE_ENV !== 'production';
+
 export default config({
-  storage: {
-    kind: 'github',
-    repo: 'constanza101/borrissol',
-    branchPrefix: 'keystatic/',
-  },
+  storage: isDev
+    ? { kind: 'local' }
+    : { kind: 'github', repo: 'constanza101/borrissol', branchPrefix: 'keystatic/' },
   cloud: {
     project: 'borrissol/borrissol',
   },

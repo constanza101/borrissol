@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import netlify from '@astrojs/netlify';
 import keystatic from '@keystatic/astro';
 import react from '@astrojs/react';
+import markdoc from '@astrojs/markdoc';
 
 // https://astro.build/config
 export default defineConfig({
@@ -15,6 +16,7 @@ export default defineConfig({
       filter: (page) => !page.includes('/ca'),
     }),
     react(),
+    markdoc(),
     keystatic(),
   ],
   i18n: {
