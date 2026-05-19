@@ -4,6 +4,7 @@ import { waHref } from '../config';
 
 const lang = getLangFromUrl(Astro.url);
 const t    = useTranslations(lang);
+const year = new Date().getFullYear();
 
 const INSTAGRAM_HREF = 'https://www.instagram.com/borrissol_espai_creatiu/';
 const TIKTOK_HREF    = 'https://www.tiktok.com/@borrissol_espai_creatiu';
@@ -93,7 +94,7 @@ const MAPS_EMBED     = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29
 
   <!-- ── Copyright bar ── -->
   <div class="footer-bar">
-    <p class="footer-copy">{t('footer.copyright')}</p>
+    <p class="footer-copy">© {year} Borrissol Espai Creatiu · {t('footer.copyright.rights')}</p>
     <p class="footer-dev">
       Desarrollo web: Constanza Diaz
       <a href="https://www.linkedin.com/in/constanzadi" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de Constanza Diaz" class="footer-dev-link">
