@@ -6,6 +6,9 @@ export default config({
     repo: 'constanza101/borrissol',
     branchPrefix: 'keystatic/',
   },
+  cloud: {
+    project: 'borrissol/borrissol',
+  },
   ui: {
     brand: { name: 'Borrissol' },
   },
