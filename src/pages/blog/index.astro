@@ -1,0 +1,179 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+
+const posts = (await getCollection('blog'))
+  .sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime());
+---
+
+<Layout title="Blog" description="Articles sobre tufting, tèxtils i creativitat de Borrissol Espai Creatiu, Mataró.">
+  <Navbar />
+  <main id="main-content" class="blog-main">
+
+    <div class="blog-header">
+      <span class="blog-eyebrow">Blog</span>
+      <h1 class="blog-headline">Tèxtils, tècniques i inspiració</h1>
+    </div>
+
+    {posts.length === 0 ? (
+      <div class="blog-empty">
+        <p>Pròximament…</p>
+      </div>
+    ) : (
+      <ul class="blog-grid" role="list">
+        {posts.map(post => (
+          <li class="blog-card">
+            <a href={`/blog/${post.id}`} class="blog-card-link">
+              {post.data.coverImage && (
+                <div class="blog-card-img">
+                  <img src={post.data.coverImage} alt={post.data.title} width="600" height="400" loading="lazy" />
+                </div>
+              )}
+              <div class="blog-card-body">
+                <p class="blog-card-date">
+                  {new Date(post.data.publishedAt).toLocaleDateString('ca-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
+                </p>
+                <h2 class="blog-card-title">{post.data.title}</h2>
+                <p class="blog-card-summary">{post.data.summary}</p>
+                <span class="blog-card-cta">Llegir →</span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .blog-main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: var(--space-xl) var(--space-lg);
+    padding-top: calc(var(--space-xl) + 60px);
+  }
+
+  .blog-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-xl);
+  }
+
+  .blog-eyebrow {
+    font-size: var(--font-size-ui);
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .blog-headline {
+    font-size: var(--font-size-h2);
+    font-weight: var(--font-weight-heading);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-black);
+  }
+
+  .blog-empty {
+    color: var(--color-muted);
+    font-size: var(--font-size-p2);
+    padding: var(--space-xl) 0;
+  }
+
+  .blog-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+  }
+
+  .blog-card {
+    border: var(--border-default);
+    border-radius: var(--radius-xs);
+    overflow: hidden;
+    transition: border-color 0.15s;
+  }
+
+  .blog-card:hover {
+    border-color: var(--color-black);
+  }
+
+  .blog-card-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .blog-card-img {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: var(--color-light);
+  }
+
+  .blog-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .blog-card:hover .blog-card-img img {
+    transform: scale(1.03);
+  }
+
+  .blog-card-body {
+    padding: var(--space-sm);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: var(--space-xs);
+  }
+
+  .blog-card-date {
+    font-size: var(--font-size-ui);
+    color: var(--color-muted);
+  }
+
+  .blog-card-title {
+    font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-heading);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-black);
+  }
+
+  .blog-card-summary {
+    font-size: var(--font-size-p3);
+    color: var(--color-muted);
+    line-height: var(--line-height-body);
+    flex: 1;
+  }
+
+  .blog-card-cta {
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-btn);
+    letter-spacing: var(--letter-spacing-btn);
+    text-transform: uppercase;
+    color: var(--color-black);
+    margin-top: var(--space-xs);
+  }
+
+  @media (max-width: 840px) {
+    .blog-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 540px) {
+    .blog-main { padding: var(--space-lg) var(--space-sm); padding-top: calc(var(--space-xl) + 60px); }
+    .blog-grid { grid-template-columns: 1fr; }
+  }
+</style>
