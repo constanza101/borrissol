@@ -202,4 +202,3 @@ Usage: `<i data-lucide="icon-name"></i>` + `lucide.createIcons()`
 9. **No automatic testing:** Do not run tests (Vitest/Playwright) automatically. Only run them when explicitly requested.
 10. **Manual verification:** Prioritize visual accuracy in the browser over terminal test results during the UI build phase.
 11. Guided manual testing: After every significant change, do not run tests. Instead, provide the command to run the dev server or the specific test needed, give me the local URL (e.g., http://localhost:4321), and ask me to verify if the result matches my expectations.
-
