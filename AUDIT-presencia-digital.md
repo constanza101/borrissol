@@ -23,6 +23,7 @@ The site is a clean, focused single-page application built with four language va
 
 ### Issues and gaps
 
+// TODO
 **Single-page, one URL per language.** Google's index returns only one result for `site:borrissol.com`. There are no subpages: no individual workshop pages, no blog, no press page, no team page. This is the single biggest SEO liability. Every workshop (Pelusa, Floc, Vellut, etc.) that has its own URL could rank independently for long-tail searches like "taller tufting 4 hores Mataró" or "tufting workshop beginner Barcelona."
 
 **No sitemap per-page hreflang.** The `sitemap-0.xml` lists 4 URLs but without hreflang cross-references. Google cannot confirm the language relationship between `/`, `/es`, `/en`, `/fr` from the sitemap alone.

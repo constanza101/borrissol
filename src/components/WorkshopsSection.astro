@@ -6,6 +6,7 @@ import tuftingInd2 from '../assets/images/tufting-ind2.jpg';
 import tallerTufting from '../assets/images/taller-tufting.jpg';
 import grupal from '../assets/images/grupal.png';
 import toteBag from '../assets/images/tote-bag1.png';
+import wristRest from '../assets/images/ws-wrist-rest.jpg';
 import grupo2 from '../assets/images/grupo2.jpg';
 
 const lang = getLangFromUrl(Astro.url);
@@ -151,16 +152,31 @@ const tuftingRows = [
           </div>
         </div>
 
-        <!-- Tote Bag -->
+        <!-- Tote Bag — hidden, will be reactivated later -->
+        {false && (
+          <div class="ws-card reveal" data-delay="2">
+            <div class="ws-card-img">
+              <Picture src={toteBag} widths={[300, 500, 700]} sizes="(max-width: 767px) 100vw, 25vw" formats={['avif', 'webp']} alt="Tote Bag Bordada" width={700} height={934} loading="lazy" />
+            </div>
+            <div class="ws-card-body">
+              <h4 class="ws-name">{t('ws.totebag.name')}</h4>
+              <p class="ws-desc">{t('ws.totebag.desc')}</p>
+              <p class="ws-details">{t('ws.totebag.details')}</p>
+              <a href={waHref(t('wa.ws.totebag'))} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
+            </div>
+          </div>
+        )}
+
+        <!-- Team Building Special -->
         <div class="ws-card reveal" data-delay="2">
           <div class="ws-card-img">
-            <Picture src={toteBag} widths={[300, 500, 700]} sizes="(max-width: 767px) 100vw, 25vw" formats={['avif', 'webp']} alt="Tote Bag Bordada" width={700} height={934} loading="lazy" />
+            <Picture src={wristRest} widths={[300, 500, 700]} sizes="(max-width: 767px) 100vw, 25vw" formats={['avif', 'webp']} alt="Reposamuñecas hecho con tufting para el taller Especial Team Building en Borrissol" width={4032} height={3024} loading="lazy" />
           </div>
           <div class="ws-card-body">
-            <h4 class="ws-name">{t('ws.totebag.name')}</h4>
-            <p class="ws-desc">{t('ws.totebag.desc')}</p>
-            <p class="ws-details">{t('ws.totebag.details')}</p>
-            <a href={waHref(t('wa.ws.totebag'))} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
+            <h4 class="ws-name">{t('ws.teambuilding.name')}</h4>
+            <p class="ws-desc">{t('ws.teambuilding.desc')}</p>
+            <p class="ws-details">{t('ws.teambuilding.details')}</p>
+            <a href={waHref(t('wa.ws.teambuilding'))} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
           </div>
         </div>
 
@@ -169,7 +185,7 @@ const tuftingRows = [
       <!-- Summer Textile Lab — featured, full width, horizontal layout -->
       <div class="summer-card reveal">
         <div class="summer-card-img">
-          <Picture src={grupo2} widths={[480, 768, 1000]} sizes="(max-width: 767px) 100vw, 40vw" formats={['avif', 'webp']} alt="Laboratorio Textil de Verano" width={1000} height={666} loading="lazy" />
+          <Picture src={grupo2} widths={[480, 768, 1000]} sizes="(max-width: 767px) 100vw, 40vw" formats={['avif', 'webp']} alt="Laboratorio Textil de Verano" width={3000} height={4000} loading="lazy" />
         </div>
         <div class="summer-card-body">
           <span class="eyebrow">{t('ws.summer.techniques')}</span>
@@ -490,6 +506,7 @@ const tuftingRows = [
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center 80%;
     display: block;
   }
 
