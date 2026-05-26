@@ -189,27 +189,77 @@ Usage: `<i data-lucide="icon-name"></i>` + `lucide.createIcons()`
 
 ---
 
-## Netlify Deploy — Rules to Avoid Exceeding Free Tier
+## Netlify Deploy — Credit Model & Rules
 
-Free tier limits: **300 build minutes/month** + limited serverless function invocations.
+Netlify migrated from separate "build minutes / bandwidth" caps to a unified **credit pool** (post-2024). All resources draw from the same budget.
+
+### Conversion rates
+- **1 production deploy ≈ 15 credits**
+- **1 GB bandwidth ≈ 20 credits**
+- Web requests, compute, function invocations: variable, usually marginal unless bots scan SSR endpoints
+
+### Plan limits
+| Plan | Credits/mo | Deploys (if only this) | Bandwidth (if only this) |
+|---|---|---|---|
+| Free | 300 | ~20 | ~15 GB |
+| **Personal ($9)** ← current | **1.000** | ~65 | ~50 GB |
+| Pro ($20) | 3.000 | ~200 | ~150 GB |
+
+Site auto-pauses when total credits exceed the plan limit. No auto-charge unless explicitly enabled.
 
 ### Before every deploy
-- **Batch changes.** Never push one commit per small fix. Group all related changes into a single push.
-- **Use `[skip ci]`** in the commit message for changes that don't affect the live site (docs, comments, README):
+- **Batch changes.** Never push one commit per small fix. Accumulate all related changes for the session and push once.
+- **Use `[skip ci]`** in the commit message for changes that don't affect the live site (docs, comments, README, this file):
   ```bash
   git commit -m "update readme [skip ci]"
   ```
   Netlify will not trigger a build for that commit.
+- For experimentation without consuming "production deploy" credits, run a local build then deploy the artifacts:
+  ```bash
+  npm run build
+  netlify deploy --prod --dir=dist
+  ```
 
 ### Deploy previews (already disabled)
 - Deploy previews are **off**. Netlify will not build `keystatic/*` branches automatically.
-- This saves ~2 build minutes per blog post that Belén publishes via Keystatic.
+- This saves ~15 credits per blog post that Belén publishes via Keystatic.
 - If a preview is ever needed, enable it manually in Netlify → Site configuration → Build & deploy → Deploy contexts.
 
 ### Who triggers function invocations
 - **Only Belén** using the Keystatic panel (`/keystatic/*`) triggers serverless functions.
 - Regular visitors load fully static pages — zero function cost.
 - Keep all non-Keystatic pages statically prerendered (they already are via `getStaticPaths`).
+
+---
+
+## Bot Protection & Edge Redirects
+
+`netlify.toml` contains a block of `[[redirects]]` rules (forced 404 with `status = 404`) for common WordPress / PHP / admin-tool scan URLs:
+`/wp-admin/*`, `/wp-login.php`, `/wp-content/*`, `/wp-includes/*`, `/wp-config.php`, `/xmlrpc.php`, `/install.php`, `/phpinfo.php`, `/admin.php`, `/phpmyadmin/*`, `/administrator/*`, `/typo3/*`, `/.env`, `/.git/*`, `/config.php`, `/backup/*`, `/backups/*`.
+
+These short-circuit bot probes at the Netlify edge layer so they **never invoke Astro SSR**. Without them, each bot request (50-200/day on this site) would consume 1-3s of SSR compute rendering a 404 page.
+
+**Do not remove these rules** without first migrating to Cloudflare Pages (which has built-in Bot Fight Mode + unlimited bandwidth). See `~/Documents/studio/guides/web-optimization.md` for the bigger picture.
+
+---
+
+## Environment Requirements
+
+- **Node ≥22.12.0** required by Astro 6. Pinned in `netlify.toml` as `NODE_VERSION = "22.12.0"`.
+- **`.npmrc`** with `legacy-peer-deps=true` required because `@keystatic/astro@5.0.6` declares peer dependency `astro@2-5` but the project runs on Astro 6. The Keystatic team will eventually publish Astro-6 compatibility; **when they do, delete `.npmrc`** and the peer-dep workaround is no longer needed.
+
+---
+
+## Asset Optimization
+
+Rules for any image/asset shipped to production:
+
+- **OG image** (`/public/og-default.jpg`): JPG format (not PNG), 1200×630 px, **<300 KB max**. Replace with the brand's visual whenever it changes; do NOT export as raw PNG from Figma — that's how we ended up with a 4 MB file silently eating bandwidth.
+- **Content images**: always go in `src/assets/images/` and use Astro `<Picture>` with `formats={['avif', 'webp']}`, responsive `widths`, intrinsic `width`/`height` matching the source file.
+- **Loading strategy**: `loading="eager"` + `fetchpriority="high"` for hero only; everything else `loading="lazy"`.
+- **Source file sizes**: max ~2× the largest responsive width served. A 6000×4000 source file is wasteful if the largest responsive variant is 1200px wide.
+- **Pre-deploy audit**: nothing in `/public/` should weigh more than 500 KB without justification. Run `find public -type f -exec ls -laS {} + | sort -k5 -n -r | head -10` to spot offenders.
+- **Fonts**: only Roboto, WOFF2 only, weights 400 + 500 only.
 
 ---
 
@@ -223,7 +273,8 @@ Free tier limits: **300 build minutes/month** + limited serverless function invo
 6. **Lucide Icons only** for iconography. Stroke `1.5px`, fill `none`, color `var(--icon-color)`.
 7. **All buttons** use uppercase, weight 500, and `letter-spacing: 0.05em` — never override these.
 8. **Import `theme.css`** as the first stylesheet in every page/component.
-9. **Never push after every small change.** Accumulate all changes for the session and propose a single deploy at the end. Every push triggers a Netlify build (~3-5 min) and the free tier has 300 build minutes/month. Use `[skip ci]` in the commit message for docs or comments that don't affect the live site.
+9. **Never push after every small change.** Accumulate all changes for the session and propose a single deploy at the end. Each production deploy costs ~15 credits in Netlify's unified credit model. Free tier is 300 credits/mo (~20 deploys). Use `[skip ci]` in the commit message for docs or comments that don't affect the live site.
 10. **No automatic testing:** Do not run tests (Vitest/Playwright) automatically. Only run them when explicitly requested.
-10. **Manual verification:** Prioritize visual accuracy in the browser over terminal test results during the UI build phase.
-11. Guided manual testing: After every significant change, do not run tests. Instead, provide the command to run the dev server or the specific test needed, give me the local URL (e.g., http://localhost:4321), and ask me to verify if the result matches my expectations.
+11. **Manual verification:** Prioritize visual accuracy in the browser over terminal test results during the UI build phase.
+12. **Guided manual testing:** After every significant change, do not run tests. Instead, provide the command to run the dev server or the specific test needed, give me the local URL (e.g., http://localhost:4321), and ask me to verify if the result matches my expectations.
+13. **Asset weight discipline:** before adding any file to `/public/`, verify it's <500 KB. Especially OG images (target <300 KB, JPG format). See "Asset Optimization" section.
