@@ -4,3 +4,116 @@
 
 [build.environment]
   NODE_VERSION = "22.12.0"
+
+# ──────────────────────────────────────────────────────────────────────────
+# Bot/scanner protection — short-circuit common attack URLs at the edge
+# so they never invoke Astro SSR (saves credits).
+# These paths don't exist in the site; only bots request them.
+# ──────────────────────────────────────────────────────────────────────────
+
+# WordPress install/admin/login probes
+[[redirects]]
+  from = "/wp-admin/*"
+  to = "/_blocked"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/wp-login.php"
+  to = "/_blocked"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/wp-content/*"
+  to = "/_blocked"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/wp-includes/*"
+  to = "/_blocked"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/wp-config.php"
+  to = "/_blocked"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/xmlrpc.php"
+  to = "/_blocked"
+  status = 404
+  force = true
+
+# Stray PHP install/info probes
+[[redirects]]
+  from = "/install.php"
+  to = "/_blocked"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/phpinfo.php"
+  to = "/_blocked"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/admin.php"
+  to = "/_blocked"
+  status = 404
+  force = true
+
+# Common admin-tool path probes
+[[redirects]]
+  from = "/phpmyadmin/*"
+  to = "/_blocked"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/administrator/*"
+  to = "/_blocked"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/typo3/*"
+  to = "/_blocked"
+  status = 404
+  force = true
+
+# Source-control / secrets / config exposures
+[[redirects]]
+  from = "/.env"
+  to = "/_blocked"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/.git/*"
+  to = "/_blocked"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/config.php"
+  to = "/_blocked"
+  status = 404
+  force = true
+
+# Common backup/dump probes
+[[redirects]]
+  from = "/backup/*"
+  to = "/_blocked"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/backups/*"
+  to = "/_blocked"
+  status = 404
+  force = true
