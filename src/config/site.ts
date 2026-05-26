@@ -37,7 +37,7 @@ export const SITE: SiteConfig = {
   url: 'https://borrissol.com',
   locale: 'es_ES',
   logo: '/images/borrissol-logo-b-512.png',
-  defaultOgImage: '/og-default.png',
+  defaultOgImage: '/og-default.jpg',
 
   business: {
     type: 'LocalBusiness',
