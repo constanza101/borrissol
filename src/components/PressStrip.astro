@@ -1,0 +1,146 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t    = useTranslations(lang);
+
+// Build the link to the press page respecting current language prefix
+const pressPath = lang === 'ca' ? '/press' : `/${lang}/press`;
+---
+
+<section class="press-strip" aria-labelledby="press-strip-heading">
+  <div class="press-strip-inner">
+    <span id="press-strip-heading" class="press-strip-eyebrow reveal">{t('press.eyebrow')}</span>
+
+    <ul class="press-strip-logos" role="list">
+      <li class="reveal" data-delay="1">
+        <a href={pressPath} class="press-strip-logo-link" aria-label="La Vanguardia">
+          <img
+            src="/images/press/la-vanguardia.svg"
+            alt="La Vanguardia"
+            class="press-strip-logo"
+            loading="lazy"
+            width="220"
+            height="24"
+          />
+        </a>
+      </li>
+      <li class="reveal" data-delay="2">
+        <a href={pressPath} class="press-strip-logo-link" aria-label="MataróTV">
+          <img
+            src="/images/press/matarotv.svg"
+            alt="MataróTV"
+            class="press-strip-logo press-strip-logo--lowercase"
+            loading="lazy"
+            width="180"
+            height="36"
+          />
+        </a>
+      </li>
+    </ul>
+
+    <a href={pressPath} class="press-strip-cta reveal" data-delay="3">
+      {t('press.view-all')} →
+    </a>
+  </div>
+</section>
+
+<style>
+  .press-strip {
+    background: var(--color-white);
+    border-top: var(--border-default);
+    padding: var(--space-lg) 0;
+  }
+
+  .press-strip-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-lg);
+    padding: 0 var(--layout-page-padding-h);
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+  }
+
+  .press-strip-eyebrow {
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-btn);
+    letter-spacing: var(--letter-spacing-btn);
+    text-transform: uppercase;
+    color: var(--color-muted);
+    flex-shrink: 0;
+  }
+
+  .press-strip-logos {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .press-strip-logo-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--min-touch-target);
+  }
+
+  .press-strip-logo {
+    height: 24px;
+    width: auto;
+    display: block;
+    /* Force monochromatic gray rendering for visual consistency */
+    filter: grayscale(1) opacity(0.55);
+    transition: filter 0.2s ease;
+  }
+
+  /* Lowercase wordmarks (e.g. tvmataró) need extra height to visually
+     match uppercase wordmarks (e.g. LA VANGUARDIA) at the same row. */
+  .press-strip-logo--lowercase {
+    height: 36px;
+  }
+
+  .press-strip-logo-link:hover .press-strip-logo,
+  .press-strip-logo-link:focus-visible .press-strip-logo {
+    filter: grayscale(1) opacity(1);
+  }
+
+  .press-strip-cta {
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-btn);
+    letter-spacing: var(--letter-spacing-btn);
+    text-transform: uppercase;
+    color: var(--color-black);
+    text-decoration: none;
+    min-height: var(--min-touch-target);
+    display: inline-flex;
+    align-items: center;
+    transition: opacity var(--t-fast);
+  }
+  .press-strip-cta:hover { opacity: 0.65; }
+
+  /* Mobile: stack everything */
+  @media (max-width: 600px) {
+    .press-strip-inner {
+      flex-direction: column;
+      gap: var(--space-md);
+      text-align: center;
+    }
+
+    .press-strip-logos {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--space-md);
+    }
+
+    .press-strip-logo {
+      height: 20px;
+    }
+
+    .press-strip-logo--lowercase {
+      height: 30px;
+    }
+  }
+</style>

@@ -15,6 +15,7 @@ export const ui = {
     'nav.process':    'Proceso',
     'nav.workshops':  'Talleres',
     'nav.about':      'Nosotros',
+    'nav.press':      'Prensa',
     'nav.contact':    'Contacto',
     'nav.cta':        'Contacto',
 
@@ -24,6 +25,20 @@ export const ui = {
 
     'page.home.title':       'Taller de Arte en Mataró · Tufting y Team Building',
     'page.home.description': 'Taller de tufting, bordado y punch needle en Mataró, Barcelona. Perfecto para team building, cumpleaños y grupos. Sin experiencia previa. ¡Reserva en Borrissol!',
+
+    // ── Prensa ───────────────────────────────────────────────────────────
+    'page.press.title':        'Prensa',
+    'page.press.description':  'Borrissol en los medios: La Vanguardia, MataróTV y más reconocimientos al taller de tufting y técnicas textiles en Mataró.',
+    'press.eyebrow':           'En prensa',
+    'press.headline':          'Borrissol en los medios',
+    'press.view-all':          'Ver todas',
+    'press.read-article':      'Leer artículo',
+    'press.watch-interview':   'Ver entrevista',
+    'press.lavanguardia.label':   'La Vanguardia · 28 mayo 2026',
+    'press.lavanguardia.quote':   "En Innoemprèn me ayudaron muchísimo a enfocar el negocio desde la sostenibilidad. Localicé un proveedor de proximidad que fabrica lanas a base de toldos reciclados.",
+    'press.lavanguardia.caption': 'Sobre el programa Innoemprèn del TecnoCampus y los proyectos seleccionados, entre ellos Borrissol Espai Creatiu.',
+    'press.matarotv.label':       'MataróTV · Art i Part',
+    'press.matarotv.caption':     'Entrevista a Belén Vilanova en el programa Art i Part. Borrissol Espai Creatiu, las técnicas textiles y el espacio creativo de Mataró.',
 
     // ── Qué ofrecemos — Block 1 ──────────────────────────────────────────
     'offer.eyebrow':          'Qué ofrecemos',
@@ -222,6 +237,7 @@ export const ui = {
     'nav.process':    'Process',
     'nav.workshops':  'Workshops',
     'nav.about':      'About',
+    'nav.press':      'Press',
     'nav.contact':    'Contact',
     'nav.cta':        'Contact',
 
@@ -231,6 +247,20 @@ export const ui = {
 
     'page.home.title':       'Art Workshop Mataró · Tufting & Team Building',
     'page.home.description': 'Tufting, embroidery and punch needle workshop in Mataró, Barcelona. Perfect for team building, birthdays and groups. No experience needed. Book now at Borrissol!',
+
+    // ── Press ─────────────────────────────────────────────────────────────
+    'page.press.title':        'Press',
+    'page.press.description':  'Borrissol in the media: La Vanguardia, MataróTV and more recognition for the tufting and textile techniques workshop in Mataró.',
+    'press.eyebrow':           'In the press',
+    'press.headline':          'Borrissol in the media',
+    'press.view-all':          'View all',
+    'press.read-article':      'Read article',
+    'press.watch-interview':   'Watch interview',
+    'press.lavanguardia.label':   'La Vanguardia · 28 May 2026',
+    'press.lavanguardia.quote':   "Innoemprèn helped me a lot to focus the business around sustainability. I found a local supplier that makes yarn from recycled awnings.",
+    'press.lavanguardia.caption': 'On the TecnoCampus Innoemprèn program and the selected projects, including Borrissol Espai Creatiu.',
+    'press.matarotv.label':       'MataróTV · Art i Part',
+    'press.matarotv.caption':     'Interview with Belén Vilanova on the Art i Part program. Borrissol Espai Creatiu, textile techniques and the creative space in Mataró.',
 
     // ── What we offer — Block 1 ──────────────────────────────────────────
     'offer.eyebrow':          'What we offer',
@@ -429,6 +459,7 @@ export const ui = {
     'nav.process':    'Procés',
     'nav.workshops':  'Tallers',
     'nav.about':      'Nosaltres',
+    'nav.press':      'Premsa',
     'nav.contact':    'Contacte',
     'nav.cta':        'Contacte',
 
@@ -438,6 +469,20 @@ export const ui = {
 
     'page.home.title':       "Taller d'Art a Mataró · Tufting i Team Building",
     'page.home.description': 'Taller de tufting, brodat i punch needle a Mataró, Barcelona. Ideal per a team building, aniversaris i grups. Sense experiència prèvia. Reserva ara a Borrissol!',
+
+    // ── Premsa ────────────────────────────────────────────────────────────
+    'page.press.title':        'Premsa',
+    'page.press.description':  'Borrissol als mitjans: La Vanguardia, MataróTV i més reconeixements al taller de tufting i tècniques tèxtils a Mataró.',
+    'press.eyebrow':           'A la premsa',
+    'press.headline':          'Borrissol als mitjans',
+    'press.view-all':          'Veure-les totes',
+    'press.read-article':      "Llegir l'article",
+    'press.watch-interview':   "Veure l'entrevista",
+    'press.lavanguardia.label':   'La Vanguardia · 28 maig 2026',
+    'press.lavanguardia.quote':   "A Innoemprèn em van ajudar moltíssim a enfocar el negoci des de la sostenibilitat. Vaig localitzar un proveïdor de proximitat que fabrica llanes a base de tendals reciclats.",
+    'press.lavanguardia.caption': 'Sobre el programa Innoemprèn del TecnoCampus i els projectes seleccionats, entre ells Borrissol Espai Creatiu.',
+    'press.matarotv.label':       'MataróTV · Art i Part',
+    'press.matarotv.caption':     "Entrevista a Belén Vilanova al programa Art i Part. Borrissol Espai Creatiu, les tècniques tèxtils i l'espai creatiu de Mataró.",
 
     // ── Què oferim — Bloc 1 ──────────────────────────────────────────────
     'offer.eyebrow':          'Què oferim',
@@ -636,6 +681,7 @@ export const ui = {
     'nav.process':    'Processus',
     'nav.workshops':  'Ateliers',
     'nav.about':      'À propos',
+    'nav.press':      'Presse',
     'nav.contact':    'Contact',
     'nav.cta':        'Contact',
 
@@ -645,6 +691,20 @@ export const ui = {
 
     'page.home.title':       "Atelier d'Art Mataró · Tufting & Team Building",
     'page.home.description': 'Atelier tufting, broderie et punch needle à Mataró, Barcelone. Idéal pour team building, anniversaires et groupes. Sans expérience. Réservez chez Borrissol!',
+
+    // ── Presse ────────────────────────────────────────────────────────────
+    'page.press.title':        'Presse',
+    'page.press.description':  "Borrissol dans les médias : La Vanguardia, MataróTV et autres reconnaissances de l'atelier de tufting et techniques textiles à Mataró.",
+    'press.eyebrow':           'Dans la presse',
+    'press.headline':          'Borrissol dans les médias',
+    'press.view-all':          'Voir toutes',
+    'press.read-article':      "Lire l'article",
+    'press.watch-interview':   "Voir l'entretien",
+    'press.lavanguardia.label':   'La Vanguardia · 28 mai 2026',
+    'press.lavanguardia.quote':   "Chez Innoemprèn, ils m'ont énormément aidée à orienter l'entreprise vers la durabilité. J'ai trouvé un fournisseur de proximité qui fabrique des laines à partir de stores recyclés.",
+    'press.lavanguardia.caption': "Sur le programme Innoemprèn de TecnoCampus et les projets sélectionnés, dont Borrissol Espai Creatiu.",
+    'press.matarotv.label':       'MataróTV · Art i Part',
+    'press.matarotv.caption':     "Entretien avec Belén Vilanova dans l'émission Art i Part. Borrissol Espai Creatiu, les techniques textiles et l'espace créatif de Mataró.",
 
     // ── Ce que nous offrons — Bloc 1 ─────────────────────────────────────
     'offer.eyebrow':          'Ce que nous offrons',

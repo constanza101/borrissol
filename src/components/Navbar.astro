@@ -8,6 +8,21 @@ const t        = useTranslations(lang);
 const altPaths = Object.fromEntries(
   (Object.keys(languages) as Lang[]).map(l => [l, getAlternatePath(Astro.url, l)])
 ) as Record<Lang, string>;
+
+// Internal pages respect current language prefix (ca is default = no prefix)
+const homePath  = lang === 'ca' ? '/' : `/${lang}/`;
+const pressPath = lang === 'ca' ? '/press' : `/${lang}/press`;
+
+// Anchors on the home page must be prefixed with the home path so they work
+// from non-home pages (e.g. /press, /blog). Browsers treat same-path+hash
+// as a same-page scroll, so this stays smooth on the home itself.
+const anchors = {
+  offer:     `${homePath}#offer`,
+  workshops: `${homePath}#workshops`,
+  process:   `${homePath}#process`,
+  about:     `${homePath}#about`,
+  faq:       `${homePath}#faq`,
+};
 ---
 
 <header class="site-header">
@@ -15,17 +30,18 @@ const altPaths = Object.fromEntries(
   <!-- ── Main bar ── -->
   <nav class="site-nav" aria-label="Main navigation">
 
-    <a href="#" class="nav-brand" aria-label="Borrissol — inicio">
+    <a href={homePath} class="nav-brand" aria-label="Borrissol — inicio">
       <img src="/images/borrissol-pompom.svg" alt="Borrissol" class="nav-brand-logo" />
     </a>
 
     <!-- Desktop links -->
     <ul class="nav-links" role="list">
-      <li><a href="#offer">{t('nav.services')}</a></li>
-      <li><a href="#workshops">{t('nav.workshops')}</a></li>
-      <li><a href="#process">{t('nav.process')}</a></li>
-      <li><a href="#about">{t('nav.about')}</a></li>
-      <li><a href="#faq">FAQ</a></li>
+      <li><a href={anchors.offer}>{t('nav.services')}</a></li>
+      <li><a href={anchors.workshops}>{t('nav.workshops')}</a></li>
+      <li><a href={anchors.process}>{t('nav.process')}</a></li>
+      <li><a href={anchors.about}>{t('nav.about')}</a></li>
+      <li><a href={pressPath}>{t('nav.press')}</a></li>
+      <li><a href={anchors.faq}>FAQ</a></li>
       <li><a href="/blog">Blog</a></li>
     </ul>
 
@@ -90,11 +106,12 @@ const altPaths = Object.fromEntries(
   <div id="mobile-menu" class="nav-mobile" aria-hidden="true" role="dialog" aria-label="Menú de navegación">
 
     <ul class="nav-mobile-links" role="list">
-      <li><a href="#offer">{t('nav.services')}</a></li>
-      <li><a href="#workshops">{t('nav.workshops')}</a></li>
-      <li><a href="#process">{t('nav.process')}</a></li>
-      <li><a href="#about">{t('nav.about')}</a></li>
-      <li><a href="#faq">FAQ</a></li>
+      <li><a href={anchors.offer}>{t('nav.services')}</a></li>
+      <li><a href={anchors.workshops}>{t('nav.workshops')}</a></li>
+      <li><a href={anchors.process}>{t('nav.process')}</a></li>
+      <li><a href={anchors.about}>{t('nav.about')}</a></li>
+      <li><a href={pressPath}>{t('nav.press')}</a></li>
+      <li><a href={anchors.faq}>FAQ</a></li>
       <li><a href="/blog">Blog</a></li>
     </ul>
 

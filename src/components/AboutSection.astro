@@ -24,21 +24,8 @@ const tags = [
       <h2 class="ab-headline reveal" data-delay="1">{t('about.headline')}</h2>
     </div>
 
-    <!-- Block 1: Studio story — image left, text right -->
+    <!-- Block 1: Studio story — text left, image right -->
     <div class="ab-block">
-      <div class="ab-img-wrap reveal">
-        <Picture
-          src={belu1}
-          widths={[400, 700, 900]}
-          sizes="(max-width: 540px) 100vw, 40vw"
-          formats={['avif', 'webp']}
-          alt="Belén Vilanova, fundadora de Borrissol Espai Creatiu, en el taller de arte de Mataró"
-          width={3264}
-          height={2448}
-          class="ab-img"
-          loading="lazy"
-        />
-      </div>
       <div class="ab-text reveal" data-delay="1">
         <p class="ab-p">{t('about.p1')}</p>
         <p class="ab-p">{t('about.p2')}</p>
@@ -49,25 +36,18 @@ const tags = [
           ))}
         </div>
       </div>
-    </div>
-
-    <!-- Block: MataróTV interview -->
-    <div class="ab-block ab-video-block">
-      <div class="ab-text reveal" data-delay="1">
-        <span class="eyebrow">{t('about.video.label')}</span>
-        <h3 class="ab-subtitle">{t('about.video.headline')}</h3>
-        <p class="ab-p">{t('about.video.text')}</p>
-        <p class="ab-video-source">{t('about.video.source')}</p>
-      </div>
-      <div class="ab-video-wrap reveal" data-delay="2">
-        <iframe
-          src="https://www.youtube.com/embed/2BAK8-bmz0s?si=Ol5yViPuthl0ly98"
-          title="Borrissol Espai Creatiu a MataróTV — Art i Part"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen
+      <div class="ab-img-wrap reveal">
+        <Picture
+          src={belu1}
+          widths={[400, 700, 900]}
+          sizes="(max-width: 540px) 100vw, 40vw"
+          formats={['avif', 'webp']}
+          alt="Belén Vilanova, fundadora de Borrissol Espai Creatiu, en el taller de arte de Mataró"
+          width={2448}
+          height={3264}
+          class="ab-img"
           loading="lazy"
-        ></iframe>
+        />
       </div>
     </div>
 
@@ -153,9 +133,9 @@ const tags = [
     align-items: start;
   }
 
-  /* Block 1: portrait image left, text gets more room on the right */
+  /* Block 1: text gets more room on the left, photo on the right */
   .ab-block:not(.ab-block--reverse) {
-    grid-template-columns: 2fr 3fr;
+    grid-template-columns: 3fr 2fr;
   }
 
   .ab-block + .ab-block {
@@ -246,7 +226,7 @@ const tags = [
     position: relative;
     border-radius: var(--radius-xs);
     overflow: hidden;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3 / 4;
   }
 
   .ab-gradient {
@@ -329,6 +309,10 @@ const tags = [
     .ab-block:not(.ab-block--reverse) {
       grid-template-columns: 1fr;
     }
+
+    /* Block 1: on mobile keep the photo above the text for visual hook,
+       independent of desktop DOM order (text-first for grid layout). */
+    .ab-block:not(.ab-block--reverse) .ab-img-wrap { order: -1; }
 
     .ab-video-block {
       grid-template-columns: 1fr;

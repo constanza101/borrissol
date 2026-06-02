@@ -1,0 +1,230 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t    = useTranslations(lang);
+---
+
+<section class="press-grid-section">
+  <div class="press-grid-inner">
+
+    <ul class="press-grid" role="list">
+
+      <!-- ── La Vanguardia ───────────────────────────────────────────── -->
+      <li class="press-card reveal">
+        <div class="press-card-header">
+          <img
+            src="/images/press/la-vanguardia.svg"
+            alt="La Vanguardia"
+            class="press-card-logo"
+            width="260"
+            height="28"
+            loading="lazy"
+          />
+          <span class="press-card-label">{t('press.lavanguardia.label')}</span>
+        </div>
+
+        <blockquote class="press-card-quote">
+          <p>{t('press.lavanguardia.quote')}</p>
+          <cite class="press-card-attribution">— Belén Vilanova</cite>
+        </blockquote>
+
+        <p class="press-card-caption">{t('press.lavanguardia.caption')}</p>
+
+        <a
+          href="https://www.lavanguardia.com/economia/innovacion/20260528/11549809/innoempren-impulso-transforma-ideas-empresas-sostenibles-brl.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="press-card-cta"
+        >
+          {t('press.read-article')} →
+        </a>
+      </li>
+
+      <!-- ── MataróTV ────────────────────────────────────────────────── -->
+      <li class="press-card press-card--video reveal" data-delay="1">
+        <div class="press-card-header">
+          <img
+            src="/images/press/matarotv.svg"
+            alt="MataróTV"
+            class="press-card-logo press-card-logo--lowercase"
+            width="208"
+            height="42"
+            loading="lazy"
+          />
+          <span class="press-card-label">{t('press.matarotv.label')}</span>
+        </div>
+
+        <div class="press-card-video-wrap">
+          <iframe
+            src="https://www.youtube.com/embed/2BAK8-bmz0s?si=Ol5yViPuthl0ly98"
+            title="Borrissol Espai Creatiu a MataróTV — Art i Part"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        </div>
+
+        <p class="press-card-caption">{t('press.matarotv.caption')}</p>
+
+        <a
+          href="https://www.youtube.com/watch?v=2BAK8-bmz0s"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="press-card-cta"
+        >
+          {t('press.watch-interview')} →
+        </a>
+      </li>
+
+    </ul>
+  </div>
+</section>
+
+<style>
+  .press-grid-section {
+    background: var(--color-white);
+    padding: var(--space-xl) 0;
+  }
+
+  .press-grid-inner {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: 0 var(--layout-page-padding-h);
+  }
+
+  .press-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* ── Card ── */
+  .press-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    background: var(--color-white);
+    border: var(--border-default);
+    border-radius: var(--radius-xs);
+    padding: var(--space-lg);
+  }
+
+  .press-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: var(--border-default);
+  }
+
+  .press-card-logo {
+    height: 28px;
+    width: auto;
+    display: block;
+  }
+
+  /* Lowercase wordmarks (e.g. tvmataró) need extra height to visually
+     match uppercase wordmarks (e.g. LA VANGUARDIA) at the same row. */
+  .press-card-logo--lowercase {
+    height: 42px;
+  }
+
+
+  .press-card-label {
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-btn);
+    letter-spacing: var(--letter-spacing-btn);
+    text-transform: uppercase;
+    color: var(--color-muted);
+    text-align: right;
+  }
+
+  /* ── Quote ── */
+  .press-card-quote {
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+
+  .press-card-quote p {
+    font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-heading);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-black);
+    margin: 0 0 var(--space-sm) 0;
+  }
+
+  .press-card-attribution {
+    font-size: var(--font-size-ui);
+    font-style: normal;
+    color: var(--color-muted);
+  }
+
+  /* ── Caption ── */
+  .press-card-caption {
+    font-size: var(--font-size-p2);
+    font-weight: var(--font-weight-body);
+    line-height: var(--line-height-body);
+    color: var(--color-muted);
+    margin: 0;
+    flex: 1;
+  }
+
+  /* ── Video wrap (MataróTV card) ── */
+  .press-card-video-wrap {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: var(--radius-xs);
+    background: var(--color-light);
+  }
+
+  .press-card-video-wrap iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+
+  /* ── CTA ── */
+  .press-card-cta {
+    align-self: flex-start;
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-btn);
+    letter-spacing: var(--letter-spacing-btn);
+    text-transform: uppercase;
+    color: var(--color-black);
+    text-decoration: none;
+    min-height: var(--min-touch-target);
+    display: inline-flex;
+    align-items: center;
+    transition: opacity var(--t-fast);
+  }
+  .press-card-cta:hover { opacity: 0.65; }
+
+  /* ── Responsive ── */
+  @media (max-width: 840px) {
+    .press-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .press-card {
+      padding: var(--space-md);
+    }
+
+    .press-card-quote p {
+      font-size: var(--font-size-p1);
+    }
+  }
+</style>
