@@ -1,6 +1,7 @@
 # Borrissol Espai Creatiu — Landing Page
 
 Production site: [borrissol.com](https://borrissol.com)
+Codebase docs: [deepwiki.com/constanza101/borrissol](https://deepwiki.com/constanza101/borrissol) — auto-generated wiki of the architecture, components and routing.
 
 Landing page for a textile workshop studio in Mataró (Barcelona). Built as a freelance project from brief to deployment.
 
@@ -10,12 +11,13 @@ Landing page for a textile workshop studio in Mataró (Barcelona). Built as a fr
 
 | Layer | Technology |
 |---|---|
-| Framework | Astro 5 (static output) |
+| Framework | Astro 6 (hybrid — prerendered pages + Netlify functions for CMS) |
+| CMS | Keystatic (Git-backed, MDX content for the blog) |
 | Styles | CSS custom properties — token-based design system |
 | Scripts | Vanilla JS (no runtime framework) |
 | Images | Astro `<Picture>` — AVIF + WebP, responsive `srcset` |
 | Fonts | Roboto self-hosted (WOFF2) |
-| Testing | Playwright E2E |
+| Testing | Playwright E2E + Vitest unit tests |
 | Deploy | Git push → auto-deploy (Netlify) |
 
 ---
@@ -24,10 +26,11 @@ Landing page for a textile workshop studio in Mataró (Barcelona). Built as a fr
 
 ### Internationalisation — 4 languages
 - Catalan (default, no URL prefix), Spanish (`/es`), English (`/en`), French (`/fr`)
+- Single source per page via Astro `[lang]` dynamic routes (`getStaticPaths`) — no duplicated per-language files
 - All copy in `src/i18n/ui.ts` — zero hardcoded strings in components
-- Hreflang tags + `x-default` in `<head>`
-- Language switcher in navbar
-- 301 redirect: `/ca` → `/`
+- Hreflang tags + `x-default` in each page `<head>` AND in the sitemap XML
+- Language switcher in navbar preserves the URL hash via client-side JS
+- 301 redirects: legacy `/ca/*` → `/*`, and `/es,/en,/fr/blog` → `/blog` (blog is intentionally CA-only)
 
 ### Design System
 - Full token set in `src/styles/theme.css` (colors, spacing, typography, radius, borders, icons)
@@ -75,45 +78,75 @@ Landing page for a textile workshop studio in Mataró (Barcelona). Built as a fr
 - Google Maps embed (grayscale → color on hover)
 - Privacy policy inline section (no separate page)
 
+### Blog (Keystatic CMS)
+- Git-backed CMS: posts are MDX files in `src/content/blog/`, edited via Keystatic Cloud UI at `/keystatic`
+- Editor (Belén) authors posts in Catalan — by design, blog is single-language to keep the editor workload sustainable
+- Posts render through Astro Content Collections (`getCollection('blog')`)
+- Auth via Keystatic Cloud; serverless function invocations only happen in the editor UI, never on public reads
+
+### Pages
+- `/` Home (CA), `/es`, `/en`, `/fr` — single-page landing per language
+- `/gallery`, `/es/gallery`, `/en/gallery`, `/fr/gallery` — honeycomb photo gallery
+- `/press`, `/es/press`, `/en/press`, `/fr/press` — press / media coverage grid
+- `/blog`, `/blog/[slug]` — CA-only blog
+- `/keystatic` — CMS panel (auth-gated)
+
 ### Testing
 - Playwright E2E: navigation, WhatsApp links, language switcher, carousel interaction
+- Vitest unit tests for components (e.g. `Button.test.ts`)
 
 ---
 
 ## Project structure
 
 ```
+keystatic.config.ts         # CMS schema (collections, fields)
+astro.config.mjs            # i18n, redirects, sitemap, integrations
+netlify.toml                # Node version + bot-trap redirects
+
 src/
-├── assets/images/        # processed by Astro (AVIF/WebP output)
+├── assets/images/          # processed by Astro (AVIF/WebP output)
 ├── components/
-│   ├── Seo.astro         # all meta, JSON-LD, hreflang
-│   ├── NavBar.astro
+│   ├── Seo.astro           # all meta, JSON-LD, hreflang
+│   ├── Navbar.astro        # incl. language switcher + hash preservation
 │   ├── HeroSection.astro
 │   ├── OfferSection.astro
 │   ├── ProcessSection.astro
 │   ├── WorkshopsSection.astro
 │   ├── TestimonialsSection.astro
 │   ├── AboutSection.astro
-│   ├── FaqSection.astro
-│   ├── CtaSection.astro
+│   ├── FAQSection.astro
+│   ├── CTASection.astro
 │   ├── Footer.astro
+│   ├── Gallery.astro       # honeycomb tap-to-reveal photo grid
+│   ├── PressGrid.astro     # press page grid
+│   ├── PressStrip.astro    # press strip on home
+│   ├── Button.astro        # design-system button primitive
 │   ├── WhatsAppFab.astro
 │   ├── CookieBanner.astro
 │   └── PrivacySection.astro
 ├── config/
-│   └── site.ts           # all SEO + business config in one place
+│   └── site.ts             # all SEO + business config in one place
+├── content/
+│   └── blog/               # Keystatic-authored MDX posts
 ├── i18n/
-│   ├── ui.ts             # all copy, 4 languages
-│   └── utils.ts          # getLangFromUrl, useTranslations, getAlternatePath
+│   ├── ui.ts               # all copy, 4 languages
+│   └── utils.ts            # getLangFromUrl, useTranslations, getAlternatePath
 ├── layouts/
-│   └── Layout.astro      # GA + Consent Mode, skip link, scroll reveal
+│   └── Layout.astro        # GA + Consent Mode, skip link, favicons, scroll reveal
 ├── pages/
-│   ├── index.astro       # Catalan (default)
-│   ├── es/index.astro
-│   ├── en/index.astro
-│   └── fr/index.astro
+│   ├── index.astro         # / (CA, default locale)
+│   ├── gallery.astro       # /gallery (CA)
+│   ├── press.astro         # /press (CA)
+│   ├── [lang]/             # dynamic routes — /es, /en, /fr variants
+│   │   ├── index.astro
+│   │   ├── gallery.astro
+│   │   └── press.astro
+│   └── blog/
+│       ├── index.astro     # /blog
+│       └── [slug].astro    # /blog/post-slug
 └── styles/
-    └── theme.css         # design system tokens
+    └── theme.css           # design system tokens
 ```
 
 ---
