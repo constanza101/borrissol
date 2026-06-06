@@ -1,29 +1,29 @@
 import { describe, expect, it } from 'vitest';
-import { getLangFromUrl, useTranslations, getLocalePath, getAlternatePath } from './utils';
+import { getLangFromUrl, useTranslations, getAlternatePath } from './utils';
 
 describe('getLangFromUrl', () => {
-  it('returns default lang (es) for the root path', () => {
-    expect(getLangFromUrl(new URL('http://x.com/'))).toBe('es');
+  it('returns default (ca) for the root path', () => {
+    expect(getLangFromUrl(new URL('http://x.com/'))).toBe('ca');
   });
 
-  it('returns default lang (es) for an unknown first segment', () => {
-    expect(getLangFromUrl(new URL('http://x.com/unknown/page'))).toBe('es');
+  it('returns default (ca) for an unknown first segment', () => {
+    expect(getLangFromUrl(new URL('http://x.com/unknown/page'))).toBe('ca');
+  });
+
+  it('detects es', () => {
+    expect(getLangFromUrl(new URL('http://x.com/es/gallery'))).toBe('es');
   });
 
   it('detects en', () => {
     expect(getLangFromUrl(new URL('http://x.com/en'))).toBe('en');
   });
 
-  it('detects ca from a nested path', () => {
-    expect(getLangFromUrl(new URL('http://x.com/ca/serveis'))).toBe('ca');
-  });
-
-  it('detects fr', () => {
-    expect(getLangFromUrl(new URL('http://x.com/fr/services'))).toBe('fr');
+  it('detects fr from a nested path', () => {
+    expect(getLangFromUrl(new URL('http://x.com/fr/press'))).toBe('fr');
   });
 
   it('ignores query strings', () => {
-    expect(getLangFromUrl(new URL('http://x.com/?ref=ig'))).toBe('es');
+    expect(getLangFromUrl(new URL('http://x.com/?ref=ig'))).toBe('ca');
   });
 });
 
@@ -48,45 +48,68 @@ describe('useTranslations', () => {
     expect(t('cta.btn')).toBe('Réservez votre place');
   });
 
-  it('returns the key itself as a fallback when completely missing', () => {
+  it('falls back to defaultLang then to the key itself for missing keys', () => {
     const t = useTranslations('es');
-    // Force a missing key via type escape — real guard against silent empty strings
-    expect(t('nav.workshops' as never)).toBe('Talleres');
-  });
-});
-
-describe('getLocalePath', () => {
-  it('returns / for es home', () => {
-    expect(getLocalePath('es', 'home')).toBe('/');
-  });
-
-  it('returns /en for en home', () => {
-    expect(getLocalePath('en', 'home')).toBe('/en');
-  });
-
-  it('returns localised service paths', () => {
-    expect(getLocalePath('ca', 'services')).toBe('/ca/serveis');
-    expect(getLocalePath('fr', 'services')).toBe('/fr/services');
-    expect(getLocalePath('es', 'services')).toBe('/servicios');
+    expect(t('this.key.does.not.exist' as never)).toBe('this.key.does.not.exist');
   });
 });
 
 describe('getAlternatePath', () => {
-  it('returns the home path in the target language for /', () => {
-    const url = new URL('http://x.com/');
-    expect(getAlternatePath(url, 'en')).toBe('/en');
-    expect(getAlternatePath(url, 'ca')).toBe('/ca');
-    expect(getAlternatePath(url, 'fr')).toBe('/fr');
+  // Home (root) page
+  it('/ + es → /es', () => {
+    expect(getAlternatePath(new URL('http://x.com/'), 'es')).toBe('/es');
   });
 
-  it('maps between localised service paths', () => {
-    const url = new URL('http://x.com/en/services');
-    expect(getAlternatePath(url, 'es')).toBe('/servicios');
-    expect(getAlternatePath(url, 'ca')).toBe('/ca/serveis');
+  it('/ + en → /en', () => {
+    expect(getAlternatePath(new URL('http://x.com/'), 'en')).toBe('/en');
   });
 
-  it('falls back to the home path in the target language for unknown routes', () => {
-    const url = new URL('http://x.com/unknown-route');
-    expect(getAlternatePath(url, 'en')).toBe('/en');
+  it('/ + ca → / (already default)', () => {
+    expect(getAlternatePath(new URL('http://x.com/'), 'ca')).toBe('/');
+  });
+
+  // Non-home pages, switching FROM default
+  it('/gallery + es → /es/gallery', () => {
+    expect(getAlternatePath(new URL('http://x.com/gallery'), 'es')).toBe('/es/gallery');
+  });
+
+  it('/press + fr → /fr/press', () => {
+    expect(getAlternatePath(new URL('http://x.com/press'), 'fr')).toBe('/fr/press');
+  });
+
+  // Non-home pages, switching BETWEEN non-defaults
+  it('/es/gallery + en → /en/gallery', () => {
+    expect(getAlternatePath(new URL('http://x.com/es/gallery'), 'en')).toBe('/en/gallery');
+  });
+
+  // Switching BACK to default strips the prefix
+  it('/es/gallery + ca → /gallery', () => {
+    expect(getAlternatePath(new URL('http://x.com/es/gallery'), 'ca')).toBe('/gallery');
+  });
+
+  it('/fr + ca → /', () => {
+    expect(getAlternatePath(new URL('http://x.com/fr'), 'ca')).toBe('/');
+  });
+
+  // Deep paths preserved
+  it('/blog/some-post + es → /es/blog/some-post', () => {
+    expect(getAlternatePath(new URL('http://x.com/blog/some-post'), 'es')).toBe('/es/blog/some-post');
+  });
+
+  // Hash and query string preserved (so anchor scroll position survives lang switch)
+  it('preserves the hash: /#about + es → /es#about', () => {
+    expect(getAlternatePath(new URL('http://x.com/#about'), 'es')).toBe('/es#about');
+  });
+
+  it('preserves the hash on non-home: /es/#about + en → /en#about', () => {
+    expect(getAlternatePath(new URL('http://x.com/es/#about'), 'en')).toBe('/en#about');
+  });
+
+  it('preserves query string: /gallery?ref=ig + es → /es/gallery?ref=ig', () => {
+    expect(getAlternatePath(new URL('http://x.com/gallery?ref=ig'), 'es')).toBe('/es/gallery?ref=ig');
+  });
+
+  it('preserves both query and hash: /?ref=ig#about + en → /en?ref=ig#about', () => {
+    expect(getAlternatePath(new URL('http://x.com/?ref=ig#about'), 'en')).toBe('/en?ref=ig#about');
   });
 });

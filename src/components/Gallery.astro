@@ -1,0 +1,300 @@
+---
+/**
+ * Honeycomb gallery — diamond-clipped tiles that morph to rounded squares
+ * on hover (desktop) or tap (mobile). Adapted from haptichash CodePen
+ * (eYojBbx). True honeycomb interlock: rows are HALF the image height,
+ * so the bottom half of each image overlaps the top half of the next row.
+ * The diamond clip-path means the visible content does NOT collide.
+ *
+ * Usage:
+ *   <Gallery images={imagesArray} />
+ *
+ * Each item in `images` is { src: ImageMetadata, alt: string }.
+ */
+import { Picture, type ImageMetadata } from 'astro:assets';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+interface GalleryImage {
+  src: ImageMetadata;
+  alt: string;
+}
+
+interface Props {
+  images: GalleryImage[];
+}
+
+const { images } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<section class="gallery" aria-labelledby="gallery-heading">
+  <div class="gallery-inner">
+
+    <div class="gallery-header">
+      <span class="gallery-eyebrow reveal">{t('gallery.eyebrow')}</span>
+      <h2 id="gallery-heading" class="gallery-headline reveal" data-delay="1">{t('gallery.headline')}</h2>
+    </div>
+
+    <ul class="gallery-grid" role="list">
+      {images.map(({ src, alt }) => (
+        <li class="gallery-cell">
+          <button class="gallery-tile" type="button" aria-label={alt}>
+            <Picture
+              src={src}
+              widths={[240, 360, 540, 720]}
+              sizes="(max-width: 540px) 40vw, (max-width: 1024px) 22vw, 16vw"
+              formats={['avif', 'webp']}
+              alt={alt}
+              class="gallery-img"
+              loading="lazy"
+            />
+          </button>
+        </li>
+      ))}
+    </ul>
+
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    var grid = document.querySelector('.gallery-grid');
+    if (!grid) return;
+
+    var tiles = grid.querySelectorAll('.gallery-tile');
+
+    tiles.forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var wasActive = btn.classList.contains('is-active');
+        grid.querySelectorAll('.gallery-tile.is-active').forEach(function (b) {
+          b.classList.remove('is-active');
+        });
+        if (!wasActive) btn.classList.add('is-active');
+      });
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!grid.contains(e.target)) {
+        grid.querySelectorAll('.gallery-tile.is-active').forEach(function (b) {
+          b.classList.remove('is-active');
+        });
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        grid.querySelectorAll('.gallery-tile.is-active').forEach(function (b) {
+          b.classList.remove('is-active');
+        });
+      }
+    });
+  })();
+</script>
+
+<style>
+  /* ── Section wrapper ───────────────────────────────────────────────── */
+  .gallery {
+    background: var(--color-white);
+    padding: var(--space-xl) 0;
+  }
+
+  .gallery-inner {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: 0 var(--layout-page-padding-h);
+  }
+
+  /* ── Header ───────────────────────────────────────────────────────── */
+  .gallery-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    text-align: center;
+    margin-bottom: var(--space-xl);
+  }
+
+  .gallery-eyebrow {
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-btn);
+    letter-spacing: var(--letter-spacing-btn);
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .gallery-headline {
+    font-size: var(--font-size-h2);
+    font-weight: var(--font-weight-heading);
+    line-height: var(--line-height-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-black);
+    margin: 0;
+  }
+
+  /* ── Honeycomb grid ────────────────────────────────────────────────── */
+  /*
+   * The interlocking pattern works because:
+   * 1. Grid columns are square cells of size `--cell`.
+   * 2. Each photo spans 2 columns AND has aspect-ratio: 1 — so it is
+   *    `2 * --cell` wide and `2 * --cell` tall.
+   * 3. But each photo occupies ONE grid row (which is `--cell` tall).
+   *    So the photo visually overflows DOWN by `--cell` (one row).
+   * 4. Offset rows (every Nth photo) start at col 2, creating the
+   *    half-tile horizontal shift. Combined with the vertical overflow,
+   *    diamonds interlock pixel-perfect.
+   */
+
+  .gallery-grid {
+    /* Desktop default — 50% bigger than original codepen */
+    --cell: 150px;
+    --gap: 4px;
+    display: grid;
+    gap: var(--gap);
+    grid-template-columns: repeat(8, var(--cell));
+    grid-auto-rows: var(--cell);
+    justify-content: center;
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  /*
+   * Each cell: 2 cells wide × 2 cells tall (square), overflowing one
+   * grid row downward. `align-self: start` is critical — without it the
+   * default `stretch` collapses the cell to the row height and breaks
+   * the vertical overflow that produces the honeycomb interlock.
+   */
+  .gallery-cell {
+    grid-column: span 2;
+    align-self: start;
+    width: calc(2 * var(--cell) + var(--gap));
+    height: calc(2 * var(--cell) + var(--gap));
+  }
+
+  /* Honeycomb offset selectors per breakpoint.
+     Desktop (8 cols): rows of 4 images, then 3 offset. Pattern: nth(7n+5). */
+  .gallery-cell:nth-child(7n+5) {
+    grid-column: 2 / span 2;
+  }
+
+  /* ── Tile ─────────────────────────────────────────────────────────── */
+  .gallery-tile {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    /* Diamond/blob clip-path with rounded corners (200x200 unit box) */
+    clip-path: path("M 80 20 C 100 0 100 0 120 20 C 140 40 160 60 180 80 C 200 100 200 100 180 120 C 160 140 140 160 120 180 C 100 200 100 200 80 180 C 60 160 40 140 20 120 C 0 100 0 100 20 80 Z");
+    transition: clip-path 500ms cubic-bezier(0.16, 1, 0.3, 1),
+                filter 500ms ease;
+  }
+
+  .gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── Interaction: hover (desktop) or tap-active (mobile) ──────────── */
+
+  @media (hover: hover) {
+    .gallery-grid:hover > .gallery-cell > .gallery-tile {
+      filter: brightness(0.55) saturate(0.6);
+    }
+    .gallery-grid > .gallery-cell > .gallery-tile:hover {
+      filter: brightness(1) saturate(1.15);
+      z-index: 10;
+      clip-path: path("M 0 0 C 100 0 100 0 200 0 C 200 50 200 50 200 80 C 200 100 200 100 200 120 C 200 150 200 150 200 200 C 100 200 100 200 0 200 C 0 150 0 150 0 120 C 0 100 0 100 0 80 Z");
+    }
+  }
+
+  /* Touch / click activation — works on all devices */
+  .gallery-grid:has(.gallery-tile.is-active) > .gallery-cell > .gallery-tile {
+    filter: brightness(0.55) saturate(0.6);
+  }
+  .gallery-grid > .gallery-cell > .gallery-tile.is-active {
+    filter: brightness(1) saturate(1.15);
+    z-index: 10;
+    clip-path: path("M 0 0 C 100 0 100 0 200 0 C 200 50 200 50 200 80 C 200 100 200 100 200 120 C 200 150 200 150 200 200 C 100 200 100 200 0 200 C 0 150 0 150 0 120 C 0 100 0 100 0 80 Z");
+  }
+
+  /* Focus visible (keyboard) */
+  .gallery-tile:focus-visible {
+    outline: 2px solid var(--color-black);
+    outline-offset: 4px;
+    z-index: 11;
+  }
+
+  /* ── Large laptop (≤ 1366px) — slightly smaller cells ─────────────── */
+  @media (max-width: 1366px) {
+    .gallery-grid {
+      --cell: 130px;
+    }
+  }
+
+  /* ── Tablet (≤ 1024px) — 6 columns ────────────────────────────────── */
+  @media (max-width: 1024px) {
+    .gallery-grid {
+      --cell: 110px;
+      grid-template-columns: repeat(6, var(--cell));
+    }
+
+    /* Reset desktop offset, apply tablet-specific.
+       6-col grid: rows of 3 images, then 2 offset. Pattern: nth(5n+4). */
+    .gallery-cell:nth-child(7n+5) {
+      grid-column: span 2;
+    }
+    .gallery-cell:nth-child(5n+4) {
+      grid-column: 2 / span 2;
+    }
+  }
+
+  /* ── Small tablet (≤ 700px) — same 6 cols, smaller cells ─────────── */
+  @media (max-width: 700px) {
+    .gallery-grid {
+      --cell: 90px;
+    }
+  }
+
+  /* ── Mobile (≤ 540px) — 4 columns ────────────────────────────────── */
+  @media (max-width: 540px) {
+    .gallery {
+      padding: var(--space-lg) 0;
+    }
+
+    .gallery-inner {
+      padding: 0 var(--space-sm);
+    }
+
+    .gallery-headline {
+      font-size: var(--font-size-h3);
+    }
+
+    .gallery-grid {
+      --cell: 80px;
+      grid-template-columns: repeat(4, var(--cell));
+    }
+
+    /* 4-col grid: rows of 2 images, then 1 offset. Pattern: nth(3n). */
+    .gallery-cell:nth-child(5n+4) {
+      grid-column: span 2;
+    }
+    .gallery-cell:nth-child(3n) {
+      grid-column: 2 / span 2;
+    }
+  }
+
+  /* ── Reduced motion ──────────────────────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .gallery-tile {
+      transition: filter 200ms ease !important;
+    }
+  }
+</style>

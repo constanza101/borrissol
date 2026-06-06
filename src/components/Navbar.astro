@@ -1,5 +1,5 @@
 ---
-import { getLangFromUrl, useTranslations, getLocalePath, getAlternatePath } from '../i18n/utils';
+import { getLangFromUrl, useTranslations, getAlternatePath } from '../i18n/utils';
 import { languages, type Lang } from '../i18n/ui';
 import { waHref } from '../config';
 
@@ -9,9 +9,11 @@ const altPaths = Object.fromEntries(
   (Object.keys(languages) as Lang[]).map(l => [l, getAlternatePath(Astro.url, l)])
 ) as Record<Lang, string>;
 
-// Internal pages respect current language prefix (ca is default = no prefix)
-const homePath  = lang === 'ca' ? '/' : `/${lang}/`;
-const pressPath = lang === 'ca' ? '/press' : `/${lang}/press`;
+// Internal pages respect current language prefix (ca is default = no prefix).
+// Site config has `trailingSlash: 'never'`, so non-default home is `/fr` not `/fr/`.
+const homePath    = lang === 'ca' ? '/' : `/${lang}`;
+const pressPath   = lang === 'ca' ? '/press' : `/${lang}/press`;
+const galleryPath = lang === 'ca' ? '/gallery' : `/${lang}/gallery`;
 
 // Anchors on the home page must be prefixed with the home path so they work
 // from non-home pages (e.g. /press, /blog). Browsers treat same-path+hash
@@ -23,6 +25,15 @@ const anchors = {
   about:     `${homePath}#about`,
   faq:       `${homePath}#faq`,
 };
+
+// Current-page detection for aria-current="page" on route-based links.
+// Astro.url.pathname does not include trailing slash, so we normalise.
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrentPage = (href: string) => {
+  const normalised = href.replace(/\/$/, '') || '/';
+  return currentPath === normalised;
+};
+const blogHref = '/blog';
 ---
 
 <header class="site-header">
@@ -40,9 +51,10 @@ const anchors = {
       <li><a href={anchors.workshops}>{t('nav.workshops')}</a></li>
       <li><a href={anchors.process}>{t('nav.process')}</a></li>
       <li><a href={anchors.about}>{t('nav.about')}</a></li>
-      <li><a href={pressPath}>{t('nav.press')}</a></li>
+      <li><a href={galleryPath} aria-current={isCurrentPage(galleryPath) ? 'page' : undefined}>{t('nav.gallery')}</a></li>
+      <li><a href={pressPath} aria-current={isCurrentPage(pressPath) ? 'page' : undefined}>{t('nav.press')}</a></li>
       <li><a href={anchors.faq}>FAQ</a></li>
-      <li><a href="/blog">Blog</a></li>
+      <li><a href={blogHref} aria-current={isCurrentPage(blogHref) ? 'page' : undefined}>Blog</a></li>
     </ul>
 
     <!-- Desktop language dropdown -->
@@ -110,9 +122,10 @@ const anchors = {
       <li><a href={anchors.workshops}>{t('nav.workshops')}</a></li>
       <li><a href={anchors.process}>{t('nav.process')}</a></li>
       <li><a href={anchors.about}>{t('nav.about')}</a></li>
-      <li><a href={pressPath}>{t('nav.press')}</a></li>
+      <li><a href={galleryPath} aria-current={isCurrentPage(galleryPath) ? 'page' : undefined}>{t('nav.gallery')}</a></li>
+      <li><a href={pressPath} aria-current={isCurrentPage(pressPath) ? 'page' : undefined}>{t('nav.press')}</a></li>
       <li><a href={anchors.faq}>FAQ</a></li>
-      <li><a href="/blog">Blog</a></li>
+      <li><a href={blogHref} aria-current={isCurrentPage(blogHref) ? 'page' : undefined}>Blog</a></li>
     </ul>
 
     <div class="nav-mobile-cta-wrap">
@@ -144,6 +157,26 @@ const anchors = {
 </header>
 
 <script is:inline>
+  // Preserve URL hash when switching language. The hash is purely client-side
+  // (never reaches the server), so getAlternatePath cannot include it.
+  // Selector covers desktop dropdown (.nav-lang-option) and mobile inline +
+  // mobile menu (.nav-lang-link). We append window.location.hash to the href
+  // at click time so the user stays on the same anchor after navigating.
+  (function () {
+    document.querySelectorAll('.nav-lang-option, .nav-lang-link').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        var hash = window.location.hash;
+        if (!hash) return;
+        var href = link.getAttribute('href');
+        if (!href) return;
+        // Avoid double-hash if the href already has one for some reason.
+        if (href.indexOf('#') !== -1) return;
+        e.preventDefault();
+        window.location.href = href + hash;
+      });
+    });
+  })();
+
   (function () {
     var btn  = document.getElementById('nav-hamburger');
     var menu = document.getElementById('mobile-menu');
@@ -254,6 +287,13 @@ const anchors = {
     transition: color var(--t-fast);
   }
   .nav-links a:hover { color: var(--color-muted); }
+
+  /* Current page indicator — medium weight to differentiate without
+     adding a visual marker that would clash with the minimalist DS. */
+  .nav-links a[aria-current="page"],
+  .nav-mobile-links a[aria-current="page"] {
+    font-weight: var(--font-weight-btn);
+  }
 
   /* ── Desktop language dropdown ── */
   .nav-lang-dropdown {

@@ -1,0 +1,51 @@
+---
+/**
+ * Dynamic gallery route — generates /es/gallery, /en/gallery, /fr/gallery
+ * statically from a single source. The default-locale (CA) URL `/gallery`
+ * is served by src/pages/gallery.astro.
+ *
+ * To add a new locale: add it to `languages` in src/i18n/ui.ts. No new
+ * file needed here — getStaticPaths picks it up.
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Gallery from '../../components/Gallery.astro';
+import Footer from '../../components/Footer.astro';
+import type { ImageMetadata } from 'astro';
+import { useTranslations } from '../../i18n/utils';
+import { languages, defaultLang, type Lang } from '../../i18n/ui';
+
+export async function getStaticPaths() {
+  return (Object.keys(languages) as Lang[])
+    .filter(l => l !== defaultLang)
+    .map(l => ({ params: { lang: l } }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+
+const galleryModules = import.meta.glob<{ default: ImageMetadata }>(
+  '../../assets/images/gallery/*.jpg',
+  { eager: true }
+);
+
+const altPrefix = t('gallery.image.alt');
+const images = Object.entries(galleryModules)
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([, module], i) => ({
+    src: module.default,
+    alt: `${altPrefix} ${i + 1}`,
+  }));
+---
+
+<Layout
+  title={t('page.gallery.title')}
+  description={t('page.gallery.description')}
+  ogType="website"
+>
+  <Navbar />
+  <main id="main-content" tabindex="-1">
+    <Gallery images={images} />
+  </main>
+  <Footer />
+</Layout>

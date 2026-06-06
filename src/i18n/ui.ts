@@ -16,6 +16,7 @@ export const ui = {
     'nav.workshops':  'Talleres',
     'nav.about':      'Nosotros',
     'nav.press':      'Prensa',
+    'nav.gallery':    'Galería',
     'nav.contact':    'Contacto',
     'nav.cta':        'Contacto',
 
@@ -39,6 +40,13 @@ export const ui = {
     'press.lavanguardia.caption': 'Sobre el programa Innoemprèn del TecnoCampus y los proyectos seleccionados, entre ellos Borrissol Espai Creatiu.',
     'press.matarotv.label':       'MataróTV · Art i Part',
     'press.matarotv.caption':     'Entrevista a Belén Vilanova en el programa Art i Part. Borrissol Espai Creatiu, las técnicas textiles y el espacio creativo de Mataró.',
+
+    // ── Galería ──────────────────────────────────────────────────────────
+    'gallery.eyebrow':         'Galería',
+    'gallery.headline':        'Talleres en imágenes',
+    'gallery.image.alt':       'Borrissol Espai Creatiu — Foto del taller',
+    'page.gallery.title':      'Galería',
+    'page.gallery.description': 'Galería de imágenes del taller Borrissol Espai Creatiu: tufting, punch needle, fieltro agujado, telar y creaciones textiles en Mataró, Barcelona.',
 
     // ── Qué ofrecemos — Block 1 ──────────────────────────────────────────
     'offer.eyebrow':          'Qué ofrecemos',
@@ -238,6 +246,7 @@ export const ui = {
     'nav.workshops':  'Workshops',
     'nav.about':      'About',
     'nav.press':      'Press',
+    'nav.gallery':    'Gallery',
     'nav.contact':    'Contact',
     'nav.cta':        'Contact',
 
@@ -261,6 +270,13 @@ export const ui = {
     'press.lavanguardia.caption': 'On the TecnoCampus Innoemprèn program and the selected projects, including Borrissol Espai Creatiu.',
     'press.matarotv.label':       'MataróTV · Art i Part',
     'press.matarotv.caption':     'Interview with Belén Vilanova on the Art i Part program. Borrissol Espai Creatiu, textile techniques and the creative space in Mataró.',
+
+    // ── Gallery ──────────────────────────────────────────────────────────
+    'gallery.eyebrow':         'Gallery',
+    'gallery.headline':        'Workshops in pictures',
+    'gallery.image.alt':       'Borrissol Espai Creatiu — Workshop photo',
+    'page.gallery.title':      'Gallery',
+    'page.gallery.description': 'Photo gallery of Borrissol Espai Creatiu: tufting, punch needle, needle felting, weaving and textile creations in Mataró, Barcelona.',
 
     // ── What we offer — Block 1 ──────────────────────────────────────────
     'offer.eyebrow':          'What we offer',
@@ -460,6 +476,7 @@ export const ui = {
     'nav.workshops':  'Tallers',
     'nav.about':      'Nosaltres',
     'nav.press':      'Premsa',
+    'nav.gallery':    'Galeria',
     'nav.contact':    'Contacte',
     'nav.cta':        'Contacte',
 
@@ -483,6 +500,13 @@ export const ui = {
     'press.lavanguardia.caption': 'Sobre el programa Innoemprèn del TecnoCampus i els projectes seleccionats, entre ells Borrissol Espai Creatiu.',
     'press.matarotv.label':       'MataróTV · Art i Part',
     'press.matarotv.caption':     "Entrevista a Belén Vilanova al programa Art i Part. Borrissol Espai Creatiu, les tècniques tèxtils i l'espai creatiu de Mataró.",
+
+    // ── Galeria ──────────────────────────────────────────────────────────
+    'gallery.eyebrow':         'Galeria',
+    'gallery.headline':        'Tallers en imatges',
+    'gallery.image.alt':       'Borrissol Espai Creatiu — Foto del taller',
+    'page.gallery.title':      'Galeria',
+    'page.gallery.description': "Galeria d'imatges del taller Borrissol Espai Creatiu: tufting, punch needle, feltre agullat, teler i creacions tèxtils a Mataró, Barcelona.",
 
     // ── Què oferim — Bloc 1 ──────────────────────────────────────────────
     'offer.eyebrow':          'Què oferim',
@@ -682,6 +706,7 @@ export const ui = {
     'nav.workshops':  'Ateliers',
     'nav.about':      'À propos',
     'nav.press':      'Presse',
+    'nav.gallery':    'Galerie',
     'nav.contact':    'Contact',
     'nav.cta':        'Contact',
 
@@ -705,6 +730,13 @@ export const ui = {
     'press.lavanguardia.caption': "Sur le programme Innoemprèn de TecnoCampus et les projets sélectionnés, dont Borrissol Espai Creatiu.",
     'press.matarotv.label':       'MataróTV · Art i Part',
     'press.matarotv.caption':     "Entretien avec Belén Vilanova dans l'émission Art i Part. Borrissol Espai Creatiu, les techniques textiles et l'espace créatif de Mataró.",
+
+    // ── Galerie ──────────────────────────────────────────────────────────
+    'gallery.eyebrow':         'Galerie',
+    'gallery.headline':        'Ateliers en images',
+    'gallery.image.alt':       "Borrissol Espai Creatiu — Photo de l'atelier",
+    'page.gallery.title':      'Galerie',
+    'page.gallery.description': "Galerie photo de l'atelier Borrissol Espai Creatiu : tufting, punch needle, feutrage à l'aiguille, tissage et créations textiles à Mataró, Barcelone.",
 
     // ── Ce que nous offrons — Bloc 1 ─────────────────────────────────────
     'offer.eyebrow':          'Ce que nous offrons',

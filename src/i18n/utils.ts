@@ -1,5 +1,8 @@
 import { ui, defaultLang, languages, type Lang } from './ui';
 
+/**
+ * BCP47 locale codes for OpenGraph and HTML lang. Maps short code → full code.
+ */
 export const localeMap: Record<Lang, string> = {
   es: 'es_ES',
   en: 'en_US',
@@ -7,19 +10,22 @@ export const localeMap: Record<Lang, string> = {
   fr: 'fr_FR',
 };
 
-// Slug pairs for every page — add a row here when creating a new page.
-const pageRoutes: Record<string, Record<Lang, string>> = {
-  home:     { ca: '/',          en: '/en',           es: '/es',           fr: '/fr' },
-  services: { ca: '/serveis',   en: '/en/services',  es: '/es/servicios', fr: '/fr/services' },
-  contact:  { ca: '/contacte',  en: '/en/contact',   es: '/es/contacto',  fr: '/fr/contact' },
-};
-
+/**
+ * Detects the locale from the URL prefix. Default locale (no prefix) → defaultLang.
+ *
+ * Used in pages and components that need the current language without depending
+ * on Astro.currentLocale (which is only available inside .astro files).
+ */
 export function getLangFromUrl(url: URL): Lang {
   const [, first] = url.pathname.split('/');
   if (first && first in languages) return first as Lang;
   return defaultLang;
 }
 
+/**
+ * Returns a translation function bound to a specific locale. Falls back to the
+ * default locale's value if the key is missing, then to the key itself.
+ */
 export function useTranslations(lang: Lang) {
   return function t(key: keyof typeof ui[typeof defaultLang]): string {
     const translations = ui[lang] as Record<string, string>;
@@ -27,20 +33,38 @@ export function useTranslations(lang: Lang) {
   };
 }
 
-/** Returns the path for a named page in the given locale. */
-export function getLocalePath(lang: Lang, page: keyof typeof pageRoutes): string {
-  return pageRoutes[page][lang];
-}
-
-/** Returns the alternate-language path for the current URL. */
+/**
+ * Returns the equivalent URL for the current page in a different locale.
+ * Works for ANY page (home, gallery, press, blog, future routes) because it
+ * does a URL-prefix swap instead of relying on a lookup table.
+ *
+ * Examples (with defaultLang = 'ca'):
+ *   /                  + 'es' → '/es'
+ *   /gallery           + 'es' → '/es/gallery'
+ *   /es/gallery        + 'en' → '/en/gallery'
+ *   /es/gallery        + 'ca' → '/gallery'
+ *   /blog/some-post    + 'es' → '/es/blog/some-post'  (redirected to /blog by config)
+ */
 export function getAlternatePath(url: URL, targetLang: Lang): string {
-  const pathname = url.pathname.replace(/\/$/, '') || '/';
   const currentLang = getLangFromUrl(url);
+  let pathname = url.pathname;
 
-  for (const routes of Object.values(pageRoutes)) {
-    const current = routes[currentLang].replace(/\/$/, '') || '/';
-    if (current === pathname) return routes[targetLang];
+  // Strip the current language prefix when not the default locale.
+  if (currentLang !== defaultLang) {
+    pathname = pathname.replace(new RegExp(`^/${currentLang}(?=/|$)`), '');
   }
 
-  return pageRoutes.home[targetLang];
+  // Compute the target pathname (default-locale form, then prefixed if needed).
+  let target: string;
+  if (targetLang === defaultLang) {
+    target = pathname || '/';
+  } else if (pathname === '' || pathname === '/') {
+    target = `/${targetLang}`;
+  } else {
+    target = `/${targetLang}${pathname}`;
+  }
+
+  // Preserve query string and hash so the user stays on the same logical
+  // location after switching language (e.g. /#about → /es#about).
+  return target + url.search + url.hash;
 }
