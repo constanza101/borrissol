@@ -37,6 +37,21 @@ export default defineConfig({
 
   integrations: [
     sitemap({
+      // Emit hreflang cross-references between language variants of each page
+      // (rel="alternate" entries inside the sitemap XML). Reinforces the
+      // hreflang signal that Seo.astro already adds to each page's <head>.
+      // Keys must match the locale codes in `i18n.locales` above.
+      i18n: {
+        defaultLocale: 'ca',
+        locales: {
+          ca: 'ca-ES',
+          es: 'es-ES',
+          en: 'en-US',
+          fr: 'fr-FR',
+        },
+      },
+      // Defensive filter: /ca URLs no longer exist after the [lang] refactor,
+      // but keep this in case a stray /ca route reappears in the future.
       filter: (page) => !page.includes('/ca'),
     }),
     react(),
