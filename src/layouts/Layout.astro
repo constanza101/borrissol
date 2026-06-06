@@ -37,8 +37,13 @@ const seoProps = Astro.props;
     <link rel="dns-prefetch" href="https://www.youtube.com" />
     <link rel="dns-prefetch" href="https://maps.googleapis.com" />
 
-    <!-- Favicons -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3" />
+    <!-- Favicons — full set for browser tabs, iOS, Android, PWA, Google search -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=4" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#ff058b" />
 
     <!-- All SEO, OG, Twitter Card and JSON-LD -->
     <Seo {...seoProps} />
