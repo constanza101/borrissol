@@ -11,6 +11,8 @@ import grupo2 from '../assets/images/grupo2.jpg';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+// Localized path to the dedicated Team Building landing (ca is default = no prefix).
+const teamBuildingPath = lang === 'ca' ? '/team-building' : `/${lang}/team-building`;
 const tuftingRows = [
   {
     name: 'Pelusa',
@@ -176,7 +178,10 @@ const tuftingRows = [
             <h4 class="ws-name">{t('ws.teambuilding.name')}</h4>
             <p class="ws-desc">{t('ws.teambuilding.desc')}</p>
             <p class="ws-details">{t('ws.teambuilding.details')}</p>
-            <a href={waHref(t('wa.ws.teambuilding'))} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
+            <div class="ws-card-footer">
+              <a href={waHref(t('wa.ws.teambuilding'))} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
+              <a href={teamBuildingPath} class="ws-learnmore">{t('ws.learnmore')} <span class="ws-learnmore-arrow" aria-hidden="true">&rarr;</span></a>
+            </div>
           </div>
         </div>
 
@@ -484,6 +489,39 @@ const tuftingRows = [
     margin-top: auto;
     border-radius: var(--radius-sharp);
     font-size: var(--font-size-ui);
+  }
+
+  /* Footer row: Consultar button (left) + "Saber más →" link (right).
+     Used only on the Team Building card, which links to its dedicated landing. */
+  .ws-card-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+  }
+
+  .ws-card-footer .ws-cta {
+    margin-top: 0;
+  }
+
+  .ws-learnmore {
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-btn);
+    letter-spacing: var(--letter-spacing-btn);
+    text-transform: uppercase;
+    color: var(--color-black);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .ws-learnmore:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .ws-learnmore-arrow {
+    padding-right: var(--space-xs);
   }
 
   /* Featured: Summer Textile Lab — horizontal card */
