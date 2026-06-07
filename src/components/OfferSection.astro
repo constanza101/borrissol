@@ -9,15 +9,16 @@ import imgLoom       from '../assets/images/offer-loom.jpg';
 const lang = getLangFromUrl(Astro.url);
 const t    = useTranslations(lang);
 
-// Localized path to the dedicated needle-felting landing (ca = no prefix).
+// Localized paths to dedicated technique landings (ca = no prefix).
 const feltingPath = lang === 'ca' ? '/felting' : `/${lang}/felting`;
+const punchPath   = lang === 'ca' ? '/punch-needle' : `/${lang}/punch-needle`;
 
 // `href` is optional: techniques with a dedicated landing get a "learn more"
-// link. Add more as their landings ship (punch needle, loom, …).
+// link. Add more as their landings ship (loom, …).
 const techniques = [
   { name: t('offer.tufting.name'),    desc: t('offer.tufting.desc'),    img: imgTufting,     width: 2904, height: 2150, alt: 'Persona trabajando con pistola de tufting en el taller Borrissol, Mataró' },
   { name: t('offer.embroidery.name'), desc: t('offer.embroidery.desc'), img: imgFelting,     width: 3024, height: 3024, alt: 'Figuras de animales creadas con técnica de fieltro agujado', href: feltingPath },
-  { name: t('offer.punch.name'),      desc: t('offer.punch.desc'),      img: imgPunchNeedle, width: 4032, height: 3024, alt: 'Tote bag con diseño colorido hecho con técnica punch needle' },
+  { name: t('offer.punch.name'),      desc: t('offer.punch.desc'),      img: imgPunchNeedle, width: 4032, height: 3024, alt: 'Tote bag con diseño colorido hecho con técnica punch needle', href: punchPath },
   { name: t('offer.loom.name'),       desc: t('offer.loom.desc'),       img: imgLoom,        width: 3024, height: 3024, alt: 'Manos tejiendo en un telar con hilos de colores' },
 ];
 ---
@@ -115,6 +116,8 @@ const techniques = [
     border-radius: var(--radius-xs);
     overflow: hidden;
     background: var(--color-white);
+    display: flex;
+    flex-direction: column;
   }
 
   /* ── Image ── */
@@ -138,6 +141,9 @@ const techniques = [
   /* ── Text body ── */
   .technique-body {
     padding: var(--space-sm) var(--space-md) var(--space-md);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
   }
 
   .technique-name {
@@ -159,8 +165,11 @@ const techniques = [
   }
 
   .technique-link {
-    display: inline-block;
-    margin-top: var(--space-sm);
+    align-self: flex-start;
+    /* Push the link to the bottom of the card so links align across the row,
+       regardless of how long each description is. */
+    margin-top: auto;
+    padding-top: var(--space-md);
     font-size: var(--font-size-ui);
     font-weight: var(--font-weight-btn);
     letter-spacing: var(--letter-spacing-btn);

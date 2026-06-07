@@ -1,0 +1,409 @@
+---
+/**
+ * Punch needle (aguja mágica) landing — informational page targeting the
+ * "taller punch needle Barcelona" search intent. Explains the technique, shows
+ * it in action (TikTok clips) and funnels to where it is practised: the Borla
+ * monthly workshop (internal link) and WhatsApp.
+ *
+ * All copy comes from the i18n catalog (pn.* keys). Typography uses the .text-*
+ * utility classes (Hard Rule #15); scoped CSS holds layout only. TikTok clips
+ * are embedded as lazy <iframe>s (matching the press YouTube pattern) instead
+ * of the heavy TikTok embed.js script.
+ */
+import { Picture } from 'astro:assets';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { waHref } from '../config';
+import heroImg from '../assets/images/offer-punch-needle.jpg';
+import createImg from '../assets/images/tote-bag-punch-needle.jpg';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const ctaHref = waHref(t('wa.pn.landing'));
+// Internal funnel: punch needle is practised at the Borla monthly workshop.
+const borlaPath = lang === 'ca' ? '/borla' : `/${lang}/borla`;
+
+// TikTok clips embedded as lazy iframes (no embed.js). Add the third clip's id
+// here when available.
+const videos = [
+  { id: '7648242988929322262', caption: t('pn.video.1.caption') },
+  { id: '7645740574317743362', caption: t('pn.video.2.caption') },
+];
+
+const benefits = [1, 2, 3].map(n => ({
+  title: t(`pn.benefit.${n}.title` as any),
+  desc:  t(`pn.benefit.${n}.desc` as any),
+}));
+
+const faqs = [1, 2, 3].map(n => ({
+  q: t(`pn.faq.q${n}` as any),
+  a: t(`pn.faq.a${n}` as any),
+}));
+---
+
+<article class="pn">
+
+  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
+  <section class="pn-hero" aria-labelledby="pn-hero-heading">
+    <div class="pn-hero-text">
+      <span class="text-ui text-muted">{t('pn.eyebrow')}</span>
+      <h1 id="pn-hero-heading" class="text-h1 pn-headline">{t('pn.headline')}</h1>
+      <p class="text-p1 text-muted pn-lead">{t('pn.lead')}</p>
+      <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('pn.cta')}</a>
+    </div>
+    <div class="pn-hero-img-wrap">
+      <Picture
+        src={heroImg}
+        widths={[480, 768, 1000]}
+        sizes="(max-width: 900px) 100vw, 50vw"
+        formats={['avif', 'webp']}
+        alt="Primer plano de un bordado de punch needle (aguja mágica) hecho en el taller Borrissol, Mataró"
+        width={4032}
+        height={3024}
+        class="pn-hero-img"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+  </section>
+
+  <!-- ── What is it ───────────────────────────────────────────────────── -->
+  <section class="pn-section pn-text" aria-labelledby="pn-what-heading">
+    <h2 id="pn-what-heading" class="text-h2 pn-h2">{t('pn.what.title')}</h2>
+    <p class="text-p2 pn-body">{t('pn.what.body')}</p>
+  </section>
+
+  <!-- ── What you can create (text + image) ───────────────────────────── -->
+  <section class="pn-section pn-create" aria-labelledby="pn-create-heading">
+    <div class="pn-create-layout">
+      <div class="pn-create-text">
+        <h2 id="pn-create-heading" class="text-h2 pn-h2">{t('pn.create.title')}</h2>
+        <p class="text-p2 pn-body">{t('pn.create.body')}</p>
+      </div>
+      <div class="pn-create-img-wrap">
+        <Picture
+          src={createImg}
+          widths={[400, 600, 800]}
+          sizes="(max-width: 900px) 100vw, 35vw"
+          formats={['avif', 'webp']}
+          alt="Tote bag bordada con la técnica de punch needle en Borrissol, Mataró"
+          width={1050}
+          height={1400}
+          class="pn-create-img"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Videos (technique in action) ─────────────────────────────────── -->
+  <section class="pn-section pn-videos" aria-labelledby="pn-videos-heading">
+    <h2 id="pn-videos-heading" class="text-h2 pn-h2">{t('pn.videos.title')}</h2>
+    <p class="text-p2 text-muted pn-body pn-videos-intro">{t('pn.videos.intro')}</p>
+    <div class="pn-videos-grid">
+      {videos.map(v => (
+        <figure class="pn-video">
+          <div class="pn-video-wrap">
+            <iframe
+              src={`https://www.tiktok.com/embed/v2/${v.id}`}
+              title={v.caption}
+              loading="lazy"
+              allow="encrypted-media; fullscreen"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <figcaption class="text-p3 text-muted pn-video-caption">{v.caption}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── Why / benefits ───────────────────────────────────────────────── -->
+  <section class="pn-section pn-why" aria-labelledby="pn-why-heading">
+    <h2 id="pn-why-heading" class="text-h2 pn-h2">{t('pn.why.title')}</h2>
+    <div class="pn-benefits-grid">
+      {benefits.map(b => (
+        <div class="pn-benefit-card">
+          <h3 class="text-h4 pn-benefit-title">{b.title}</h3>
+          <p class="text-p2 text-muted pn-benefit-desc">{b.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── Where to practise (funnel to Borla) ──────────────────────────── -->
+  <section class="pn-section pn-practice" aria-labelledby="pn-practice-heading">
+    <h2 id="pn-practice-heading" class="text-h2 pn-h2">{t('pn.practice.title')}</h2>
+    <p class="text-p2 pn-body">{t('pn.practice.body')}</p>
+    <a href={borlaPath} class="btn btn-secondary pn-practice-cta">{t('pn.practice.cta')}</a>
+  </section>
+
+  <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
+  <section class="pn-section pn-faq" aria-labelledby="pn-faq-heading">
+    <h2 id="pn-faq-heading" class="text-h2 pn-h2">{t('pn.faq.title')}</h2>
+    <div class="pn-faq-list">
+      {faqs.map(f => (
+        <div class="pn-faq-item">
+          <h3 class="text-h4 pn-faq-q">{f.q}</h3>
+          <p class="text-p2 text-muted pn-faq-a">{f.a}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── Final CTA ────────────────────────────────────────────────────── -->
+  <section class="pn-section pn-final" aria-labelledby="pn-final-heading">
+    <h2 id="pn-final-heading" class="text-h2 pn-final-title">{t('pn.final.title')}</h2>
+    <p class="text-p1 text-muted pn-final-body">{t('pn.final.body')}</p>
+    <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('pn.final.cta')}</a>
+  </section>
+
+</article>
+
+<style>
+  .pn {
+    background: var(--color-white);
+  }
+
+  /* ── Shared section ───────────────────────────────────────────────── */
+  .pn-section {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: var(--space-xl) var(--layout-page-padding-h);
+  }
+
+  /* Typography from .text-* utilities; scoped rules below are layout only. */
+  .pn-h2 {
+    margin: 0 0 var(--space-md);
+  }
+
+  .pn-body {
+    margin: 0;
+    max-width: 720px;
+  }
+
+  .pn-text {
+    padding-top: var(--space-lg);
+    padding-bottom: var(--space-lg);
+  }
+
+  /* ── Hero ─────────────────────────────────────────────────────────── */
+  .pn-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: var(--space-xl) var(--layout-page-padding-h);
+    padding-top: calc(var(--space-xl) + 60px);
+  }
+
+  .pn-hero-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .pn-headline {
+    margin: 0;
+  }
+
+  .pn-lead {
+    margin: 0;
+  }
+
+  .pn-hero-img-wrap {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+  }
+
+  .pn-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── What you can create ──────────────────────────────────────────── */
+  .pn-create-layout {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+  }
+
+  .pn-create-img-wrap {
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+  }
+
+  .pn-create-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── Videos ───────────────────────────────────────────────────────── */
+  .pn-videos {
+    background: var(--bg-section);
+    max-width: none;
+  }
+
+  .pn-videos > .pn-h2,
+  .pn-videos > .pn-videos-intro,
+  .pn-videos-grid {
+    max-width: var(--layout-max-width);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .pn-videos-intro {
+    margin-bottom: var(--space-lg);
+  }
+
+  .pn-videos-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-lg);
+    justify-content: center;
+  }
+
+  .pn-video {
+    margin: 0;
+    flex: 0 1 325px;
+    max-width: 360px;
+  }
+
+  /* TikTok clips are vertical; the embed needs room for the post chrome. */
+  .pn-video-wrap {
+    aspect-ratio: 9 / 16;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-light);
+    border: var(--border-default);
+  }
+
+  .pn-video-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+
+  .pn-video-caption {
+    margin: var(--space-sm) 0 0;
+  }
+
+  /* ── Why / benefits ───────────────────────────────────────────────── */
+  .pn-benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+  }
+
+  .pn-benefit-card {
+    background: var(--color-white);
+    border: var(--border-default);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+  }
+
+  .pn-benefit-title {
+    margin: 0 0 var(--space-xs);
+  }
+
+  .pn-benefit-desc {
+    margin: 0;
+  }
+
+  /* ── Practice (funnel to Borla) ───────────────────────────────────── */
+  .pn-practice {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .pn-practice .pn-h2 {
+    margin-bottom: 0;
+  }
+
+  .pn-practice-cta {
+    margin-top: var(--space-xs);
+  }
+
+  /* ── FAQ ──────────────────────────────────────────────────────────── */
+  .pn-faq {
+    background: var(--bg-section);
+    max-width: none;
+  }
+
+  .pn-faq > .pn-h2,
+  .pn-faq-list {
+    max-width: var(--layout-max-width);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .pn-faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .pn-faq-item {
+    background: var(--color-white);
+    border: var(--border-default);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+  }
+
+  .pn-faq-q {
+    margin: 0 0 var(--space-xs);
+  }
+
+  .pn-faq-a {
+    margin: 0;
+  }
+
+  /* ── Final CTA ────────────────────────────────────────────────────── */
+  .pn-final {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    border-top: var(--border-default);
+  }
+
+  .pn-final-title {
+    margin: 0;
+  }
+
+  .pn-final-body {
+    margin: 0;
+    max-width: 560px;
+  }
+
+  /* ── Responsive ───────────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .pn-hero {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+
+    .pn-create-layout {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+
+    .pn-benefits-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
