@@ -77,6 +77,24 @@ const seoProps = Astro.props;
     <slot />
     <WhatsAppFab />
     <CookieBanner />
+    <!-- WhatsApp conversion tracking — every CTA on the site is a wa.me link.
+         A single delegated listener fires a GA4 event on click so organic
+         reservations become measurable (which page/section drives contacts).
+         Respects Consent Mode: gtag queues the event and only sends it with
+         the user's analytics consent state. -->
+    <script is:inline>
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest('a[href*="wa.me"]');
+        if (!link) return;
+        if (typeof gtag !== 'function') return;
+        var section = link.closest('[id]');
+        gtag('event', 'whatsapp_click', {
+          event_category: 'engagement',
+          page_path: location.pathname,
+          link_location: section ? section.id : 'unknown',
+        });
+      });
+    </script>
     <!-- Scroll reveal — IntersectionObserver, fires once, respects prefers-reduced-motion -->
     <script is:inline>
       (function () {

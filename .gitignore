@@ -25,3 +25,9 @@ pnpm-debug.log*
 
 # Local Netlify folder
 .netlify
+
+# Temporary working files (SEO audit report — not part of the site)
+audit-report.html
+
+# Internal SEO action plan — working doc, not for publication
+SEO-ACTION-PLAN.md

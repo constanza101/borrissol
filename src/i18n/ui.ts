@@ -44,7 +44,7 @@ export const ui = {
     // ── Galería ──────────────────────────────────────────────────────────
     'gallery.eyebrow':         'Galería',
     'gallery.headline':        'Talleres en imágenes',
-    'gallery.image.alt':       'Borrissol Espai Creatiu — Foto del taller',
+    'gallery.image.alt':       'Taller de tufting y técnicas textiles en Borrissol Espai Creatiu, Mataró',
     'page.gallery.title':      'Galería',
     'page.gallery.description': 'Galería de imágenes del taller Borrissol Espai Creatiu: tufting, punch needle, fieltro agujado, telar y creaciones textiles en Mataró, Barcelona.',
 
@@ -274,7 +274,7 @@ export const ui = {
     // ── Gallery ──────────────────────────────────────────────────────────
     'gallery.eyebrow':         'Gallery',
     'gallery.headline':        'Workshops in pictures',
-    'gallery.image.alt':       'Borrissol Espai Creatiu — Workshop photo',
+    'gallery.image.alt':       'Tufting and textile techniques workshop at Borrissol Espai Creatiu, Mataró',
     'page.gallery.title':      'Gallery',
     'page.gallery.description': 'Photo gallery of Borrissol Espai Creatiu: tufting, punch needle, needle felting, weaving and textile creations in Mataró, Barcelona.',
 
@@ -504,7 +504,7 @@ export const ui = {
     // ── Galeria ──────────────────────────────────────────────────────────
     'gallery.eyebrow':         'Galeria',
     'gallery.headline':        'Tallers en imatges',
-    'gallery.image.alt':       'Borrissol Espai Creatiu — Foto del taller',
+    'gallery.image.alt':       'Taller de tufting i tècniques tèxtils a Borrissol Espai Creatiu, Mataró',
     'page.gallery.title':      'Galeria',
     'page.gallery.description': "Galeria d'imatges del taller Borrissol Espai Creatiu: tufting, punch needle, feltre agullat, teler i creacions tèxtils a Mataró, Barcelona.",
 
@@ -734,7 +734,7 @@ export const ui = {
     // ── Galerie ──────────────────────────────────────────────────────────
     'gallery.eyebrow':         'Galerie',
     'gallery.headline':        'Ateliers en images',
-    'gallery.image.alt':       "Borrissol Espai Creatiu — Photo de l'atelier",
+    'gallery.image.alt':       "Atelier de tufting et techniques textiles chez Borrissol Espai Creatiu, Mataró",
     'page.gallery.title':      'Galerie',
     'page.gallery.description': "Galerie photo de l'atelier Borrissol Espai Creatiu : tufting, punch needle, feutrage à l'aiguille, tissage et créations textiles à Mataró, Barcelone.",
 
