@@ -1,0 +1,385 @@
+---
+/**
+ * Borla landing — dedicated, indexable page for the monthly textile workshop.
+ * All copy comes from the i18n catalog (borla.* keys + reused offer.*.name for
+ * technique titles); this component is language-agnostic and is reused by the
+ * CA root route (/borla) and the [lang] route.
+ *
+ * Typography uses the .text-* utility classes (Hard Rule #15); scoped CSS holds
+ * layout only. Includes a Course JSON-LD node (price is "on request", so no
+ * offer price is asserted).
+ */
+import { Picture } from 'astro:assets';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { SITE } from '../config/site';
+import { waHref } from '../config';
+import heroImg from '../assets/images/grupal.png';
+import imgFelting from '../assets/images/offer-felting.jpg';
+import imgPunch from '../assets/images/offer-punch-needle.jpg';
+import imgLoom from '../assets/images/offer-loom.jpg';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const ctaHref = waHref(t('wa.borla.landing'));
+
+// Technique names reuse the existing offer.* catalog (single source of truth);
+// descriptions are Borla-specific (borla.*.desc).
+const techniques = [
+  { name: t('offer.embroidery.name'), desc: t('borla.felting.desc'), img: imgFelting, width: 3024, height: 3024, alt: 'Figuras de fieltro agujado creadas en el taller Borrissol, Mataró' },
+  { name: t('offer.punch.name'),      desc: t('borla.punch.desc'),   img: imgPunch,   width: 4032, height: 3024, alt: 'Diseño de punch needle con lana sobre tela en el taller Borrissol, Mataró' },
+  { name: t('offer.loom.name'),       desc: t('borla.loom.desc'),    img: imgLoom,    width: 3024, height: 3024, alt: 'Tejido en telar artesanal con hilos de colores en el taller Borrissol, Mataró' },
+];
+
+const details = [
+  { label: t('borla.details.format.label'),     value: t('borla.details.format.value') },
+  { label: t('borla.details.price.label'),      value: t('borla.details.price.value') },
+  { label: t('borla.details.materials.label'),  value: t('borla.details.materials.value') },
+  { label: t('borla.details.techniques.label'), value: t('borla.details.techniques.value') },
+  { label: t('borla.details.location.label'),   value: t('borla.details.location.value') },
+];
+
+const faqs = [1, 2, 3].map(n => ({
+  q: t(`borla.faq.q${n}` as any),
+  a: t(`borla.faq.a${n}` as any),
+}));
+
+// ── Course schema (no price asserted — it is "on request") ──────────────────
+const origin = (Astro.site ?? Astro.url).origin;
+const courseSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  name: t('borla.headline'),
+  description: t('page.borla.description'),
+  url: new URL(Astro.url.pathname, origin).href,
+  provider: {
+    '@type': 'Organization',
+    name: SITE.business.name,
+    url: `${origin}/`,
+  },
+  hasCourseInstance: {
+    '@type': 'CourseInstance',
+    courseMode: 'Onsite',
+    courseWorkload: 'P2H',
+    location: {
+      '@type': 'Place',
+      name: SITE.business.name,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: SITE.business.address.streetAddress,
+        addressLocality: SITE.business.address.addressLocality,
+        postalCode: SITE.business.address.postalCode,
+        addressCountry: SITE.business.address.addressCountry,
+      },
+    },
+  },
+};
+---
+
+<article class="borla">
+
+  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
+  <section class="borla-hero" aria-labelledby="borla-hero-heading">
+    <div class="borla-hero-text">
+      <span class="text-ui text-muted">{t('borla.eyebrow')}</span>
+      <h1 id="borla-hero-heading" class="text-h1 borla-headline">{t('borla.headline')}</h1>
+      <p class="text-p1 text-muted borla-lead">{t('borla.lead')}</p>
+      <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('borla.cta')}</a>
+    </div>
+    <div class="borla-hero-img-wrap">
+      <Picture
+        src={heroImg}
+        widths={[480, 768, 894]}
+        sizes="(max-width: 900px) 100vw, 50vw"
+        formats={['avif', 'webp']}
+        alt="Grupo creando técnicas textiles en el taller mensual Borla de Borrissol, Mataró"
+        width={894}
+        height={644}
+        class="borla-hero-img"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+  </section>
+
+  <!-- ── Intro ────────────────────────────────────────────────────────── -->
+  <section class="borla-section borla-intro" aria-labelledby="borla-intro-heading">
+    <h2 id="borla-intro-heading" class="text-h2 borla-h2">{t('borla.intro.title')}</h2>
+    <p class="text-p2 borla-body">{t('borla.intro.body')}</p>
+    <p class="text-p2 text-muted borla-body borla-body-note">{t('borla.materials.note')}</p>
+  </section>
+
+  <!-- ── Techniques ───────────────────────────────────────────────────── -->
+  <section class="borla-section borla-tech" aria-labelledby="borla-tech-heading">
+    <h2 id="borla-tech-heading" class="text-h2 borla-h2">{t('borla.tech.title')}</h2>
+    <p class="text-p2 text-muted borla-body borla-tech-intro">{t('borla.tech.intro')}</p>
+    <div class="borla-tech-grid">
+      {techniques.map(tech => (
+        <article class="borla-tech-card">
+          <div class="borla-tech-img-wrap">
+            <Picture
+              src={tech.img}
+              widths={[400, 600, 800]}
+              sizes="(max-width: 767px) 100vw, 33vw"
+              formats={['avif', 'webp']}
+              alt={tech.alt}
+              width={tech.width}
+              height={tech.height}
+              class="borla-tech-img"
+              loading="lazy"
+            />
+          </div>
+          <div class="borla-tech-body">
+            <h3 class="text-h4 borla-tech-name">{tech.name}</h3>
+            <p class="text-p2 text-muted borla-tech-desc">{tech.desc}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── Details ──────────────────────────────────────────────────────── -->
+  <section class="borla-section borla-details" aria-labelledby="borla-details-heading">
+    <h2 id="borla-details-heading" class="text-h2 borla-h2">{t('borla.details.title')}</h2>
+    <dl class="borla-details-list">
+      {details.map(d => (
+        <div class="borla-details-row">
+          <dt class="text-ui text-muted">{d.label}</dt>
+          <dd class="text-p2 borla-details-value">{d.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
+  <section class="borla-section borla-faq" aria-labelledby="borla-faq-heading">
+    <h2 id="borla-faq-heading" class="text-h2 borla-h2">{t('borla.faq.title')}</h2>
+    <div class="borla-faq-list">
+      {faqs.map(f => (
+        <div class="borla-faq-item">
+          <h3 class="text-h4 borla-faq-q">{f.q}</h3>
+          <p class="text-p2 text-muted borla-faq-a">{f.a}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── Final CTA ────────────────────────────────────────────────────── -->
+  <section class="borla-section borla-final" aria-labelledby="borla-final-heading">
+    <h2 id="borla-final-heading" class="text-h2 borla-final-title">{t('borla.final.title')}</h2>
+    <p class="text-p1 text-muted borla-final-body">{t('borla.final.body')}</p>
+    <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('borla.final.cta')}</a>
+  </section>
+
+</article>
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(courseSchema)} />
+
+<style>
+  .borla {
+    background: var(--color-white);
+  }
+
+  /* ── Shared section ───────────────────────────────────────────────── */
+  .borla-section {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: var(--space-xl) var(--layout-page-padding-h);
+  }
+
+  /* Typography from .text-* utilities; scoped rules below are layout only. */
+  .borla-h2 {
+    margin: 0 0 var(--space-md);
+  }
+
+  .borla-body {
+    margin: 0;
+    max-width: 720px;
+  }
+
+  .borla-body-note {
+    margin-top: var(--space-md);
+  }
+
+  /* ── Hero ─────────────────────────────────────────────────────────── */
+  .borla-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: var(--space-xl) var(--layout-page-padding-h);
+    padding-top: calc(var(--space-xl) + 60px);
+  }
+
+  .borla-hero-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .borla-headline {
+    margin: 0;
+  }
+
+  .borla-lead {
+    margin: 0;
+  }
+
+  .borla-hero-img-wrap {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+  }
+
+  .borla-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── Techniques ───────────────────────────────────────────────────── */
+  .borla-tech {
+    background: var(--bg-section);
+    max-width: none;
+  }
+
+  .borla-tech > .borla-h2,
+  .borla-tech > .borla-tech-intro,
+  .borla-tech-grid {
+    max-width: var(--layout-max-width);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .borla-tech-intro {
+    margin-bottom: var(--space-lg);
+  }
+
+  .borla-tech-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+  }
+
+  .borla-tech-card {
+    background: var(--color-white);
+    border: var(--border-default);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .borla-tech-img-wrap {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+
+  .borla-tech-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .borla-tech-body {
+    padding: var(--space-lg);
+  }
+
+  .borla-tech-name {
+    margin: 0 0 var(--space-xs);
+  }
+
+  .borla-tech-desc {
+    margin: 0;
+  }
+
+  /* ── Details ──────────────────────────────────────────────────────── */
+  .borla-details-list {
+    margin: 0;
+    max-width: 720px;
+  }
+
+  .borla-details-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-md);
+    padding: var(--space-sm) 0;
+    border-bottom: var(--border-default);
+  }
+
+  .borla-details-value {
+    margin: 0;
+  }
+
+  /* ── FAQ ──────────────────────────────────────────────────────────── */
+  .borla-faq {
+    background: var(--bg-section);
+    max-width: none;
+  }
+
+  .borla-faq > .borla-h2,
+  .borla-faq-list {
+    max-width: var(--layout-max-width);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .borla-faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .borla-faq-item {
+    background: var(--color-white);
+    border: var(--border-default);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+  }
+
+  .borla-faq-q {
+    margin: 0 0 var(--space-xs);
+  }
+
+  .borla-faq-a {
+    margin: 0;
+  }
+
+  /* ── Final CTA ────────────────────────────────────────────────────── */
+  .borla-final {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    border-top: var(--border-default);
+  }
+
+  .borla-final-title {
+    margin: 0;
+  }
+
+  .borla-final-body {
+    margin: 0;
+    max-width: 560px;
+  }
+
+  /* ── Responsive ───────────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .borla-hero {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .borla-tech-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

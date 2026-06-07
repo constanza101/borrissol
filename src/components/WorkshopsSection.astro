@@ -11,8 +11,10 @@ import grupo2 from '../assets/images/grupo2.jpg';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-// Localized path to the dedicated Team Building landing (ca is default = no prefix).
+// Localized paths to the dedicated landings (ca is default = no prefix).
 const teamBuildingPath = lang === 'ca' ? '/team-building' : `/${lang}/team-building`;
+const borlaPath        = lang === 'ca' ? '/borla' : `/${lang}/borla`;
+const pelussetesPath   = lang === 'ca' ? '/pelussetes' : `/${lang}/pelussetes`;
 const tuftingRows = [
   {
     name: 'Pelusa',
@@ -136,7 +138,10 @@ const tuftingRows = [
             <h4 class="ws-name">{t('ws.group.name')}</h4>
             <p class="ws-desc">{t('ws.group.desc')}</p>
             <p class="ws-details">{t('ws.group.details')}</p>
-            <a href={waHref(t('wa.ws.group'))} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
+            <div class="ws-card-footer">
+              <a href={waHref(t('wa.ws.group'))} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
+              <a href={pelussetesPath} class="ws-learnmore">{t('ws.learnmore')} <span class="ws-learnmore-arrow" aria-hidden="true">&rarr;</span></a>
+            </div>
           </div>
         </div>
 
@@ -150,7 +155,10 @@ const tuftingRows = [
             <h4 class="ws-name">{t('ws.borla.name')}</h4>
             <p class="ws-desc">{t('ws.borla.desc')}</p>
             <p class="ws-details">{t('ws.borla.details')}</p>
-            <a href={waHref(t('wa.ws.borla'))} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
+            <div class="ws-card-footer">
+              <a href={waHref(t('wa.ws.borla'))} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
+              <a href={borlaPath} class="ws-learnmore">{t('ws.learnmore')} <span class="ws-learnmore-arrow" aria-hidden="true">&rarr;</span></a>
+            </div>
           </div>
         </div>
 
