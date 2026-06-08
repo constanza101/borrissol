@@ -1,11 +1,12 @@
 // Seasonal / time-limited offerings.
 //
-// A landing + its home card render only while the offering is upcoming or
-// running. They auto-hide on the first build AFTER `endDate` — the content is
-// never lost, so bumping the dates next year brings it back.
+// Controls whether the *promotional home card* for an offering is shown. The
+// landing page itself stays live year-round (so it keeps its search ranking);
+// only the card auto-hides on the first build AFTER `endDate`. Nothing is lost
+// — bump the dates next year to show the card again.
 //
 // Because the site is statically generated, visibility is evaluated at BUILD
-// time, not per request. So the page hides on the next deploy after `endDate`.
+// time, not per request. So the card hides on the next deploy after `endDate`.
 // To hide it ON the date without a manual deploy, schedule a Netlify rebuild
 // shortly after `endDate`.
 

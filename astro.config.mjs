@@ -5,11 +5,6 @@ import netlify from '@astrojs/netlify';
 import keystatic from '@keystatic/astro';
 import react from '@astrojs/react';
 import markdoc from '@astrojs/markdoc';
-import { isSummerLabVisible } from './src/config/seasonal.ts';
-
-// Evaluated at build time — keeps the seasonal Summer Lab out of the sitemap
-// once it has auto-hidden.
-const summerLabVisible = isSummerLabVisible();
 
 // https://astro.build/config
 export default defineConfig({
@@ -57,12 +52,7 @@ export default defineConfig({
       },
       // Defensive filter: /ca URLs no longer exist after the [lang] refactor,
       // but keep this in case a stray /ca route reappears in the future.
-      // Also drop the seasonal Summer Lab from the sitemap once it has hidden.
-      filter: (page) => {
-        if (page.includes('/ca')) return false;
-        if (!summerLabVisible && /\/summer-lab(\/|$)/.test(page)) return false;
-        return true;
-      },
+      filter: (page) => !page.includes('/ca'),
     }),
     react(),
     markdoc(),

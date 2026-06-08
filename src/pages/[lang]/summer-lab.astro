@@ -4,8 +4,8 @@
  * /en/summer-lab, /fr/summer-lab statically. The default-locale (CA) URL
  * `/summer-lab` is served by src/pages/summer-lab.astro.
  *
- * Seasonal: when the course is hidden (see src/config/seasonal.ts) getStaticPaths
- * returns no paths, so these localized URLs are not generated at all.
+ * The page is live year-round (keeps its ranking); only the promotional home
+ * card is seasonal (see src/config/seasonal.ts).
  */
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/Navbar.astro';
@@ -13,10 +13,8 @@ import SummerLabLanding from '../../components/SummerLabLanding.astro';
 import Footer from '../../components/Footer.astro';
 import { useTranslations } from '../../i18n/utils';
 import { languages, defaultLang, type Lang } from '../../i18n/ui';
-import { isSummerLabVisible } from '../../config/seasonal';
 
 export async function getStaticPaths() {
-  if (!isSummerLabVisible()) return [];
   return (Object.keys(languages) as Lang[])
     .filter(l => l !== defaultLang)
     .map(l => ({ params: { lang: l } }));
