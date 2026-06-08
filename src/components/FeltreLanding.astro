@@ -10,6 +10,7 @@
  */
 import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import FaqSchema from './FaqSchema.astro';
 import { waHref } from '../config';
 import heroImg from '../assets/images/offer-felting.jpg';
 
@@ -110,6 +111,8 @@ const faqs = [1, 2, 3].map(n => ({
   </section>
 
 </article>
+
+<FaqSchema faqs={faqs} />
 
 <style>
   .felt {

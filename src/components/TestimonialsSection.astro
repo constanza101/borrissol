@@ -1,5 +1,6 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { REVIEWS } from '../config/reviews';
 
 const lang = getLangFromUrl(Astro.url);
 const t    = useTranslations(lang);
@@ -13,20 +14,7 @@ const accentColors = [
   'var(--color-tufting-pro)',
 ];
 
-const reviews = [
-  { name: 'Marne M.',       text: t('testimonials.r1')  },
-  { name: 'Aza',            text: t('testimonials.r2')  },
-  { name: 'Marta L.',       text: t('testimonials.r3')  },
-  { name: 'Alba L.',        text: t('testimonials.r4')  },
-  { name: 'Veronica T.',    text: t('testimonials.r5')  },
-  { name: 'María Paula M.', text: t('testimonials.r6')  },
-  { name: 'Betsabeth O.',   text: t('testimonials.r7')  },
-  { name: 'Patricia B.',    text: t('testimonials.r8')  },
-  { name: 'Magí C.',        text: t('testimonials.r9')  },
-  { name: 'Sandra L.',      text: t('testimonials.r10') },
-  { name: 'Lluís J.',       text: t('testimonials.r11') },
-  { name: 'Gerard A.',      text: t('testimonials.r12') },
-];
+const reviews = REVIEWS.map(r => ({ name: r.name, text: t(r.key as any) }));
 ---
 
 <section id="testimonials" class="testimonials" aria-labelledby="testimonials-heading">

@@ -1,0 +1,27 @@
+---
+/**
+ * Emits FAQPage JSON-LD for a page's own FAQ. Pass the same questions/answers
+ * that are visible on the page so the structured data matches the content
+ * (Google requires FAQ rich-result data to be present on the page).
+ */
+interface FaqItem {
+  q: string;
+  a: string;
+}
+interface Props {
+  faqs: FaqItem[];
+}
+const { faqs } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+};
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />

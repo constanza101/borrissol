@@ -11,6 +11,7 @@
  */
 import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import FaqSchema from './FaqSchema.astro';
 import { SITE } from '../config/site';
 import { waHref } from '../config';
 import heroImg from '../assets/images/offer-tufting.jpg';
@@ -175,6 +176,8 @@ const courseSchema = {
   </section>
 
 </article>
+
+<FaqSchema faqs={faqs} />
 
 <script is:inline type="application/ld+json" set:html={JSON.stringify(courseSchema)} />
 
