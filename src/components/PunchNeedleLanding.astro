@@ -12,6 +12,7 @@
  */
 import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import FaqSchema from './FaqSchema.astro';
 import { waHref } from '../config';
 import heroImg from '../assets/images/offer-punch-needle.jpg';
 import createImg from '../assets/images/tote-bag-punch-needle.jpg';
@@ -28,6 +29,7 @@ const borlaPath = lang === 'ca' ? '/borla' : `/${lang}/borla`;
 const videos = [
   { id: '7648242988929322262', caption: t('pn.video.1.caption') },
   { id: '7645740574317743362', caption: t('pn.video.2.caption') },
+  { id: '7633469163104636182', caption: t('pn.video.3.caption') },
 ];
 
 const benefits = [1, 2, 3].map(n => ({
@@ -160,6 +162,8 @@ const faqs = [1, 2, 3].map(n => ({
 
 </article>
 
+<FaqSchema faqs={faqs} />
+
 <style>
   .pn {
     background: var(--color-white);
@@ -254,10 +258,12 @@ const faqs = [1, 2, 3].map(n => ({
     max-width: none;
   }
 
+  /* Widen this block beyond the layout width so the three vertical clips fit on
+     one row — it takes a bit from the side margins on purpose. */
   .pn-videos > .pn-h2,
   .pn-videos > .pn-videos-intro,
   .pn-videos-grid {
-    max-width: var(--layout-max-width);
+    max-width: calc(var(--layout-max-width) * 1.25);
     margin-left: auto;
     margin-right: auto;
   }
@@ -267,16 +273,16 @@ const faqs = [1, 2, 3].map(n => ({
   }
 
   .pn-videos-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-lg);
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
   }
 
   .pn-video {
     margin: 0;
-    flex: 0 1 325px;
+    width: 100%;
     max-width: 360px;
+    justify-self: center;
   }
 
   /* TikTok clips are vertical; the embed needs room for the post chrome. */
@@ -403,6 +409,13 @@ const faqs = [1, 2, 3].map(n => ({
     }
 
     .pn-benefits-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Vertical clips get too narrow three-across on small screens → stack. */
+  @media (max-width: 768px) {
+    .pn-videos-grid {
       grid-template-columns: 1fr;
     }
   }
