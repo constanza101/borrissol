@@ -1,0 +1,431 @@
+---
+/**
+ * Tufting landing — hub for the flagship service. Explains the technique, lists
+ * the four individual formats (Pelusa / Floc / Vellut / Pelut, with real sizes,
+ * durations and prices reused from the i18n catalog) and routes group interest
+ * to the dedicated Pelussetes and Team Building landings.
+ *
+ * All copy from the i18n catalog. Typography uses .text-* utilities
+ * (Hard Rule #15); scoped CSS = layout only. Course JSON-LD with an
+ * AggregateOffer covering the individual price range.
+ */
+import { Picture } from 'astro:assets';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { SITE } from '../config/site';
+import { waHref } from '../config';
+import heroImg from '../assets/images/offer-tufting.jpg';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const ctaHref = waHref(t('wa.tuf.landing'));
+const pelussetesPath   = lang === 'ca' ? '/pelussetes' : `/${lang}/pelussetes`;
+const teamBuildingPath = lang === 'ca' ? '/team-building' : `/${lang}/team-building`;
+
+// Individual formats — real data, same source as the home tufting panel.
+const levels = [
+  { name: 'Pelusa', level: t('tufting.level.express'),      size: '50×50 cm', duration: t('tufting.dur.4'),  price: '78€',  href: waHref(t('wa.tufting.pelusa')) },
+  { name: 'Floc',   level: t('tufting.level.intro'),        size: '50×50 cm', duration: t('tufting.dur.6'),  price: '108€', href: waHref(t('wa.tufting.floc')) },
+  { name: 'Vellut', level: t('tufting.level.intermediate'), size: '70×70 cm', duration: t('tufting.dur.8'),  price: '158€', href: waHref(t('wa.tufting.vellut')) },
+  { name: 'Pelut',  level: t('tufting.level.pro'),          size: '80×80 cm', duration: t('tufting.dur.10'), price: '181€', href: waHref(t('wa.tufting.pelut')) },
+];
+
+const groupFormats = [
+  { title: t('tuf.group.pel.title'), desc: t('tuf.group.pel.desc'), cta: t('tuf.group.pel.cta'), href: pelussetesPath },
+  { title: t('tuf.group.tb.title'),  desc: t('tuf.group.tb.desc'),  cta: t('tuf.group.tb.cta'),  href: teamBuildingPath },
+];
+
+const faqs = [1, 2, 3].map(n => ({
+  q: t(`tuf.faq.q${n}` as any),
+  a: t(`tuf.faq.a${n}` as any),
+}));
+
+// ── Course schema with an AggregateOffer over the individual price range ─────
+const origin = (Astro.site ?? Astro.url).origin;
+const courseSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  name: t('tuf.headline'),
+  description: t('page.tuf.description'),
+  url: new URL(Astro.url.pathname, origin).href,
+  provider: {
+    '@type': 'Organization',
+    name: SITE.business.name,
+    url: `${origin}/`,
+  },
+  hasCourseInstance: {
+    '@type': 'CourseInstance',
+    courseMode: 'Onsite',
+    location: {
+      '@type': 'Place',
+      name: SITE.business.name,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: SITE.business.address.streetAddress,
+        addressLocality: SITE.business.address.addressLocality,
+        postalCode: SITE.business.address.postalCode,
+        addressCountry: SITE.business.address.addressCountry,
+      },
+    },
+    offers: {
+      '@type': 'AggregateOffer',
+      lowPrice: '78',
+      highPrice: '181',
+      priceCurrency: 'EUR',
+      availability: 'https://schema.org/InStock',
+    },
+  },
+};
+---
+
+<article class="tuf">
+
+  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
+  <section class="tuf-hero" aria-labelledby="tuf-hero-heading">
+    <div class="tuf-hero-text">
+      <span class="text-ui text-muted">{t('tuf.eyebrow')}</span>
+      <h1 id="tuf-hero-heading" class="text-h1 tuf-headline">{t('tuf.headline')}</h1>
+      <p class="text-p1 text-muted tuf-lead">{t('tuf.lead')}</p>
+      <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('tuf.cta')}</a>
+    </div>
+    <div class="tuf-hero-img-wrap">
+      <Picture
+        src={heroImg}
+        widths={[480, 768, 1000]}
+        sizes="(max-width: 900px) 100vw, 50vw"
+        formats={['avif', 'webp']}
+        alt="Persona creando una alfombra con pistola de tufting en el taller Borrissol, Mataró"
+        width={2904}
+        height={2150}
+        class="tuf-hero-img"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+  </section>
+
+  <!-- ── What is it ───────────────────────────────────────────────────── -->
+  <section class="tuf-section tuf-text" aria-labelledby="tuf-what-heading">
+    <h2 id="tuf-what-heading" class="text-h2 tuf-h2">{t('tuf.what.title')}</h2>
+    <p class="text-p2 tuf-body">{t('tuf.what.body')}</p>
+  </section>
+
+  <!-- ── Individual formats ───────────────────────────────────────────── -->
+  <section class="tuf-section tuf-individual" aria-labelledby="tuf-individual-heading">
+    <h2 id="tuf-individual-heading" class="text-h2 tuf-h2">{t('tuf.individual.title')}</h2>
+    <p class="text-p2 text-muted tuf-body tuf-individual-intro">{t('tuf.individual.intro')}</p>
+    <div class="tuf-levels-grid">
+      {levels.map(lv => (
+        <div class="tuf-level-card">
+          <h3 class="text-h4 tuf-level-name">{lv.name}</h3>
+          <span class="text-ui text-muted tuf-level-tag">{lv.level}</span>
+          <dl class="tuf-level-specs">
+            <div class="tuf-level-spec">
+              <dt class="text-ui text-muted">{t('tuf.col.size')}</dt>
+              <dd class="text-p2 tuf-level-spec-value">{lv.size}</dd>
+            </div>
+            <div class="tuf-level-spec">
+              <dt class="text-ui text-muted">{t('tuf.col.duration')}</dt>
+              <dd class="text-p2 tuf-level-spec-value">{lv.duration}</dd>
+            </div>
+            <div class="tuf-level-spec">
+              <dt class="text-ui text-muted">{t('tuf.col.price')}</dt>
+              <dd class="text-p2 tuf-level-spec-value">{lv.price}</dd>
+            </div>
+          </dl>
+          <a href={lv.href} target="_blank" rel="noopener noreferrer" class="btn btn-secondary tuf-level-cta">{t('ws.cta')}</a>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── Group formats ────────────────────────────────────────────────── -->
+  <section class="tuf-section tuf-group" aria-labelledby="tuf-group-heading">
+    <h2 id="tuf-group-heading" class="text-h2 tuf-h2">{t('tuf.group.title')}</h2>
+    <p class="text-p2 text-muted tuf-body tuf-group-intro">{t('tuf.group.intro')}</p>
+    <div class="tuf-group-grid">
+      {groupFormats.map(g => (
+        <div class="tuf-group-card">
+          <h3 class="text-h4 tuf-group-name">{g.title}</h3>
+          <p class="text-p2 text-muted tuf-group-desc">{g.desc}</p>
+          <a href={g.href} class="btn btn-secondary tuf-group-cta">{g.cta}</a>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
+  <section class="tuf-section tuf-faq" aria-labelledby="tuf-faq-heading">
+    <h2 id="tuf-faq-heading" class="text-h2 tuf-h2">{t('tuf.faq.title')}</h2>
+    <div class="tuf-faq-list">
+      {faqs.map(f => (
+        <div class="tuf-faq-item">
+          <h3 class="text-h4 tuf-faq-q">{f.q}</h3>
+          <p class="text-p2 text-muted tuf-faq-a">{f.a}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── Final CTA ────────────────────────────────────────────────────── -->
+  <section class="tuf-section tuf-final" aria-labelledby="tuf-final-heading">
+    <h2 id="tuf-final-heading" class="text-h2 tuf-final-title">{t('tuf.final.title')}</h2>
+    <p class="text-p1 text-muted tuf-final-body">{t('tuf.final.body')}</p>
+    <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('tuf.final.cta')}</a>
+  </section>
+
+</article>
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(courseSchema)} />
+
+<style>
+  .tuf {
+    background: var(--color-white);
+  }
+
+  /* ── Shared section ───────────────────────────────────────────────── */
+  .tuf-section {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: var(--space-xl) var(--layout-page-padding-h);
+  }
+
+  /* Typography from .text-* utilities; scoped rules below are layout only. */
+  .tuf-h2 {
+    margin: 0 0 var(--space-md);
+  }
+
+  .tuf-body {
+    margin: 0;
+    max-width: 720px;
+  }
+
+  .tuf-text {
+    padding-top: var(--space-lg);
+    padding-bottom: var(--space-lg);
+  }
+
+  /* ── Hero ─────────────────────────────────────────────────────────── */
+  .tuf-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: var(--space-xl) var(--layout-page-padding-h);
+    padding-top: calc(var(--space-xl) + 60px);
+  }
+
+  .tuf-hero-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .tuf-headline {
+    margin: 0;
+  }
+
+  .tuf-lead {
+    margin: 0;
+  }
+
+  .tuf-hero-img-wrap {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+  }
+
+  .tuf-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── Individual formats ───────────────────────────────────────────── */
+  .tuf-individual {
+    background: var(--bg-section);
+    max-width: none;
+  }
+
+  /* Widen this block ~30% beyond the layout width so the four price cards are
+     less cramped — it eats into the side margins on purpose. */
+  .tuf-individual > .tuf-h2,
+  .tuf-individual > .tuf-individual-intro,
+  .tuf-levels-grid {
+    max-width: calc(var(--layout-max-width) * 1.3);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .tuf-individual-intro {
+    margin-bottom: var(--space-lg);
+  }
+
+  .tuf-levels-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-md);
+  }
+
+  .tuf-level-card {
+    background: var(--color-white);
+    border: var(--border-default);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .tuf-level-name {
+    margin: 0;
+  }
+
+  .tuf-level-tag {
+    display: block;
+  }
+
+  .tuf-level-specs {
+    margin: var(--space-sm) 0 var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .tuf-level-spec {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    padding: var(--space-xs) 0;
+    border-bottom: var(--border-default);
+  }
+
+  .tuf-level-spec-value {
+    margin: 0;
+  }
+
+  .tuf-level-cta {
+    align-self: flex-start;
+    margin-top: auto;
+    border-radius: var(--radius-sharp);
+    font-size: var(--font-size-ui);
+  }
+
+  /* ── Group formats ────────────────────────────────────────────────── */
+  .tuf-group-intro {
+    margin-bottom: var(--space-lg);
+  }
+
+  .tuf-group-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
+
+  .tuf-group-card {
+    border: var(--border-default);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-xs);
+  }
+
+  .tuf-group-name {
+    margin: 0;
+  }
+
+  .tuf-group-desc {
+    margin: 0;
+    flex: 1;
+  }
+
+  .tuf-group-cta {
+    margin-top: var(--space-md);
+    border-radius: var(--radius-sharp);
+    font-size: var(--font-size-ui);
+  }
+
+  /* ── FAQ ──────────────────────────────────────────────────────────── */
+  .tuf-faq {
+    background: var(--bg-section);
+    max-width: none;
+  }
+
+  .tuf-faq > .tuf-h2,
+  .tuf-faq-list {
+    max-width: var(--layout-max-width);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .tuf-faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .tuf-faq-item {
+    background: var(--color-white);
+    border: var(--border-default);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+  }
+
+  .tuf-faq-q {
+    margin: 0 0 var(--space-xs);
+  }
+
+  .tuf-faq-a {
+    margin: 0;
+  }
+
+  /* ── Final CTA ────────────────────────────────────────────────────── */
+  .tuf-final {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    border-top: var(--border-default);
+  }
+
+  .tuf-final-title {
+    margin: 0;
+  }
+
+  .tuf-final-body {
+    margin: 0;
+    max-width: 560px;
+  }
+
+  /* ── Responsive ───────────────────────────────────────────────────── */
+  @media (max-width: 1024px) {
+    .tuf-levels-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .tuf-hero {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+
+    .tuf-group-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .tuf-levels-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

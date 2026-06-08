@@ -1,0 +1,382 @@
+---
+/**
+ * Summer Textile Lab landing — seasonal course page. Explores all four textile
+ * techniques (technique-focused, not product-focused — the projects aren't
+ * fixed). Open to ages 12+. All copy from the i18n catalog (sl.* keys) plus
+ * reused offer.*.name for technique titles.
+ *
+ * Seasonal: this component renders only while the course is visible
+ * (see src/config/seasonal.ts); the routes guard on the same flag.
+ *
+ * Typography uses .text-* utilities (Hard Rule #15); scoped CSS = layout only.
+ * Course JSON-LD carries the per-week price.
+ */
+import { Picture } from 'astro:assets';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { SITE } from '../config/site';
+import { summerLab } from '../config/seasonal';
+import { waHref } from '../config';
+import heroImg from '../assets/images/grupo2.jpg';
+import imgTufting from '../assets/images/offer-tufting.jpg';
+import imgLoom from '../assets/images/offer-loom.jpg';
+import imgPunch from '../assets/images/offer-punch-needle.jpg';
+import imgFelting from '../assets/images/offer-felting.jpg';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const ctaHref = waHref(t('wa.sl.landing'));
+// Internal links to the dedicated technique landings (ca = no prefix).
+const tuftingPath = lang === 'ca' ? '/tufting' : `/${lang}/tufting`;
+const loomPath    = lang === 'ca' ? '/loom' : `/${lang}/loom`;
+const feltingPath = lang === 'ca' ? '/felting' : `/${lang}/felting`;
+const punchPath   = lang === 'ca' ? '/punch-needle' : `/${lang}/punch-needle`;
+
+// Technique names reuse the offer.* catalog; descriptions are summer-lab
+// specific (sl.tech.*). `href` links to each technique's dedicated landing.
+const techniques = [
+  { name: t('offer.tufting.name'),    desc: t('sl.tech.tufting.desc'), img: imgTufting, width: 2904, height: 2150, alt: 'Tufting en el taller Borrissol, Mataró',                href: tuftingPath },
+  { name: t('offer.loom.name'),       desc: t('sl.tech.loom.desc'),    img: imgLoom,    width: 3024, height: 3024, alt: 'Telar artesanal en el taller Borrissol, Mataró',       href: loomPath },
+  { name: t('offer.punch.name'),      desc: t('sl.tech.punch.desc'),   img: imgPunch,   width: 4032, height: 3024, alt: 'Punch needle en el taller Borrissol, Mataró',          href: punchPath },
+  { name: t('offer.embroidery.name'), desc: t('sl.tech.felting.desc'), img: imgFelting, width: 3024, height: 3024, alt: 'Fieltro agujado en el taller Borrissol, Mataró',       href: feltingPath },
+];
+
+const details = [
+  { label: t('sl.details.price.label'),     value: t('sl.details.price.value') },
+  { label: t('sl.details.dates.label'),     value: t('sl.details.dates.value') },
+  { label: t('sl.details.schedule.label'),  value: t('sl.details.schedule.value') },
+  { label: t('sl.details.age.label'),       value: t('sl.details.age.value') },
+  { label: t('sl.details.group.label'),     value: t('sl.details.group.value') },
+  { label: t('sl.details.materials.label'), value: t('sl.details.materials.value') },
+  { label: t('sl.details.location.label'),  value: t('sl.details.location.value') },
+];
+
+// ── Course schema (per-week price) ──────────────────────────────────────────
+const origin = (Astro.site ?? Astro.url).origin;
+const courseSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  name: t('sl.headline'),
+  description: t('page.sl.description'),
+  url: new URL(Astro.url.pathname, origin).href,
+  provider: {
+    '@type': 'Organization',
+    name: SITE.business.name,
+    url: `${origin}/`,
+  },
+  hasCourseInstance: {
+    '@type': 'CourseInstance',
+    courseMode: 'Onsite',
+    startDate: summerLab.startDate,
+    endDate: summerLab.endDate,
+    location: {
+      '@type': 'Place',
+      name: SITE.business.name,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: SITE.business.address.streetAddress,
+        addressLocality: SITE.business.address.addressLocality,
+        postalCode: SITE.business.address.postalCode,
+        addressCountry: SITE.business.address.addressCountry,
+      },
+    },
+    offers: {
+      '@type': 'Offer',
+      price: '125',
+      priceCurrency: 'EUR',
+      availability: 'https://schema.org/InStock',
+    },
+  },
+};
+---
+
+<article class="sl">
+
+  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
+  <section class="sl-hero" aria-labelledby="sl-hero-heading">
+    <div class="sl-hero-text">
+      <span class="text-ui text-muted">{t('sl.eyebrow')}</span>
+      <h1 id="sl-hero-heading" class="text-h1 sl-headline">{t('sl.headline')}</h1>
+      <p class="text-p1 text-muted sl-lead">{t('sl.lead')}</p>
+      <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('sl.cta')}</a>
+    </div>
+    <div class="sl-hero-img-wrap">
+      <Picture
+        src={heroImg}
+        widths={[480, 768, 1000]}
+        sizes="(max-width: 900px) 100vw, 50vw"
+        formats={['avif', 'webp']}
+        alt="Grupo creando en el Laboratorio Textil de Verano de Borrissol, Mataró"
+        width={3000}
+        height={4000}
+        class="sl-hero-img"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+  </section>
+
+  <!-- ── Intro ────────────────────────────────────────────────────────── -->
+  <section class="sl-section sl-intro" aria-labelledby="sl-intro-heading">
+    <h2 id="sl-intro-heading" class="text-h2 sl-h2">{t('sl.intro.title')}</h2>
+    <p class="text-p2 sl-body">{t('sl.intro.body')}</p>
+  </section>
+
+  <!-- ── Techniques ───────────────────────────────────────────────────── -->
+  <section class="sl-section sl-tech" aria-labelledby="sl-tech-heading">
+    <h2 id="sl-tech-heading" class="text-h2 sl-h2">{t('sl.tech.title')}</h2>
+    <p class="text-p2 text-muted sl-body sl-tech-intro">{t('sl.tech.intro')}</p>
+    <div class="sl-tech-grid">
+      {techniques.map(tech => (
+        <article class="sl-tech-card">
+          <div class="sl-tech-img-wrap">
+            <Picture
+              src={tech.img}
+              widths={[300, 500, 700]}
+              sizes="(max-width: 767px) 100vw, 25vw"
+              formats={['avif', 'webp']}
+              alt={tech.alt}
+              width={tech.width}
+              height={tech.height}
+              class="sl-tech-img"
+              loading="lazy"
+            />
+          </div>
+          <div class="sl-tech-body">
+            <h3 class="text-h4 sl-tech-name">{tech.name}</h3>
+            <p class="text-p2 text-muted sl-tech-desc">{tech.desc}</p>
+            {tech.href && (
+              <a href={tech.href} class="sl-tech-link">{t('ws.learnmore')} <span aria-hidden="true">&rarr;</span></a>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── Who is it for ────────────────────────────────────────────────── -->
+  <section class="sl-section sl-who" aria-labelledby="sl-who-heading">
+    <h2 id="sl-who-heading" class="text-h2 sl-h2">{t('sl.who.title')}</h2>
+    <p class="text-p2 sl-body">{t('sl.who.body')}</p>
+  </section>
+
+  <!-- ── Details ──────────────────────────────────────────────────────── -->
+  <section class="sl-section sl-details" aria-labelledby="sl-details-heading">
+    <h2 id="sl-details-heading" class="text-h2 sl-h2">{t('sl.details.title')}</h2>
+    <dl class="sl-details-list">
+      {details.map(d => (
+        <div class="sl-details-row">
+          <dt class="text-ui text-muted">{d.label}</dt>
+          <dd class="text-p2 sl-details-value">{d.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <!-- ── Final CTA ────────────────────────────────────────────────────── -->
+  <section class="sl-section sl-final" aria-labelledby="sl-final-heading">
+    <h2 id="sl-final-heading" class="text-h2 sl-final-title">{t('sl.final.title')}</h2>
+    <p class="text-p1 text-muted sl-final-body">{t('sl.final.body')}</p>
+    <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('sl.final.cta')}</a>
+  </section>
+
+</article>
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(courseSchema)} />
+
+<style>
+  .sl {
+    background: var(--color-white);
+  }
+
+  /* ── Shared section ───────────────────────────────────────────────── */
+  .sl-section {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: var(--space-xl) var(--layout-page-padding-h);
+  }
+
+  /* Typography from .text-* utilities; scoped rules below are layout only. */
+  .sl-h2 {
+    margin: 0 0 var(--space-md);
+  }
+
+  .sl-body {
+    margin: 0;
+    max-width: 720px;
+  }
+
+  /* ── Hero ─────────────────────────────────────────────────────────── */
+  .sl-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: var(--space-xl) var(--layout-page-padding-h);
+    padding-top: calc(var(--space-xl) + 60px);
+  }
+
+  .sl-hero-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .sl-headline {
+    margin: 0;
+  }
+
+  .sl-lead {
+    margin: 0;
+  }
+
+  .sl-hero-img-wrap {
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+  }
+
+  .sl-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── Techniques ───────────────────────────────────────────────────── */
+  .sl-tech {
+    background: var(--bg-section);
+    max-width: none;
+  }
+
+  .sl-tech > .sl-h2,
+  .sl-tech > .sl-tech-intro,
+  .sl-tech-grid {
+    max-width: var(--layout-max-width);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .sl-tech-intro {
+    margin-bottom: var(--space-lg);
+  }
+
+  .sl-tech-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-md);
+  }
+
+  .sl-tech-card {
+    background: var(--color-white);
+    border: var(--border-default);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sl-tech-img-wrap {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+  }
+
+  .sl-tech-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .sl-tech-body {
+    padding: var(--space-md);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sl-tech-name {
+    margin: 0 0 var(--space-xs);
+  }
+
+  .sl-tech-desc {
+    margin: 0;
+  }
+
+  .sl-tech-link {
+    align-self: flex-start;
+    margin-top: auto;
+    padding-top: var(--space-md);
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-btn);
+    letter-spacing: var(--letter-spacing-btn);
+    text-transform: uppercase;
+    color: var(--color-black);
+    text-decoration: none;
+  }
+
+  .sl-tech-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* ── Details ──────────────────────────────────────────────────────── */
+  .sl-details-list {
+    margin: 0;
+    max-width: 720px;
+  }
+
+  .sl-details-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-md);
+    padding: var(--space-sm) 0;
+    border-bottom: var(--border-default);
+  }
+
+  .sl-details-value {
+    margin: 0;
+  }
+
+  /* ── Final CTA ────────────────────────────────────────────────────── */
+  .sl-final {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    border-top: var(--border-default);
+  }
+
+  .sl-final-title {
+    margin: 0;
+  }
+
+  .sl-final-body {
+    margin: 0;
+    max-width: 560px;
+  }
+
+  /* ── Responsive ───────────────────────────────────────────────────── */
+  @media (max-width: 1024px) {
+    .sl-tech-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .sl-hero {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+  }
+
+  @media (max-width: 540px) {
+    .sl-tech-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -8,6 +8,7 @@ import grupal from '../assets/images/grupal.png';
 import toteBag from '../assets/images/tote-bag1.png';
 import wristRest from '../assets/images/ws-wrist-rest.jpg';
 import grupo2 from '../assets/images/grupo2.jpg';
+import { isSummerLabVisible } from '../config/seasonal';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -15,6 +16,9 @@ const t = useTranslations(lang);
 const teamBuildingPath = lang === 'ca' ? '/team-building' : `/${lang}/team-building`;
 const borlaPath        = lang === 'ca' ? '/borla' : `/${lang}/borla`;
 const pelussetesPath   = lang === 'ca' ? '/pelussetes' : `/${lang}/pelussetes`;
+const summerLabPath    = lang === 'ca' ? '/summer-lab' : `/${lang}/summer-lab`;
+// Seasonal: the Summer Lab card auto-hides after the course end date.
+const summerLabVisible = isSummerLabVisible();
 const tuftingRows = [
   {
     name: 'Pelusa',
@@ -195,19 +199,25 @@ const tuftingRows = [
 
       </div>
 
-      <!-- Summer Textile Lab — featured, full width, horizontal layout -->
-      <div class="summer-card reveal">
-        <div class="summer-card-img">
-          <Picture src={grupo2} widths={[480, 768, 1000]} sizes="(max-width: 767px) 100vw, 40vw" formats={['avif', 'webp']} alt="Laboratorio Textil de Verano" width={3000} height={4000} loading="lazy" />
+      <!-- Summer Textile Lab — featured, full width, horizontal layout.
+           Seasonal: hidden automatically once the course end date has passed. -->
+      {summerLabVisible && (
+        <div class="summer-card reveal">
+          <div class="summer-card-img">
+            <Picture src={grupo2} widths={[480, 768, 1000]} sizes="(max-width: 767px) 100vw, 40vw" formats={['avif', 'webp']} alt="Laboratorio Textil de Verano" width={3000} height={4000} loading="lazy" />
+          </div>
+          <div class="summer-card-body">
+            <span class="eyebrow">{t('ws.summer.techniques')}</span>
+            <h4 class="ws-name summer-name">{t('ws.summer.name')}</h4>
+            <p class="ws-desc">{t('ws.summer.desc')}</p>
+            <p class="ws-details">{t('ws.summer.details')}</p>
+            <div class="summer-card-footer">
+              <a href={waHref(t('wa.ws.summer'))} target="_blank" rel="noopener noreferrer" class="btn btn-primary summer-cta">{t('ws.consult')}</a>
+              <a href={summerLabPath} class="ws-learnmore">{t('ws.learnmore')} <span class="ws-learnmore-arrow" aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
         </div>
-        <div class="summer-card-body">
-          <span class="eyebrow">{t('ws.summer.techniques')}</span>
-          <h4 class="ws-name summer-name">{t('ws.summer.name')}</h4>
-          <p class="ws-desc">{t('ws.summer.desc')}</p>
-          <p class="ws-details">{t('ws.summer.details')}</p>
-          <a href={waHref(t('wa.ws.summer'))} target="_blank" rel="noopener noreferrer" class="btn btn-primary summer-cta">{t('ws.consult')}</a>
-        </div>
-      </div>
+      )}
 
     </div>
   </div>
@@ -581,6 +591,19 @@ const tuftingRows = [
     margin-top: auto;
     border-radius: var(--radius-sharp);
     font-size: var(--font-size-ui);
+  }
+
+  /* Footer row: WhatsApp CTA (left) + "Saber más →" link to the landing. */
+  .summer-card-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+
+  .summer-card-footer .summer-cta {
+    margin-top: 0;
   }
 
   /* ── Footer note ────────────────────────────────────────────────────── */

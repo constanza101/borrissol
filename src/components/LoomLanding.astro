@@ -1,0 +1,295 @@
+---
+/**
+ * Loom / weaving (telar) landing — informational page targeting the
+ * "taller telar / teler / weaving" search intent (a low-competition niche).
+ * Explains the technique and funnels to where it's practised: the Borla monthly
+ * workshop (internal link) and WhatsApp.
+ *
+ * All copy from the i18n catalog (loom.* keys). Typography uses .text-*
+ * utilities (Hard Rule #15); scoped CSS = layout only.
+ */
+import { Picture } from 'astro:assets';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { waHref } from '../config';
+import heroImg from '../assets/images/offer-loom.jpg';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const ctaHref = waHref(t('wa.loom.landing'));
+const borlaPath = lang === 'ca' ? '/borla' : `/${lang}/borla`;
+
+const benefits = [1, 2, 3].map(n => ({
+  title: t(`loom.benefit.${n}.title` as any),
+  desc:  t(`loom.benefit.${n}.desc` as any),
+}));
+
+const faqs = [1, 2, 3].map(n => ({
+  q: t(`loom.faq.q${n}` as any),
+  a: t(`loom.faq.a${n}` as any),
+}));
+---
+
+<article class="loom">
+
+  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
+  <section class="loom-hero" aria-labelledby="loom-hero-heading">
+    <div class="loom-hero-text">
+      <span class="text-ui text-muted">{t('loom.eyebrow')}</span>
+      <h1 id="loom-hero-heading" class="text-h1 loom-headline">{t('loom.headline')}</h1>
+      <p class="text-p1 text-muted loom-lead">{t('loom.lead')}</p>
+      <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('loom.cta')}</a>
+    </div>
+    <div class="loom-hero-img-wrap">
+      <Picture
+        src={heroImg}
+        widths={[480, 768, 1000]}
+        sizes="(max-width: 900px) 100vw, 50vw"
+        formats={['avif', 'webp']}
+        alt="Tejido en telar artesanal con hilos de colores en el taller Borrissol, Mataró"
+        width={3024}
+        height={3024}
+        class="loom-hero-img"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+  </section>
+
+  <!-- ── What is it ───────────────────────────────────────────────────── -->
+  <section class="loom-section loom-text" aria-labelledby="loom-what-heading">
+    <h2 id="loom-what-heading" class="text-h2 loom-h2">{t('loom.what.title')}</h2>
+    <p class="text-p2 loom-body">{t('loom.what.body')}</p>
+  </section>
+
+  <!-- ── What you can weave ───────────────────────────────────────────── -->
+  <section class="loom-section loom-text" aria-labelledby="loom-create-heading">
+    <h2 id="loom-create-heading" class="text-h2 loom-h2">{t('loom.create.title')}</h2>
+    <p class="text-p2 loom-body">{t('loom.create.body')}</p>
+  </section>
+
+  <!-- ── Why / benefits ───────────────────────────────────────────────── -->
+  <section class="loom-section loom-why" aria-labelledby="loom-why-heading">
+    <h2 id="loom-why-heading" class="text-h2 loom-h2">{t('loom.why.title')}</h2>
+    <div class="loom-benefits-grid">
+      {benefits.map(b => (
+        <div class="loom-benefit-card">
+          <h3 class="text-h4 loom-benefit-title">{b.title}</h3>
+          <p class="text-p2 text-muted loom-benefit-desc">{b.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── Where to practise (funnel to Borla) ──────────────────────────── -->
+  <section class="loom-section loom-practice" aria-labelledby="loom-practice-heading">
+    <h2 id="loom-practice-heading" class="text-h2 loom-h2">{t('loom.practice.title')}</h2>
+    <p class="text-p2 loom-body">{t('loom.practice.body')}</p>
+    <a href={borlaPath} class="btn btn-secondary loom-practice-cta">{t('loom.practice.cta')}</a>
+  </section>
+
+  <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
+  <section class="loom-section loom-faq" aria-labelledby="loom-faq-heading">
+    <h2 id="loom-faq-heading" class="text-h2 loom-h2">{t('loom.faq.title')}</h2>
+    <div class="loom-faq-list">
+      {faqs.map(f => (
+        <div class="loom-faq-item">
+          <h3 class="text-h4 loom-faq-q">{f.q}</h3>
+          <p class="text-p2 text-muted loom-faq-a">{f.a}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── Final CTA ────────────────────────────────────────────────────── -->
+  <section class="loom-section loom-final" aria-labelledby="loom-final-heading">
+    <h2 id="loom-final-heading" class="text-h2 loom-final-title">{t('loom.final.title')}</h2>
+    <p class="text-p1 text-muted loom-final-body">{t('loom.final.body')}</p>
+    <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('loom.final.cta')}</a>
+  </section>
+
+</article>
+
+<style>
+  .loom {
+    background: var(--color-white);
+  }
+
+  /* ── Shared section ───────────────────────────────────────────────── */
+  .loom-section {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: var(--space-xl) var(--layout-page-padding-h);
+  }
+
+  /* Typography from .text-* utilities; scoped rules below are layout only. */
+  .loom-h2 {
+    margin: 0 0 var(--space-md);
+  }
+
+  .loom-body {
+    margin: 0;
+    max-width: 720px;
+  }
+
+  .loom-text {
+    padding-top: var(--space-lg);
+    padding-bottom: var(--space-lg);
+  }
+
+  /* ── Hero ─────────────────────────────────────────────────────────── */
+  .loom-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: var(--space-xl) var(--layout-page-padding-h);
+    padding-top: calc(var(--space-xl) + 60px);
+  }
+
+  .loom-hero-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .loom-headline {
+    margin: 0;
+  }
+
+  .loom-lead {
+    margin: 0;
+  }
+
+  .loom-hero-img-wrap {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+  }
+
+  .loom-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── Why / benefits ───────────────────────────────────────────────── */
+  .loom-why {
+    background: var(--bg-section);
+    max-width: none;
+  }
+
+  .loom-why > .loom-h2 {
+    max-width: var(--layout-max-width);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .loom-benefits-grid {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+  }
+
+  .loom-benefit-card {
+    background: var(--color-white);
+    border: var(--border-default);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+  }
+
+  .loom-benefit-title {
+    margin: 0 0 var(--space-xs);
+  }
+
+  .loom-benefit-desc {
+    margin: 0;
+  }
+
+  /* ── Practice (funnel to Borla) ───────────────────────────────────── */
+  .loom-practice {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .loom-practice .loom-h2 {
+    margin-bottom: 0;
+  }
+
+  .loom-practice-cta {
+    margin-top: var(--space-xs);
+  }
+
+  /* ── FAQ ──────────────────────────────────────────────────────────── */
+  .loom-faq {
+    background: var(--bg-section);
+    max-width: none;
+  }
+
+  .loom-faq > .loom-h2,
+  .loom-faq-list {
+    max-width: var(--layout-max-width);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .loom-faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .loom-faq-item {
+    background: var(--color-white);
+    border: var(--border-default);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+  }
+
+  .loom-faq-q {
+    margin: 0 0 var(--space-xs);
+  }
+
+  .loom-faq-a {
+    margin: 0;
+  }
+
+  /* ── Final CTA ────────────────────────────────────────────────────── */
+  .loom-final {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    border-top: var(--border-default);
+  }
+
+  .loom-final-title {
+    margin: 0;
+  }
+
+  .loom-final-body {
+    margin: 0;
+    max-width: 560px;
+  }
+
+  /* ── Responsive ───────────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .loom-hero {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+
+    .loom-benefits-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
