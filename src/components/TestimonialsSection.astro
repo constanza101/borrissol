@@ -187,7 +187,7 @@ const reviews = REVIEWS.map(r => ({ name: r.name, text: t(r.key as any) }));
 
   .t-stars {
     font-size: var(--font-size-p3);
-    color: var(--color-black);
+    color: var(--color-star);
     letter-spacing: 0.05em;
     margin-bottom: var(--space-sm);
   }
@@ -215,6 +215,7 @@ const reviews = REVIEWS.map(r => ({ name: r.name, text: t(r.key as any) }));
     width: 32px;
     height: 32px;
     flex-shrink: 0;
+    border-radius: var(--radius-pill);
     display: flex;
     align-items: center;
     justify-content: center;

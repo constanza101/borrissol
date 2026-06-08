@@ -42,7 +42,7 @@ const blogHref = '/blog';
   <nav class="site-nav" aria-label="Main navigation">
 
     <a href={homePath} class="nav-brand" aria-label="Borrissol — inicio">
-      <img src="/images/borrissol-pompom.svg" alt="Borrissol" class="nav-brand-logo" />
+      <span class="nav-brand-logo" aria-hidden="true"></span>
     </a>
 
     <!-- Desktop links -->
@@ -259,10 +259,19 @@ const blogHref = '/blog';
     flex-shrink: 0;
   }
 
+  /* Logo recoloured via CSS mask (the SVG is monochrome) so it can go brand-pink
+     on hover. viewBox 87.05×85.06 → ~33px wide at 32px tall. */
   .nav-brand-logo {
     height: 32px;
-    width: auto;
+    width: 33px;
     display: block;
+    background-color: var(--color-dark);
+    -webkit-mask: url("/images/borrissol-pompom.svg") center / contain no-repeat;
+    mask: url("/images/borrissol-pompom.svg") center / contain no-repeat;
+    transition: background-color var(--t-fast);
+  }
+  .nav-brand:hover .nav-brand-logo {
+    background-color: var(--color-accent);
   }
 
   /* ── Desktop links ── */

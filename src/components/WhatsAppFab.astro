@@ -60,17 +60,30 @@ const href = waHref(t('wa.general'));
     align-items: center;
     justify-content: center;
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.35);
-    transition: transform var(--t-fast), opacity var(--t-fast);
+    transition: transform var(--t-fast), opacity var(--t-fast), background var(--t-fast), color var(--t-fast);
     text-decoration: none;
     border: none;
     cursor: pointer;
   }
   .fab:hover {
     transform: translateY(-2px);
-    opacity: 0.9;
   }
   .fab:active {
     transform: translateY(0) scale(0.97);
+  }
+
+  /* Scroll-to-top — primary button behaviour: dark, pink on hover. */
+  .fab--top:hover {
+    background: var(--btn-primary-hover-bg);
+    color: var(--btn-primary-hover-color);
+  }
+
+  /* WhatsApp — brand green. */
+  .fab--wa {
+    background: var(--color-whatsapp);
+  }
+  .fab--wa:hover {
+    opacity: 0.9;
   }
 
   @media (max-width: 640px) {
