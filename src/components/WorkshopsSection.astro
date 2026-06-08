@@ -8,6 +8,7 @@ import grupal from '../assets/images/grupal.png';
 import toteBag from '../assets/images/tote-bag1.png';
 import wristRest from '../assets/images/ws-wrist-rest.jpg';
 import grupo2 from '../assets/images/grupo2.jpg';
+import { isSummerLabVisible } from '../config/seasonal';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -15,6 +16,9 @@ const t = useTranslations(lang);
 const teamBuildingPath = lang === 'ca' ? '/team-building' : `/${lang}/team-building`;
 const borlaPath        = lang === 'ca' ? '/borla' : `/${lang}/borla`;
 const pelussetesPath   = lang === 'ca' ? '/pelussetes' : `/${lang}/pelussetes`;
+const summerLabPath    = lang === 'ca' ? '/summer-lab' : `/${lang}/summer-lab`;
+// Seasonal: the Summer Lab card auto-hides after the course end date.
+const summerLabVisible = isSummerLabVisible();
 const tuftingRows = [
   {
     name: 'Pelusa',
@@ -95,7 +99,8 @@ const tuftingRows = [
           </div>
         </div>
 
-        <!-- Right: service-selection panel -->
+        <!-- Right: service-selection panel + "what is tufting?" blog link -->
+        <div class="tufting-right">
         <div class="tufting-panel reveal" data-delay="1">
           <div class="panel-header">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="width: var(--icon-size-inline); height: var(--icon-size-inline); stroke-width: var(--icon-stroke-width); display: inline-block; flex-shrink: 0;" aria-hidden="true"><path d="M12.034 12.681a.498.498 0 0 1 .647-.647l9 3.5a.5.5 0 0 1-.033.943l-3.444 1.068a1 1 0 0 0-.66.66l-1.067 3.443a.5.5 0 0 1-.943.033z"/><path d="M21 11V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/></svg>
@@ -112,9 +117,11 @@ const tuftingRows = [
                   {row.drawing} &middot; {row.finishing} &middot; {row.materials}
                 </p>
               </div>
-              <a href={row.href} target="_blank" rel="noopener noreferrer" class="tufting-row-btn">{t('ws.cta')}</a>
+              <a href={row.href} target="_blank" rel="noopener noreferrer" class="btn btn-primary tufting-row-btn">{t('ws.cta')}</a>
             </div>
           ))}
+        </div>
+          <a href="/blog/que-es-el-tufting-i-com-funciona" class="btn btn-secondary tufting-blog-link reveal" data-delay="2">{t('tufting.blog.cta')}</a>
         </div>
 
       </div>
@@ -140,7 +147,7 @@ const tuftingRows = [
             <p class="ws-details">{t('ws.group.details')}</p>
             <div class="ws-card-footer">
               <a href={waHref(t('wa.ws.group'))} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
-              <a href={pelussetesPath} class="ws-learnmore">{t('ws.learnmore')} <span class="ws-learnmore-arrow" aria-hidden="true">&rarr;</span></a>
+              <a href={pelussetesPath} class="link-arrow ws-learnmore">{t('ws.learnmore')}</a>
             </div>
           </div>
         </div>
@@ -157,7 +164,7 @@ const tuftingRows = [
             <p class="ws-details">{t('ws.borla.details')}</p>
             <div class="ws-card-footer">
               <a href={waHref(t('wa.ws.borla'))} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
-              <a href={borlaPath} class="ws-learnmore">{t('ws.learnmore')} <span class="ws-learnmore-arrow" aria-hidden="true">&rarr;</span></a>
+              <a href={borlaPath} class="link-arrow ws-learnmore">{t('ws.learnmore')}</a>
             </div>
           </div>
         </div>
@@ -188,26 +195,32 @@ const tuftingRows = [
             <p class="ws-details">{t('ws.teambuilding.details')}</p>
             <div class="ws-card-footer">
               <a href={waHref(t('wa.ws.teambuilding'))} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
-              <a href={teamBuildingPath} class="ws-learnmore">{t('ws.learnmore')} <span class="ws-learnmore-arrow" aria-hidden="true">&rarr;</span></a>
+              <a href={teamBuildingPath} class="link-arrow ws-learnmore">{t('ws.learnmore')}</a>
             </div>
           </div>
         </div>
 
       </div>
 
-      <!-- Summer Textile Lab — featured, full width, horizontal layout -->
-      <div class="summer-card reveal">
-        <div class="summer-card-img">
-          <Picture src={grupo2} widths={[480, 768, 1000]} sizes="(max-width: 767px) 100vw, 40vw" formats={['avif', 'webp']} alt="Laboratorio Textil de Verano" width={3000} height={4000} loading="lazy" />
+      <!-- Summer Textile Lab — featured, full width, horizontal layout.
+           Seasonal: hidden automatically once the course end date has passed. -->
+      {summerLabVisible && (
+        <div class="summer-card reveal">
+          <div class="summer-card-img">
+            <Picture src={grupo2} widths={[480, 768, 1000]} sizes="(max-width: 767px) 100vw, 40vw" formats={['avif', 'webp']} alt="Laboratorio Textil de Verano" width={3000} height={4000} loading="lazy" />
+          </div>
+          <div class="summer-card-body">
+            <span class="eyebrow">{t('ws.summer.techniques')}</span>
+            <h4 class="ws-name summer-name">{t('ws.summer.name')}</h4>
+            <p class="ws-desc">{t('ws.summer.desc')}</p>
+            <p class="ws-details">{t('ws.summer.details')}</p>
+            <div class="summer-card-footer">
+              <a href={waHref(t('wa.ws.summer'))} target="_blank" rel="noopener noreferrer" class="btn btn-primary summer-cta">{t('ws.consult')}</a>
+              <a href={summerLabPath} class="link-arrow ws-learnmore">{t('ws.learnmore')}</a>
+            </div>
+          </div>
         </div>
-        <div class="summer-card-body">
-          <span class="eyebrow">{t('ws.summer.techniques')}</span>
-          <h4 class="ws-name summer-name">{t('ws.summer.name')}</h4>
-          <p class="ws-desc">{t('ws.summer.desc')}</p>
-          <p class="ws-details">{t('ws.summer.details')}</p>
-          <a href={waHref(t('wa.ws.summer'))} target="_blank" rel="noopener noreferrer" class="btn btn-primary summer-cta">{t('ws.consult')}</a>
-        </div>
-      </div>
+      )}
 
     </div>
   </div>
@@ -314,12 +327,27 @@ const tuftingRows = [
   }
 
   /* Right panel */
+  /* Right column: panel + "what is tufting?" link below it, filling the space
+     left when the panel is shorter than the image column. */
+  .tufting-right {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
   .tufting-panel {
     background: var(--color-white);
     border: var(--border-default);
     border-radius: 0;
     box-shadow: var(--shadow-card);
     overflow: hidden;
+  }
+
+  .tufting-blog-link {
+    align-self: flex-start;
+    margin-top: var(--space-md);
+    border-radius: var(--radius-sharp);
+    font-size: var(--font-size-ui);
   }
 
   .panel-header {
@@ -380,25 +408,15 @@ const tuftingRows = [
     margin-top: 4px;
   }
 
+  /* Uses .btn .btn-primary for fill/colour/hover; only the compact, sharp-edged
+     variant differences live here. */
   .tufting-row-btn {
-    display: inline-flex;
-    align-items: center;
     font-size: var(--font-size-ui);
-    font-weight: var(--font-weight-btn);
-    letter-spacing: var(--letter-spacing-btn);
-    text-transform: var(--text-transform-btn);
-    text-decoration: none;
-    background: var(--color-dark);
-    color: var(--color-white);
     padding: 0.65em 1.4em;
-    border-radius: 0;
+    border-radius: var(--radius-sharp);
     white-space: nowrap;
     flex-shrink: 0;
-    border: none;
-    cursor: pointer;
-    transition: opacity 0.15s;
   }
-  .tufting-row-btn:hover { opacity: 0.85; }
 
   /* ── Block 2: Other workshops ──────────────────────────────────────── */
   .other-block {
@@ -513,22 +531,9 @@ const tuftingRows = [
     margin-top: 0;
   }
 
+  /* Uses .link-arrow (DS) for the styling; only layout deltas here. */
   .ws-learnmore {
-    font-size: var(--font-size-ui);
-    font-weight: var(--font-weight-btn);
-    letter-spacing: var(--letter-spacing-btn);
-    text-transform: uppercase;
-    color: var(--color-black);
-    text-decoration: none;
     white-space: nowrap;
-  }
-
-  .ws-learnmore:hover {
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  .ws-learnmore-arrow {
     padding-right: var(--space-xs);
   }
 
@@ -581,6 +586,19 @@ const tuftingRows = [
     margin-top: auto;
     border-radius: var(--radius-sharp);
     font-size: var(--font-size-ui);
+  }
+
+  /* Footer row: WhatsApp CTA (left) + "Saber más →" link to the landing. */
+  .summer-card-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+
+  .summer-card-footer .summer-cta {
+    margin-top: 0;
   }
 
   /* ── Footer note ────────────────────────────────────────────────────── */

@@ -1,5 +1,6 @@
 ---
 import { SITE } from '../config/site';
+import { REVIEWS, REVIEW_AGGREGATE } from '../config/reviews';
 import { getLangFromUrl, getAlternatePath, localeMap, useTranslations } from '../i18n/utils';
 import { languages, defaultLang, type Lang } from '../i18n/ui';
 
@@ -44,6 +45,11 @@ const hreflangLinks = (Object.keys(languages) as Lang[]).map(l => ({
   href: `${origin}${getAlternatePath(Astro.url, l)}`,
 }));
 const xDefaultHref = `${origin}${getAlternatePath(Astro.url, defaultLang)}`;
+
+// The FAQ section lives on the home page only, so its FAQPage schema must not
+// leak onto other pages (landings have their own FAQ + <FaqSchema/>).
+const path     = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isHomedoc = path === '/' || ['/es', '/en', '/fr'].includes(path);
 
 // ── Schema.org JSON-LD ────────────────────────────────────────────────────────
 // Build address only when at least the country code is present
@@ -105,11 +111,21 @@ const jsonLd = {
   ...(SITE.business.sameAs?.length       && { sameAs:       SITE.business.sameAs }),
   aggregateRating: {
     '@type':      'AggregateRating',
-    ratingValue:  '5.0',
-    reviewCount:  '27',
+    ratingValue:  REVIEW_AGGREGATE.ratingValue,
+    reviewCount:  REVIEW_AGGREGATE.reviewCount,
     bestRating:   '5',
     worstRating:  '1',
   },
+  // Individual reviews only on the home, where the testimonials are actually
+  // shown (Google wants review structured data to be present on the page).
+  ...(isHomedoc && {
+    review: REVIEWS.map(r => ({
+      '@type': 'Review',
+      author: { '@type': 'Person', name: r.name },
+      reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+      reviewBody: t(r.key as any),
+    })),
+  }),
 };
 ---
 
@@ -149,4 +165,4 @@ const jsonLd = {
 
 <!-- ── Schema.org JSON-LD ────────────────────────────────────────────────── -->
 <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+{isHomedoc && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}

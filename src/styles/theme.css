@@ -34,6 +34,11 @@
   --color-tufting-intermediate: #17c69b;
   --color-tufting-pro:          #a90448;
 
+  /* Brand accent — pink from the favicon / theme-color */
+  --color-accent:     #ff058b;
+  --color-whatsapp:   #27D366;   /* WhatsApp brand green — floating action button */
+  --color-star:       #FCBC05;   /* Review star rating — yellow */
+
   /* Semantic aliases */
   --bg:           var(--color-white);
   --bg-section:   var(--color-light);
@@ -105,8 +110,10 @@
      Filled pill · black background · white text
      --------------------------------------------------------------------------- */
 
-  --btn-primary-bg:        var(--color-dark);
-  --btn-primary-color:     var(--color-white);
+  --btn-primary-bg:          var(--color-dark);
+  --btn-primary-color:       var(--color-white);
+  --btn-primary-hover-bg:    var(--color-accent);   /* pink on hover */
+  --btn-primary-hover-color: var(--color-black);     /* text → black on hover */
   --btn-primary-font-size: 0.8rem;
   --btn-primary-padding-v: 1.2em;
   --btn-primary-padding-h: 2em;
@@ -360,6 +367,26 @@ a:hover { opacity: var(--hover-opacity); }
   color: var(--color-muted);
 }
 
+/* Arrow link — uppercase "learn more →" text link. The arrow is added via CSS,
+   so markup is just the label. Underlines on hover. */
+.link-arrow {
+  font-size: var(--font-size-ui);
+  font-weight: var(--font-weight-btn);
+  letter-spacing: var(--letter-spacing-btn);
+  text-transform: uppercase;
+  color: var(--color-black);
+  text-decoration: none;
+  transition: color var(--t-fast);
+}
+.link-arrow::after {
+  content: "\2192";            /* → */
+  margin-left: var(--space-xs);
+  display: inline-block;
+}
+.link-arrow:hover {
+  color: var(--color-accent);
+}
+
 
 /* =============================================================================
    BUTTONS
@@ -378,7 +405,7 @@ a:hover { opacity: var(--hover-opacity); }
   white-space: nowrap;
   cursor: pointer;
   border: none;
-  transition: opacity var(--t-fast), background var(--t-fast);
+  transition: opacity var(--t-fast), background var(--t-fast), color var(--t-fast), border-color var(--t-fast);
 }
 
 .btn-primary {
@@ -388,7 +415,10 @@ a:hover { opacity: var(--hover-opacity); }
   border-radius: var(--radius-pill);
   padding: var(--btn-primary-padding-v) var(--btn-primary-padding-h);
 }
-.btn-primary:hover { opacity: var(--hover-opacity); }
+.btn-primary:hover {
+  background: var(--btn-primary-hover-bg);
+  color: var(--btn-primary-hover-color);
+}
 
 .btn-secondary {
   font-size: var(--btn-secondary-font-size);
@@ -398,7 +428,12 @@ a:hover { opacity: var(--hover-opacity); }
   border-radius: var(--radius-pill);
   padding: var(--btn-secondary-padding-v) var(--btn-secondary-padding-h);
 }
-.btn-secondary:hover { background: var(--color-light); }
+/* Outline goes brand-pink on hover (visible on any background, unlike a light
+   fill which vanishes on light sections). */
+.btn-secondary:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
 
 .btn-tertiary {
   font-size: var(--btn-tertiary-font-size);

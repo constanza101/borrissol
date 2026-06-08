@@ -152,12 +152,18 @@ const items = [
     font-weight: var(--font-weight-body);
     line-height: 1;
     flex-shrink: 0;
-    transition: transform var(--t-normal);
+    transition: transform var(--t-normal), color var(--t-fast);
     user-select: none;
+  }
+
+  /* Pink on hover, and stays pink as the × while open. */
+  .faq-question:hover .faq-icon {
+    color: var(--color-accent);
   }
 
   .faq-item.is-open .faq-icon {
     transform: rotate(45deg);
+    color: var(--color-accent);
   }
 
   /* ── Answer panel ── */

@@ -1,0 +1,34 @@
+---
+/**
+ * Loom / weaving landing — dynamic route, generates /es/loom, /en/loom,
+ * /fr/loom statically. The default-locale (CA) URL `/loom` is served by
+ * src/pages/loom.astro.
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import LoomLanding from '../../components/LoomLanding.astro';
+import Footer from '../../components/Footer.astro';
+import { useTranslations } from '../../i18n/utils';
+import { languages, defaultLang, type Lang } from '../../i18n/ui';
+
+export async function getStaticPaths() {
+  return (Object.keys(languages) as Lang[])
+    .filter(l => l !== defaultLang)
+    .map(l => ({ params: { lang: l } }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<Layout
+  title={t('page.loom.title')}
+  description={t('page.loom.description')}
+  ogType="website"
+>
+  <Navbar />
+  <main id="main-content" tabindex="-1">
+    <LoomLanding />
+  </main>
+  <Footer />
+</Layout>

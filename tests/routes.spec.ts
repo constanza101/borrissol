@@ -5,6 +5,26 @@ import { expect, test } from '@playwright/test';
 // missing translations that leave a page with an empty title.
 //
 // When a new top-level page or locale is added, append it to ROUTES.
+
+// Dedicated service/technique landings — every slug exists in all four locales
+// (ca at root, es/en/fr prefixed). Add a slug here when a new landing ships.
+const LANDING_SLUGS = [
+  'team-building', 'pelussetes', 'borla', 'tufting',
+  'felting', 'punch-needle', 'loom', 'summer-lab',
+];
+const LANDING_LOCALES = [
+  { prefix: '',    lang: 'CA' },
+  { prefix: '/es', lang: 'ES' },
+  { prefix: '/en', lang: 'EN' },
+  { prefix: '/fr', lang: 'FR' },
+];
+const LANDING_ROUTES = LANDING_SLUGS.flatMap((slug) =>
+  LANDING_LOCALES.map(({ prefix, lang }) => ({
+    path: `${prefix}/${slug}`,
+    label: `${slug} (${lang})`,
+  })),
+);
+
 const ROUTES = [
   // Home in every locale
   { path: '/',           label: 'home (CA)' },
@@ -26,6 +46,9 @@ const ROUTES = [
 
   // Blog index — CA only by design
   { path: '/blog',       label: 'blog index (CA)' },
+
+  // Dedicated service/technique landings (4 locales each)
+  ...LANDING_ROUTES,
 ];
 
 test.describe('Static routes', () => {

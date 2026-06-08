@@ -1,0 +1,34 @@
+---
+/**
+ * Tufting landing — dynamic route, generates /es/tufting, /en/tufting,
+ * /fr/tufting statically. The default-locale (CA) URL `/tufting` is served by
+ * src/pages/tufting.astro.
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import TuftingLanding from '../../components/TuftingLanding.astro';
+import Footer from '../../components/Footer.astro';
+import { useTranslations } from '../../i18n/utils';
+import { languages, defaultLang, type Lang } from '../../i18n/ui';
+
+export async function getStaticPaths() {
+  return (Object.keys(languages) as Lang[])
+    .filter(l => l !== defaultLang)
+    .map(l => ({ params: { lang: l } }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+---
+
+<Layout
+  title={t('page.tuf.title')}
+  description={t('page.tuf.description')}
+  ogType="website"
+>
+  <Navbar />
+  <main id="main-content" tabindex="-1">
+    <TuftingLanding />
+  </main>
+  <Footer />
+</Layout>

@@ -42,7 +42,7 @@ const blogHref = '/blog';
   <nav class="site-nav" aria-label="Main navigation">
 
     <a href={homePath} class="nav-brand" aria-label="Borrissol — inicio">
-      <img src="/images/borrissol-pompom.svg" alt="Borrissol" class="nav-brand-logo" />
+      <span class="nav-brand-logo" aria-hidden="true"></span>
     </a>
 
     <!-- Desktop links -->
@@ -51,9 +51,9 @@ const blogHref = '/blog';
       <li><a href={anchors.workshops}>{t('nav.workshops')}</a></li>
       <li><a href={anchors.process}>{t('nav.process')}</a></li>
       <li><a href={anchors.about}>{t('nav.about')}</a></li>
+      <li><a href={anchors.faq}>FAQ</a></li>
       <li><a href={galleryPath} aria-current={isCurrentPage(galleryPath) ? 'page' : undefined}>{t('nav.gallery')}</a></li>
       <li><a href={pressPath} aria-current={isCurrentPage(pressPath) ? 'page' : undefined}>{t('nav.press')}</a></li>
-      <li><a href={anchors.faq}>FAQ</a></li>
       <li><a href={blogHref} aria-current={isCurrentPage(blogHref) ? 'page' : undefined}>Blog</a></li>
     </ul>
 
@@ -122,9 +122,9 @@ const blogHref = '/blog';
       <li><a href={anchors.workshops}>{t('nav.workshops')}</a></li>
       <li><a href={anchors.process}>{t('nav.process')}</a></li>
       <li><a href={anchors.about}>{t('nav.about')}</a></li>
+      <li><a href={anchors.faq}>FAQ</a></li>
       <li><a href={galleryPath} aria-current={isCurrentPage(galleryPath) ? 'page' : undefined}>{t('nav.gallery')}</a></li>
       <li><a href={pressPath} aria-current={isCurrentPage(pressPath) ? 'page' : undefined}>{t('nav.press')}</a></li>
-      <li><a href={anchors.faq}>FAQ</a></li>
       <li><a href={blogHref} aria-current={isCurrentPage(blogHref) ? 'page' : undefined}>Blog</a></li>
     </ul>
 
@@ -259,10 +259,19 @@ const blogHref = '/blog';
     flex-shrink: 0;
   }
 
+  /* Logo recoloured via CSS mask (the SVG is monochrome) so it can go brand-pink
+     on hover. viewBox 87.05×85.06 → ~33px wide at 32px tall. */
   .nav-brand-logo {
     height: 32px;
-    width: auto;
+    width: 33px;
     display: block;
+    background-color: var(--color-dark);
+    -webkit-mask: url("/images/borrissol-pompom.svg") center / contain no-repeat;
+    mask: url("/images/borrissol-pompom.svg") center / contain no-repeat;
+    transition: background-color var(--t-fast);
+  }
+  .nav-brand:hover .nav-brand-logo {
+    background-color: var(--color-accent);
   }
 
   /* ── Desktop links ── */
@@ -437,11 +446,10 @@ const blogHref = '/blog';
     .nav-cta           { display: none; }
     .nav-lang-dropdown { display: none; }
 
+    /* Language switcher lives only inside the mobile dropdown now —
+       keep it out of the always-visible bar. */
     .nav-bar-lang {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      flex-shrink: 0;
+      display: none;
     }
 
     /* Tighten pill padding on mobile */
@@ -510,7 +518,12 @@ const blogHref = '/blog';
     }
 
     .nav-mobile.is-open {
-      max-height: 520px;
+      /* Fill the viewport below the bar and scroll internally if the links
+         don't all fit (dvh handles mobile browser chrome). */
+      max-height: calc(100vh - 96px);
+      max-height: calc(100dvh - 96px);
+      overflow-y: auto;
+      overscroll-behavior: contain;
       opacity: 1;
       padding: var(--space-sm) var(--space-md) var(--space-md);
       pointer-events: auto;

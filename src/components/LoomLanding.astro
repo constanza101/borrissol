@@ -1,57 +1,56 @@
 ---
 /**
- * Feltre agullat (needle felting) landing — informational page targeting the
- * "taller feltre agullat / fieltro agujado" search intent (a near-empty niche).
- * It explains the technique and funnels to where it can be practised: the Borla
- * monthly workshop (internal link) and WhatsApp.
+ * Loom / weaving (telar) landing — informational page targeting the
+ * "taller telar / teler / weaving" search intent (a low-competition niche).
+ * Explains the technique and funnels to where it's practised: the Borla monthly
+ * workshop (internal link) and WhatsApp.
  *
- * All copy comes from the i18n catalog (felt.* keys). Typography uses the
- * .text-* utility classes (Hard Rule #15); scoped CSS holds layout only.
+ * All copy from the i18n catalog (loom.* keys). Typography uses .text-*
+ * utilities (Hard Rule #15); scoped CSS = layout only.
  */
 import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 import FaqSchema from './FaqSchema.astro';
 import { waHref } from '../config';
-import heroImg from '../assets/images/offer-felting.jpg';
+import heroImg from '../assets/images/offer-loom.jpg';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const ctaHref = waHref(t('wa.felt.landing'));
-// Internal funnel: needle felting is practised at the Borla monthly workshop.
+const ctaHref = waHref(t('wa.loom.landing'));
 const borlaPath = lang === 'ca' ? '/borla' : `/${lang}/borla`;
 
 const benefits = [1, 2, 3].map(n => ({
-  title: t(`felt.benefit.${n}.title` as any),
-  desc:  t(`felt.benefit.${n}.desc` as any),
+  title: t(`loom.benefit.${n}.title` as any),
+  desc:  t(`loom.benefit.${n}.desc` as any),
 }));
 
 const faqs = [1, 2, 3].map(n => ({
-  q: t(`felt.faq.q${n}` as any),
-  a: t(`felt.faq.a${n}` as any),
+  q: t(`loom.faq.q${n}` as any),
+  a: t(`loom.faq.a${n}` as any),
 }));
 ---
 
-<article class="felt">
+<article class="loom">
 
   <!-- ── Hero ─────────────────────────────────────────────────────────── -->
-  <section class="felt-hero" aria-labelledby="felt-hero-heading">
-    <div class="felt-hero-text">
-      <span class="text-ui text-muted">{t('felt.eyebrow')}</span>
-      <h1 id="felt-hero-heading" class="text-h1 felt-headline">{t('felt.headline')}</h1>
-      <p class="text-p1 text-muted felt-lead">{t('felt.lead')}</p>
-      <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('felt.cta')}</a>
+  <section class="loom-hero" aria-labelledby="loom-hero-heading">
+    <div class="loom-hero-text">
+      <span class="text-ui text-muted">{t('loom.eyebrow')}</span>
+      <h1 id="loom-hero-heading" class="text-h1 loom-headline">{t('loom.headline')}</h1>
+      <p class="text-p1 text-muted loom-lead">{t('loom.lead')}</p>
+      <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('loom.cta')}</a>
     </div>
-    <div class="felt-hero-img-wrap">
+    <div class="loom-hero-img-wrap">
       <Picture
         src={heroImg}
         widths={[480, 768, 1000]}
         sizes="(max-width: 900px) 100vw, 50vw"
         formats={['avif', 'webp']}
-        alt="Figuras creadas con feltre agullat (fieltro agujado) en el taller Borrissol, Mataró"
+        alt="Tejido en telar artesanal con hilos de colores en el taller Borrissol, Mataró"
         width={3024}
         height={3024}
-        class="felt-hero-img"
+        class="loom-hero-img"
         loading="eager"
         fetchpriority="high"
       />
@@ -59,55 +58,55 @@ const faqs = [1, 2, 3].map(n => ({
   </section>
 
   <!-- ── What is it ───────────────────────────────────────────────────── -->
-  <section class="felt-section felt-text" aria-labelledby="felt-what-heading">
-    <h2 id="felt-what-heading" class="text-h2 felt-h2">{t('felt.what.title')}</h2>
-    <p class="text-p2 felt-body">{t('felt.what.body')}</p>
+  <section class="loom-section loom-text" aria-labelledby="loom-what-heading">
+    <h2 id="loom-what-heading" class="text-h2 loom-h2">{t('loom.what.title')}</h2>
+    <p class="text-p2 loom-body">{t('loom.what.body')}</p>
   </section>
 
-  <!-- ── What you can create ──────────────────────────────────────────── -->
-  <section class="felt-section felt-text" aria-labelledby="felt-create-heading">
-    <h2 id="felt-create-heading" class="text-h2 felt-h2">{t('felt.create.title')}</h2>
-    <p class="text-p2 felt-body">{t('felt.create.body')}</p>
+  <!-- ── What you can weave ───────────────────────────────────────────── -->
+  <section class="loom-section loom-text" aria-labelledby="loom-create-heading">
+    <h2 id="loom-create-heading" class="text-h2 loom-h2">{t('loom.create.title')}</h2>
+    <p class="text-p2 loom-body">{t('loom.create.body')}</p>
   </section>
 
   <!-- ── Why / benefits ───────────────────────────────────────────────── -->
-  <section class="felt-section felt-why" aria-labelledby="felt-why-heading">
-    <h2 id="felt-why-heading" class="text-h2 felt-h2">{t('felt.why.title')}</h2>
-    <div class="felt-benefits-grid">
+  <section class="loom-section loom-why" aria-labelledby="loom-why-heading">
+    <h2 id="loom-why-heading" class="text-h2 loom-h2">{t('loom.why.title')}</h2>
+    <div class="loom-benefits-grid">
       {benefits.map(b => (
-        <div class="felt-benefit-card">
-          <h3 class="text-h4 felt-benefit-title">{b.title}</h3>
-          <p class="text-p2 text-muted felt-benefit-desc">{b.desc}</p>
+        <div class="loom-benefit-card">
+          <h3 class="text-h4 loom-benefit-title">{b.title}</h3>
+          <p class="text-p2 text-muted loom-benefit-desc">{b.desc}</p>
         </div>
       ))}
     </div>
   </section>
 
   <!-- ── Where to practise (funnel to Borla) ──────────────────────────── -->
-  <section class="felt-section felt-practice" aria-labelledby="felt-practice-heading">
-    <h2 id="felt-practice-heading" class="text-h2 felt-h2">{t('felt.practice.title')}</h2>
-    <p class="text-p2 felt-body">{t('felt.practice.body')}</p>
-    <a href={borlaPath} class="btn btn-secondary felt-practice-cta">{t('felt.practice.cta')}</a>
+  <section class="loom-section loom-practice" aria-labelledby="loom-practice-heading">
+    <h2 id="loom-practice-heading" class="text-h2 loom-h2">{t('loom.practice.title')}</h2>
+    <p class="text-p2 loom-body">{t('loom.practice.body')}</p>
+    <a href={borlaPath} class="btn btn-secondary loom-practice-cta">{t('loom.practice.cta')}</a>
   </section>
 
   <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
-  <section class="felt-section felt-faq" aria-labelledby="felt-faq-heading">
-    <h2 id="felt-faq-heading" class="text-h2 felt-h2">{t('felt.faq.title')}</h2>
-    <div class="felt-faq-list">
+  <section class="loom-section loom-faq" aria-labelledby="loom-faq-heading">
+    <h2 id="loom-faq-heading" class="text-h2 loom-h2">{t('loom.faq.title')}</h2>
+    <div class="loom-faq-list">
       {faqs.map(f => (
-        <div class="felt-faq-item">
-          <h3 class="text-h4 felt-faq-q">{f.q}</h3>
-          <p class="text-p2 text-muted felt-faq-a">{f.a}</p>
+        <div class="loom-faq-item">
+          <h3 class="text-h4 loom-faq-q">{f.q}</h3>
+          <p class="text-p2 text-muted loom-faq-a">{f.a}</p>
         </div>
       ))}
     </div>
   </section>
 
   <!-- ── Final CTA ────────────────────────────────────────────────────── -->
-  <section class="felt-section felt-final" aria-labelledby="felt-final-heading">
-    <h2 id="felt-final-heading" class="text-h2 felt-final-title">{t('felt.final.title')}</h2>
-    <p class="text-p1 text-muted felt-final-body">{t('felt.final.body')}</p>
-    <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('felt.final.cta')}</a>
+  <section class="loom-section loom-final" aria-labelledby="loom-final-heading">
+    <h2 id="loom-final-heading" class="text-h2 loom-final-title">{t('loom.final.title')}</h2>
+    <p class="text-p1 text-muted loom-final-body">{t('loom.final.body')}</p>
+    <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('loom.final.cta')}</a>
   </section>
 
 </article>
@@ -115,35 +114,34 @@ const faqs = [1, 2, 3].map(n => ({
 <FaqSchema faqs={faqs} />
 
 <style>
-  .felt {
+  .loom {
     background: var(--color-white);
   }
 
   /* ── Shared section ───────────────────────────────────────────────── */
-  .felt-section {
+  .loom-section {
     max-width: var(--layout-max-width);
     margin: 0 auto;
     padding: var(--space-xl) var(--layout-page-padding-h);
   }
 
   /* Typography from .text-* utilities; scoped rules below are layout only. */
-  .felt-h2 {
+  .loom-h2 {
     margin: 0 0 var(--space-md);
   }
 
-  .felt-body {
+  .loom-body {
     margin: 0;
     max-width: 720px;
   }
 
-  /* Stacked text sections share a tighter rhythm. */
-  .felt-text {
+  .loom-text {
     padding-top: var(--space-lg);
     padding-bottom: var(--space-lg);
   }
 
   /* ── Hero ─────────────────────────────────────────────────────────── */
-  .felt-hero {
+  .loom-hero {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-xl);
@@ -154,28 +152,28 @@ const faqs = [1, 2, 3].map(n => ({
     padding-top: calc(var(--space-xl) + 60px);
   }
 
-  .felt-hero-text {
+  .loom-hero-text {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-md);
   }
 
-  .felt-headline {
+  .loom-headline {
     margin: 0;
   }
 
-  .felt-lead {
+  .loom-lead {
     margin: 0;
   }
 
-  .felt-hero-img-wrap {
+  .loom-hero-img-wrap {
     aspect-ratio: 1 / 1;
     overflow: hidden;
     border-radius: var(--radius-md);
   }
 
-  .felt-hero-img {
+  .loom-hero-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -183,18 +181,18 @@ const faqs = [1, 2, 3].map(n => ({
   }
 
   /* ── Why / benefits ───────────────────────────────────────────────── */
-  .felt-why {
+  .loom-why {
     background: var(--bg-section);
     max-width: none;
   }
 
-  .felt-why > .felt-h2 {
+  .loom-why > .loom-h2 {
     max-width: var(--layout-max-width);
     margin-left: auto;
     margin-right: auto;
   }
 
-  .felt-benefits-grid {
+  .loom-benefits-grid {
     max-width: var(--layout-max-width);
     margin: 0 auto;
     display: grid;
@@ -202,73 +200,73 @@ const faqs = [1, 2, 3].map(n => ({
     gap: var(--space-md);
   }
 
-  .felt-benefit-card {
+  .loom-benefit-card {
     background: var(--color-white);
     border: var(--border-default);
     border-radius: var(--radius-md);
     padding: var(--space-lg);
   }
 
-  .felt-benefit-title {
+  .loom-benefit-title {
     margin: 0 0 var(--space-xs);
   }
 
-  .felt-benefit-desc {
+  .loom-benefit-desc {
     margin: 0;
   }
 
   /* ── Practice (funnel to Borla) ───────────────────────────────────── */
-  .felt-practice {
+  .loom-practice {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-md);
   }
 
-  .felt-practice .felt-h2 {
+  .loom-practice .loom-h2 {
     margin-bottom: 0;
   }
 
-  .felt-practice-cta {
+  .loom-practice-cta {
     margin-top: var(--space-xs);
   }
 
   /* ── FAQ ──────────────────────────────────────────────────────────── */
-  .felt-faq {
+  .loom-faq {
     background: var(--bg-section);
     max-width: none;
   }
 
-  .felt-faq > .felt-h2,
-  .felt-faq-list {
+  .loom-faq > .loom-h2,
+  .loom-faq-list {
     max-width: var(--layout-max-width);
     margin-left: auto;
     margin-right: auto;
   }
 
-  .felt-faq-list {
+  .loom-faq-list {
     display: flex;
     flex-direction: column;
     gap: var(--space-md);
   }
 
-  .felt-faq-item {
+  .loom-faq-item {
     background: var(--color-white);
     border: var(--border-default);
     border-radius: var(--radius-md);
     padding: var(--space-lg);
   }
 
-  .felt-faq-q {
+  .loom-faq-q {
     margin: 0 0 var(--space-xs);
   }
 
-  .felt-faq-a {
+  .loom-faq-a {
     margin: 0;
   }
 
   /* ── Final CTA ────────────────────────────────────────────────────── */
-  .felt-final {
+  .loom-final {
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -277,23 +275,23 @@ const faqs = [1, 2, 3].map(n => ({
     border-top: var(--border-default);
   }
 
-  .felt-final-title {
+  .loom-final-title {
     margin: 0;
   }
 
-  .felt-final-body {
+  .loom-final-body {
     margin: 0;
     max-width: 560px;
   }
 
   /* ── Responsive ───────────────────────────────────────────────────── */
   @media (max-width: 900px) {
-    .felt-hero {
+    .loom-hero {
       grid-template-columns: 1fr;
       gap: var(--space-lg);
     }
 
-    .felt-benefits-grid {
+    .loom-benefits-grid {
       grid-template-columns: 1fr;
     }
   }

@@ -1,5 +1,6 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { REVIEWS } from '../config/reviews';
 
 const lang = getLangFromUrl(Astro.url);
 const t    = useTranslations(lang);
@@ -13,20 +14,7 @@ const accentColors = [
   'var(--color-tufting-pro)',
 ];
 
-const reviews = [
-  { name: 'Marne M.',       text: t('testimonials.r1')  },
-  { name: 'Aza',            text: t('testimonials.r2')  },
-  { name: 'Marta L.',       text: t('testimonials.r3')  },
-  { name: 'Alba L.',        text: t('testimonials.r4')  },
-  { name: 'Veronica T.',    text: t('testimonials.r5')  },
-  { name: 'María Paula M.', text: t('testimonials.r6')  },
-  { name: 'Betsabeth O.',   text: t('testimonials.r7')  },
-  { name: 'Patricia B.',    text: t('testimonials.r8')  },
-  { name: 'Magí C.',        text: t('testimonials.r9')  },
-  { name: 'Sandra L.',      text: t('testimonials.r10') },
-  { name: 'Lluís J.',       text: t('testimonials.r11') },
-  { name: 'Gerard A.',      text: t('testimonials.r12') },
-];
+const reviews = REVIEWS.map(r => ({ name: r.name, text: t(r.key as any) }));
 ---
 
 <section id="testimonials" class="testimonials" aria-labelledby="testimonials-heading">
@@ -69,6 +57,9 @@ const reviews = [
                   {t('testimonials.source')}
                 </a>
               </div>
+              <a href={MAPS_URL} target="_blank" rel="noopener noreferrer" class="t-google" aria-label={t('testimonials.source')}>
+                <img src="/images/google-g.png" alt="" width="22" height="22" loading="lazy" />
+              </a>
             </div>
           </li>
         ))}
@@ -77,7 +68,7 @@ const reviews = [
 
     <!-- Bottom CTA -->
     <div class="t-cta-wrap reveal">
-      <a href={MAPS_URL} target="_blank" rel="noopener noreferrer" class="t-cta-link">
+      <a href={MAPS_URL} target="_blank" rel="noopener noreferrer" class="link-arrow t-cta-link">
         {t('testimonials.cta')}
       </a>
     </div>
@@ -191,7 +182,7 @@ const reviews = [
     flex: 0 0 calc((100% - 2 * var(--space-sm)) / 3);
     scroll-snap-align: start;
     background: var(--color-white);
-    border-radius: var(--radius-xs);
+    border-radius: var(--radius-md);
     padding: var(--space-md);
     display: flex;
     flex-direction: column;
@@ -199,7 +190,7 @@ const reviews = [
 
   .t-stars {
     font-size: var(--font-size-p3);
-    color: var(--color-black);
+    color: var(--color-star);
     letter-spacing: 0.05em;
     margin-bottom: var(--space-sm);
   }
@@ -227,6 +218,7 @@ const reviews = [
     width: 32px;
     height: 32px;
     flex-shrink: 0;
+    border-radius: var(--radius-pill);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -257,6 +249,19 @@ const reviews = [
   }
   .t-source:hover { color: var(--color-black); }
 
+  /* Google logo — bottom-right of the card, links to the Google reviews. */
+  .t-google {
+    margin-left: auto;
+    align-self: flex-end;
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+  .t-google img {
+    width: 22px;
+    height: 22px;
+    display: block;
+  }
+
   /* ── Bottom CTA ── */
   .t-cta-wrap {
     display: flex;
@@ -265,14 +270,6 @@ const reviews = [
     border-top: var(--border-default);
   }
 
-  .t-cta-link {
-    font-size: var(--font-size-p3);
-    font-weight: var(--font-weight-btn);
-    color: var(--color-black);
-    text-decoration: none;
-    transition: opacity var(--t-fast);
-  }
-  .t-cta-link:hover { opacity: var(--hover-opacity); }
 
   /* ── Tablet: 2 cards ── */
   @media (max-width: 840px) {
