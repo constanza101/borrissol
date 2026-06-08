@@ -1,0 +1,452 @@
+---
+/**
+ * Pelussetes landing — dedicated, indexable page for the express group tufting
+ * workshop (birthdays, hen parties, events). All copy comes from the i18n
+ * catalog (pel.* keys); this component is language-agnostic and is reused by
+ * the CA root route (/pelussetes) and the [lang] route.
+ *
+ * Typography uses the .text-* utility classes (Hard Rule #15); scoped CSS holds
+ * layout only. Includes a Course JSON-LD node with the per-person price.
+ */
+import { Picture } from 'astro:assets';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { SITE } from '../config/site';
+import { waHref } from '../config';
+import heroImg from '../assets/images/taller-tufting.jpg';
+import detailImg from '../assets/images/grupo2.jpg';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const ctaHref = waHref(t('wa.pel.landing'));
+
+const occasions = [1, 2, 3].map(n => ({
+  title: t(`pel.occasion.${n}.title` as any),
+  desc:  t(`pel.occasion.${n}.desc` as any),
+}));
+
+const steps = [1, 2, 3].map(n => ({
+  title: t(`pel.how.${n}.title` as any),
+  desc:  t(`pel.how.${n}.desc` as any),
+}));
+
+const details = [
+  { label: t('pel.details.price.label'),    value: t('pel.details.price.value') },
+  { label: t('pel.details.group.label'),    value: t('pel.details.group.value') },
+  { label: t('pel.details.duration.label'), value: t('pel.details.duration.value') },
+  { label: t('pel.details.project.label'),  value: t('pel.details.project.value') },
+  { label: t('pel.details.includes.label'), value: t('pel.details.includes.value') },
+  { label: t('pel.details.pickup.label'),   value: t('pel.details.pickup.value') },
+  { label: t('pel.details.location.label'), value: t('pel.details.location.value') },
+];
+
+const faqs = [1, 2, 3, 4].map(n => ({
+  q: t(`pel.faq.q${n}` as any),
+  a: t(`pel.faq.a${n}` as any),
+}));
+
+// ── Course schema (with per-person price) ───────────────────────────────────
+const origin = (Astro.site ?? Astro.url).origin;
+const courseSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  name: t('pel.headline'),
+  description: t('page.pel.description'),
+  url: new URL(Astro.url.pathname, origin).href,
+  provider: {
+    '@type': 'Organization',
+    name: SITE.business.name,
+    url: `${origin}/`,
+  },
+  hasCourseInstance: {
+    '@type': 'CourseInstance',
+    courseMode: 'Onsite',
+    courseWorkload: 'P2H',
+    location: {
+      '@type': 'Place',
+      name: SITE.business.name,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: SITE.business.address.streetAddress,
+        addressLocality: SITE.business.address.addressLocality,
+        postalCode: SITE.business.address.postalCode,
+        addressCountry: SITE.business.address.addressCountry,
+      },
+    },
+    offers: {
+      '@type': 'Offer',
+      price: '68',
+      priceCurrency: 'EUR',
+      availability: 'https://schema.org/InStock',
+    },
+  },
+};
+---
+
+<article class="pel">
+
+  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
+  <section class="pel-hero" aria-labelledby="pel-hero-heading">
+    <div class="pel-hero-text">
+      <span class="text-ui text-muted">{t('pel.eyebrow')}</span>
+      <h1 id="pel-hero-heading" class="text-h1 pel-headline">{t('pel.headline')}</h1>
+      <p class="text-p1 text-muted pel-lead">{t('pel.lead')}</p>
+      <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('pel.cta')}</a>
+    </div>
+    <div class="pel-hero-img-wrap">
+      <Picture
+        src={heroImg}
+        widths={[480, 768, 1000]}
+        sizes="(max-width: 900px) 100vw, 50vw"
+        formats={['avif', 'webp']}
+        alt="Grupo de amigas creando tapices en un taller de tufting Pelussetes en Borrissol, Mataró"
+        width={2957}
+        height={2085}
+        class="pel-hero-img"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+  </section>
+
+  <!-- ── Intro ────────────────────────────────────────────────────────── -->
+  <section class="pel-section pel-intro" aria-labelledby="pel-intro-heading">
+    <h2 id="pel-intro-heading" class="text-h2 pel-h2">{t('pel.intro.title')}</h2>
+    <p class="text-p2 pel-body">{t('pel.intro.body')}</p>
+  </section>
+
+  <!-- ── Occasions ────────────────────────────────────────────────────── -->
+  <section class="pel-section pel-occasions" aria-labelledby="pel-occasions-heading">
+    <h2 id="pel-occasions-heading" class="text-h2 pel-h2">{t('pel.occasions.title')}</h2>
+    <div class="pel-occasions-grid">
+      {occasions.map(o => (
+        <div class="pel-occasion-card">
+          <h3 class="text-h4 pel-occasion-title">{o.title}</h3>
+          <p class="text-p2 text-muted pel-occasion-desc">{o.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── How it works ─────────────────────────────────────────────────── -->
+  <section class="pel-section pel-how" aria-labelledby="pel-how-heading">
+    <h2 id="pel-how-heading" class="text-h2 pel-h2">{t('pel.how.title')}</h2>
+    <ol class="pel-steps">
+      {steps.map((s, i) => (
+        <li class="pel-step">
+          <span class="pel-step-num">{i + 1}</span>
+          <div class="pel-step-text">
+            <h3 class="text-h4 pel-step-title">{s.title}</h3>
+            <p class="text-p2 text-muted pel-step-desc">{s.desc}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- ── Details + image ──────────────────────────────────────────────── -->
+  <section class="pel-section pel-details" aria-labelledby="pel-details-heading">
+    <div class="pel-details-layout">
+      <div class="pel-details-text">
+        <h2 id="pel-details-heading" class="text-h2 pel-h2">{t('pel.details.title')}</h2>
+        <dl class="pel-details-list">
+          {details.map(d => (
+            <div class="pel-details-row">
+              <dt class="text-ui text-muted">{d.label}</dt>
+              <dd class="text-p2 pel-details-value">{d.value}</dd>
+            </div>
+          ))}
+        </dl>
+        <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary pel-details-cta">{t('pel.cta')}</a>
+      </div>
+      <div class="pel-details-img-wrap">
+        <Picture
+          src={detailImg}
+          widths={[400, 600, 800]}
+          sizes="(max-width: 900px) 100vw, 40vw"
+          formats={['avif', 'webp']}
+          alt="Participantes en un taller de tufting en grupo en Borrissol, Mataró"
+          width={3000}
+          height={4000}
+          class="pel-details-img"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
+  <section class="pel-section pel-faq" aria-labelledby="pel-faq-heading">
+    <h2 id="pel-faq-heading" class="text-h2 pel-h2">{t('pel.faq.title')}</h2>
+    <div class="pel-faq-list">
+      {faqs.map(f => (
+        <div class="pel-faq-item">
+          <h3 class="text-h4 pel-faq-q">{f.q}</h3>
+          <p class="text-p2 text-muted pel-faq-a">{f.a}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── Final CTA ────────────────────────────────────────────────────── -->
+  <section class="pel-section pel-final" aria-labelledby="pel-final-heading">
+    <h2 id="pel-final-heading" class="text-h2 pel-final-title">{t('pel.final.title')}</h2>
+    <p class="text-p1 text-muted pel-final-body">{t('pel.final.body')}</p>
+    <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('pel.final.cta')}</a>
+  </section>
+
+</article>
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(courseSchema)} />
+
+<style>
+  .pel {
+    background: var(--color-white);
+  }
+
+  /* ── Shared section ───────────────────────────────────────────────── */
+  .pel-section {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: var(--space-xl) var(--layout-page-padding-h);
+  }
+
+  /* Typography from .text-* utilities; scoped rules below are layout only. */
+  .pel-h2 {
+    margin: 0 0 var(--space-md);
+  }
+
+  .pel-body {
+    margin: 0;
+    max-width: 720px;
+  }
+
+  /* ── Hero ─────────────────────────────────────────────────────────── */
+  .pel-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: var(--space-xl) var(--layout-page-padding-h);
+    padding-top: calc(var(--space-xl) + 60px);
+  }
+
+  .pel-hero-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .pel-headline {
+    margin: 0;
+  }
+
+  .pel-lead {
+    margin: 0;
+  }
+
+  .pel-hero-img-wrap {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+  }
+
+  .pel-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── Occasions ────────────────────────────────────────────────────── */
+  .pel-occasions {
+    background: var(--bg-section);
+    max-width: none;
+  }
+
+  .pel-occasions > .pel-h2 {
+    max-width: var(--layout-max-width);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .pel-occasions-grid {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+  }
+
+  .pel-occasion-card {
+    background: var(--color-white);
+    border: var(--border-default);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+  }
+
+  .pel-occasion-title {
+    margin: 0 0 var(--space-xs);
+  }
+
+  .pel-occasion-desc {
+    margin: 0;
+  }
+
+  /* ── How it works ─────────────────────────────────────────────────── */
+  .pel-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    max-width: 720px;
+  }
+
+  .pel-step {
+    display: flex;
+    gap: var(--space-md);
+    align-items: flex-start;
+  }
+
+  /* Numbered badge — bespoke circular element, no typography utility fits. */
+  .pel-step-num {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-pill);
+    background: var(--color-black);
+    color: var(--color-white);
+    font-size: var(--font-size-p2);
+    font-weight: var(--font-weight-btn);
+  }
+
+  .pel-step-title {
+    margin: 0 0 var(--space-xs);
+  }
+
+  .pel-step-desc {
+    margin: 0;
+  }
+
+  /* ── Details ──────────────────────────────────────────────────────── */
+  .pel-details-layout {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  .pel-details-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pel-details-list {
+    margin: 0 0 var(--space-lg);
+    width: 100%;
+  }
+
+  .pel-details-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-md);
+    padding: var(--space-sm) 0;
+    border-bottom: var(--border-default);
+  }
+
+  .pel-details-value {
+    margin: 0;
+  }
+
+  .pel-details-img-wrap {
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+  }
+
+  .pel-details-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── FAQ ──────────────────────────────────────────────────────────── */
+  .pel-faq {
+    background: var(--bg-section);
+    max-width: none;
+  }
+
+  .pel-faq > .pel-h2,
+  .pel-faq-list {
+    max-width: var(--layout-max-width);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .pel-faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .pel-faq-item {
+    background: var(--color-white);
+    border: var(--border-default);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+  }
+
+  .pel-faq-q {
+    margin: 0 0 var(--space-xs);
+  }
+
+  .pel-faq-a {
+    margin: 0;
+  }
+
+  /* ── Final CTA ────────────────────────────────────────────────────── */
+  .pel-final {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    border-top: var(--border-default);
+  }
+
+  .pel-final-title {
+    margin: 0;
+  }
+
+  .pel-final-body {
+    margin: 0;
+    max-width: 560px;
+  }
+
+  /* ── Responsive ───────────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .pel-hero {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+
+    .pel-occasions-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .pel-details-layout {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+  }
+</style>

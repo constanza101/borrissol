@@ -9,10 +9,16 @@ import imgLoom       from '../assets/images/offer-loom.jpg';
 const lang = getLangFromUrl(Astro.url);
 const t    = useTranslations(lang);
 
+// Localized paths to dedicated technique landings (ca = no prefix).
+const feltingPath = lang === 'ca' ? '/felting' : `/${lang}/felting`;
+const punchPath   = lang === 'ca' ? '/punch-needle' : `/${lang}/punch-needle`;
+
+// `href` is optional: techniques with a dedicated landing get a "learn more"
+// link. Add more as their landings ship (loom, …).
 const techniques = [
   { name: t('offer.tufting.name'),    desc: t('offer.tufting.desc'),    img: imgTufting,     width: 2904, height: 2150, alt: 'Persona trabajando con pistola de tufting en el taller Borrissol, Mataró' },
-  { name: t('offer.embroidery.name'), desc: t('offer.embroidery.desc'), img: imgFelting,     width: 3024, height: 3024, alt: 'Figuras de animales creadas con técnica de fieltro agujado' },
-  { name: t('offer.punch.name'),      desc: t('offer.punch.desc'),      img: imgPunchNeedle, width: 4032, height: 3024, alt: 'Tote bag con diseño colorido hecho con técnica punch needle' },
+  { name: t('offer.embroidery.name'), desc: t('offer.embroidery.desc'), img: imgFelting,     width: 3024, height: 3024, alt: 'Figuras de animales creadas con técnica de fieltro agujado', href: feltingPath },
+  { name: t('offer.punch.name'),      desc: t('offer.punch.desc'),      img: imgPunchNeedle, width: 4032, height: 3024, alt: 'Tote bag con diseño colorido hecho con técnica punch needle', href: punchPath },
   { name: t('offer.loom.name'),       desc: t('offer.loom.desc'),       img: imgLoom,        width: 3024, height: 3024, alt: 'Manos tejiendo en un telar con hilos de colores' },
 ];
 ---
@@ -26,7 +32,7 @@ const techniques = [
     <p class="offer-body reveal" data-delay="2">{t('offer.body')}</p>
 
     <div class="offer-grid">
-      {techniques.map(({ name, desc, img, width, height, alt }, i) => (
+      {techniques.map(({ name, desc, img, width, height, alt, href }, i) => (
         <article class="technique-card reveal" data-delay={i > 0 ? String(i) : undefined}>
           <div class="technique-img-wrap">
             <Picture
@@ -44,6 +50,9 @@ const techniques = [
           <div class="technique-body">
             <h3 class="technique-name">{name}</h3>
             <p class="technique-desc">{desc}</p>
+            {href && (
+              <a href={href} class="technique-link">{t('ws.learnmore')} <span aria-hidden="true">&rarr;</span></a>
+            )}
           </div>
         </article>
       ))}
@@ -107,6 +116,8 @@ const techniques = [
     border-radius: var(--radius-xs);
     overflow: hidden;
     background: var(--color-white);
+    display: flex;
+    flex-direction: column;
   }
 
   /* ── Image ── */
@@ -130,6 +141,9 @@ const techniques = [
   /* ── Text body ── */
   .technique-body {
     padding: var(--space-sm) var(--space-md) var(--space-md);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
   }
 
   .technique-name {
@@ -148,6 +162,25 @@ const techniques = [
     letter-spacing: var(--letter-spacing-body);
     color: var(--color-muted);
     margin: 0;
+  }
+
+  .technique-link {
+    align-self: flex-start;
+    /* Push the link to the bottom of the card so links align across the row,
+       regardless of how long each description is. */
+    margin-top: auto;
+    padding-top: var(--space-md);
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-btn);
+    letter-spacing: var(--letter-spacing-btn);
+    text-transform: uppercase;
+    color: var(--color-black);
+    text-decoration: none;
+  }
+
+  .technique-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   /* ════════════════════════════════════════════════

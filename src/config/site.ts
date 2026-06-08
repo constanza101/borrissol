@@ -11,6 +11,11 @@ interface PostalAddress {
   addressCountry: string;
 }
 
+interface GeoCoordinates {
+  latitude: number;
+  longitude: number;
+}
+
 interface BusinessConfig {
   type: SchemaBusinessType;
   name: string;
@@ -18,6 +23,7 @@ interface BusinessConfig {
   email?: string;
   telephone?: string;
   address: PostalAddress;
+  geo?: GeoCoordinates;
   priceRange?: string;
   openingHours?: string[];
   sameAs?: string[];
@@ -52,6 +58,13 @@ export const SITE: SiteConfig = {
       addressRegion: 'Catalunya',
       postalCode: '08301',
       addressCountry: 'ES',
+    },
+    // Coordinates of the physical workshop (Carrer de Sant Antoni 17, Mataró).
+    // Feeds the LocalBusiness `geo` node so Google can place the business in
+    // the local map pack for "near me" / location-intent searches.
+    geo: {
+      latitude: 41.5373926,
+      longitude: 2.4466578,
     },
     priceRange: '€€',
     openingHours: ['Mo-Sa 09:30-13:30', 'Mo-Sa 16:30-20:30'],

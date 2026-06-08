@@ -1,0 +1,451 @@
+---
+/**
+ * Team Building landing — dedicated, indexable page for the
+ * "team building creativo Barcelona" search intent. All copy comes from the
+ * i18n catalog (tb.* keys); this component is language-agnostic and is reused
+ * by both the CA root route (/team-building) and the [lang] route.
+ *
+ * Includes a Course JSON-LD node so Google can surface price/provider rich
+ * results for the workshop.
+ */
+import { Picture } from 'astro:assets';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { SITE } from '../config/site';
+import { waHref } from '../config';
+import heroImg from '../assets/images/ws-wrist-rest.jpg';
+import projectImg from '../assets/images/gallery/img_7713.jpg';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const ctaHref = waHref(t('wa.tb.landing'));
+
+const benefits = [1, 2, 3].map(n => ({
+  title: t(`tb.benefit.${n}.title` as any),
+  desc:  t(`tb.benefit.${n}.desc` as any),
+}));
+
+const details = [
+  { label: t('tb.details.price.label'),    value: t('tb.details.price.value') },
+  { label: t('tb.details.group.label'),    value: t('tb.details.group.value') },
+  { label: t('tb.details.duration.label'), value: t('tb.details.duration.value') },
+  { label: t('tb.details.project.label'),  value: t('tb.details.project.value') },
+  { label: t('tb.details.includes.label'), value: t('tb.details.includes.value') },
+  { label: t('tb.details.location.label'), value: t('tb.details.location.value') },
+];
+
+const steps = [1, 2, 3].map(n => ({
+  title: t(`tb.how.${n}.title` as any),
+  desc:  t(`tb.how.${n}.desc` as any),
+}));
+
+const faqs = [1, 2, 3, 4].map(n => ({
+  q: t(`tb.faq.q${n}` as any),
+  a: t(`tb.faq.a${n}` as any),
+}));
+
+// ── Course schema (real data only) ──────────────────────────────────────────
+const origin = (Astro.site ?? Astro.url).origin;
+const courseSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  name: t('tb.headline'),
+  description: t('page.tb.description'),
+  url: new URL(Astro.url.pathname, origin).href,
+  provider: {
+    '@type': 'Organization',
+    name: SITE.business.name,
+    url: `${origin}/`,
+  },
+  hasCourseInstance: {
+    '@type': 'CourseInstance',
+    courseMode: 'Onsite',
+    location: {
+      '@type': 'Place',
+      name: SITE.business.name,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: SITE.business.address.streetAddress,
+        addressLocality: SITE.business.address.addressLocality,
+        postalCode: SITE.business.address.postalCode,
+        addressCountry: SITE.business.address.addressCountry,
+      },
+    },
+    offers: {
+      '@type': 'Offer',
+      price: '68',
+      priceCurrency: 'EUR',
+      availability: 'https://schema.org/InStock',
+    },
+  },
+};
+---
+
+<article class="tb">
+
+  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
+  <section class="tb-hero" aria-labelledby="tb-hero-heading">
+    <div class="tb-hero-text">
+      <span class="text-ui text-muted">{t('tb.eyebrow')}</span>
+      <h1 id="tb-hero-heading" class="text-h1 tb-headline">{t('tb.headline')}</h1>
+      <p class="text-p1 text-muted tb-lead">{t('tb.lead')}</p>
+      <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('tb.cta')}</a>
+    </div>
+    <div class="tb-hero-img-wrap">
+      <Picture
+        src={heroImg}
+        widths={[480, 768, 1000]}
+        sizes="(max-width: 900px) 100vw, 50vw"
+        formats={['avif', 'webp']}
+        alt="Reposamuñecas de tufting creado en un taller de team building en Borrissol, Mataró"
+        width={4032}
+        height={3024}
+        class="tb-hero-img"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+  </section>
+
+  <!-- ── Intro ────────────────────────────────────────────────────────── -->
+  <section class="tb-section tb-intro" aria-labelledby="tb-intro-heading">
+    <h2 id="tb-intro-heading" class="text-h2 tb-h2">{t('tb.intro.title')}</h2>
+    <p class="text-p2 tb-body">{t('tb.intro.body')}</p>
+  </section>
+
+  <!-- ── Benefits ─────────────────────────────────────────────────────── -->
+  <section class="tb-section tb-benefits" aria-labelledby="tb-benefits-heading">
+    <h2 id="tb-benefits-heading" class="text-h2 tb-h2">{t('tb.benefits.title')}</h2>
+    <div class="tb-benefits-grid">
+      {benefits.map(b => (
+        <div class="tb-benefit-card">
+          <h3 class="text-h4 tb-benefit-title">{b.title}</h3>
+          <p class="text-p2 text-muted tb-benefit-desc">{b.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── Details + project image ──────────────────────────────────────── -->
+  <section class="tb-section tb-details" aria-labelledby="tb-details-heading">
+    <div class="tb-details-layout">
+      <div class="tb-details-text">
+        <h2 id="tb-details-heading" class="text-h2 tb-h2">{t('tb.details.title')}</h2>
+        <dl class="tb-details-list">
+          {details.map(d => (
+            <div class="tb-details-row">
+              <dt class="text-ui text-muted">{d.label}</dt>
+              <dd class="text-p2 tb-details-value">{d.value}</dd>
+            </div>
+          ))}
+        </dl>
+        <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary tb-details-cta">{t('tb.cta')}</a>
+      </div>
+      <div class="tb-details-img-wrap">
+        <Picture
+          src={projectImg}
+          widths={[400, 600, 800]}
+          sizes="(max-width: 900px) 100vw, 40vw"
+          formats={['avif', 'webp']}
+          alt="Creación textil de tufting hecha en el taller Borrissol, Mataró"
+          width={1200}
+          height={900}
+          class="tb-details-img"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- ── How it works ─────────────────────────────────────────────────── -->
+  <section class="tb-section tb-how" aria-labelledby="tb-how-heading">
+    <h2 id="tb-how-heading" class="text-h2 tb-h2">{t('tb.how.title')}</h2>
+    <ol class="tb-steps">
+      {steps.map((s, i) => (
+        <li class="tb-step">
+          <span class="tb-step-num">{i + 1}</span>
+          <div class="tb-step-text">
+            <h3 class="text-h4 tb-step-title">{s.title}</h3>
+            <p class="text-p2 text-muted tb-step-desc">{s.desc}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
+  <section class="tb-section tb-faq" aria-labelledby="tb-faq-heading">
+    <h2 id="tb-faq-heading" class="text-h2 tb-h2">{t('tb.faq.title')}</h2>
+    <div class="tb-faq-list">
+      {faqs.map(f => (
+        <div class="tb-faq-item">
+          <h3 class="text-h4 tb-faq-q">{f.q}</h3>
+          <p class="text-p2 text-muted tb-faq-a">{f.a}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── Final CTA ────────────────────────────────────────────────────── -->
+  <section class="tb-section tb-final" aria-labelledby="tb-final-heading">
+    <h2 id="tb-final-heading" class="text-h2 tb-final-title">{t('tb.final.title')}</h2>
+    <p class="text-p1 text-muted tb-final-body">{t('tb.final.body')}</p>
+    <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('tb.final.cta')}</a>
+  </section>
+
+</article>
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(courseSchema)} />
+
+<style>
+  .tb {
+    background: var(--color-white);
+  }
+
+  /* ── Shared section ───────────────────────────────────────────────── */
+  .tb-section {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: var(--space-xl) var(--layout-page-padding-h);
+  }
+
+  /* Typography comes from .text-* utilities in the markup; scoped rules below
+     only handle layout (margins, max-width, grids) and component-specific bits. */
+  .tb-h2 {
+    margin: 0 0 var(--space-md);
+  }
+
+  .tb-body {
+    margin: 0;
+    max-width: 720px;
+  }
+
+  /* ── Hero ─────────────────────────────────────────────────────────── */
+  .tb-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: var(--space-xl) var(--layout-page-padding-h);
+    padding-top: calc(var(--space-xl) + 60px);
+  }
+
+  .tb-hero-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .tb-headline {
+    margin: 0;
+  }
+
+  .tb-lead {
+    margin: 0;
+  }
+
+  .tb-hero-img-wrap {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+  }
+
+  .tb-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── Benefits ─────────────────────────────────────────────────────── */
+  .tb-benefits {
+    background: var(--bg-section);
+    max-width: none;
+  }
+
+  .tb-benefits > .tb-h2 {
+    max-width: var(--layout-max-width);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .tb-benefits-grid {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+  }
+
+  .tb-benefit-card {
+    background: var(--color-white);
+    border: var(--border-default);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+  }
+
+  .tb-benefit-title {
+    margin: 0 0 var(--space-xs);
+  }
+
+  .tb-benefit-desc {
+    margin: 0;
+  }
+
+  /* ── Details ──────────────────────────────────────────────────────── */
+  .tb-details-layout {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  .tb-details-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tb-details-list {
+    margin: 0 0 var(--space-lg);
+    width: 100%;
+  }
+
+  .tb-details-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-md);
+    padding: var(--space-sm) 0;
+    border-bottom: var(--border-default);
+  }
+
+  .tb-details-value {
+    margin: 0;
+  }
+
+  .tb-details-img-wrap {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+  }
+
+  .tb-details-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── How it works ─────────────────────────────────────────────────── */
+  .tb-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    max-width: 720px;
+  }
+
+  .tb-step {
+    display: flex;
+    gap: var(--space-md);
+    align-items: flex-start;
+  }
+
+  /* Numbered badge — bespoke circular element, no typography utility fits. */
+  .tb-step-num {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-pill);
+    background: var(--color-black);
+    color: var(--color-white);
+    font-size: var(--font-size-p2);
+    font-weight: var(--font-weight-btn);
+  }
+
+  .tb-step-title {
+    margin: 0 0 var(--space-xs);
+  }
+
+  .tb-step-desc {
+    margin: 0;
+  }
+
+  /* ── FAQ ──────────────────────────────────────────────────────────── */
+  .tb-faq {
+    background: var(--bg-section);
+    max-width: none;
+  }
+
+  .tb-faq > .tb-h2,
+  .tb-faq-list {
+    max-width: var(--layout-max-width);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .tb-faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .tb-faq-item {
+    background: var(--color-white);
+    border: var(--border-default);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+  }
+
+  .tb-faq-q {
+    margin: 0 0 var(--space-xs);
+  }
+
+  .tb-faq-a {
+    margin: 0;
+  }
+
+  /* ── Final CTA ────────────────────────────────────────────────────── */
+  .tb-final {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    border-top: var(--border-default);
+  }
+
+  .tb-final-title {
+    margin: 0;
+  }
+
+  .tb-final-body {
+    margin: 0;
+    max-width: 560px;
+  }
+
+  /* ── Responsive ───────────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .tb-hero {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+
+    .tb-benefits-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .tb-details-layout {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+  }
+</style>

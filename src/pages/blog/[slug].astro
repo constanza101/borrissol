@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/Navbar.astro';
 import Footer from '../../components/Footer.astro';
+import { waHref } from '../../config';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -45,6 +46,23 @@ const formattedDate = new Date(post.data.publishedAt).toLocaleDateString('ca-ES'
     <div class="post-content">
       <Content />
     </div>
+
+    <aside class="post-cta">
+      <h2 class="post-cta-title">Vols provar-ho a Borrissol?</h2>
+      <p class="post-cta-text">
+        Viu l'experiència del tufting en persona al nostre taller de Mataró. El
+        taller Pelusa és ideal per començar de zero: sense experiència prèvia,
+        te'n portes la teva pròpia creació tèxtil a casa.
+      </p>
+      <a
+        href={waHref('Hola! Vinc del blog i vull informació sobre el taller de tufting.')}
+        class="btn btn-primary"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Reserva el teu taller
+      </a>
+    </aside>
 
     <div class="post-footer">
       <a href="/blog" class="btn btn-secondary">← Tornar al blog</a>
@@ -161,6 +179,32 @@ const formattedDate = new Date(post.data.publishedAt).toLocaleDateString('ca-ES'
 
   .post-content :global(li) {
     margin-bottom: var(--space-xs);
+  }
+
+  .post-cta {
+    margin-top: var(--space-xl);
+    padding: var(--space-lg);
+    background: var(--bg-section);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+
+  .post-cta-title {
+    font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    color: var(--color-black);
+    margin: 0;
+  }
+
+  .post-cta-text {
+    font-size: var(--font-size-p2);
+    line-height: var(--line-height-body);
+    color: var(--fg-muted);
+    margin: 0;
   }
 
   .post-footer {
