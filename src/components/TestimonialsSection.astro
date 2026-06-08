@@ -57,6 +57,9 @@ const reviews = REVIEWS.map(r => ({ name: r.name, text: t(r.key as any) }));
                   {t('testimonials.source')}
                 </a>
               </div>
+              <a href={MAPS_URL} target="_blank" rel="noopener noreferrer" class="t-google" aria-label={t('testimonials.source')}>
+                <img src="/images/google-g.png" alt="" width="22" height="22" loading="lazy" />
+              </a>
             </div>
           </li>
         ))}
@@ -65,7 +68,7 @@ const reviews = REVIEWS.map(r => ({ name: r.name, text: t(r.key as any) }));
 
     <!-- Bottom CTA -->
     <div class="t-cta-wrap reveal">
-      <a href={MAPS_URL} target="_blank" rel="noopener noreferrer" class="t-cta-link">
+      <a href={MAPS_URL} target="_blank" rel="noopener noreferrer" class="link-arrow t-cta-link">
         {t('testimonials.cta')}
       </a>
     </div>
@@ -179,7 +182,7 @@ const reviews = REVIEWS.map(r => ({ name: r.name, text: t(r.key as any) }));
     flex: 0 0 calc((100% - 2 * var(--space-sm)) / 3);
     scroll-snap-align: start;
     background: var(--color-white);
-    border-radius: var(--radius-xs);
+    border-radius: var(--radius-md);
     padding: var(--space-md);
     display: flex;
     flex-direction: column;
@@ -246,6 +249,19 @@ const reviews = REVIEWS.map(r => ({ name: r.name, text: t(r.key as any) }));
   }
   .t-source:hover { color: var(--color-black); }
 
+  /* Google logo — bottom-right of the card, links to the Google reviews. */
+  .t-google {
+    margin-left: auto;
+    align-self: flex-end;
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+  .t-google img {
+    width: 22px;
+    height: 22px;
+    display: block;
+  }
+
   /* ── Bottom CTA ── */
   .t-cta-wrap {
     display: flex;
@@ -254,14 +270,6 @@ const reviews = REVIEWS.map(r => ({ name: r.name, text: t(r.key as any) }));
     border-top: var(--border-default);
   }
 
-  .t-cta-link {
-    font-size: var(--font-size-p3);
-    font-weight: var(--font-weight-btn);
-    color: var(--color-black);
-    text-decoration: none;
-    transition: opacity var(--t-fast);
-  }
-  .t-cta-link:hover { opacity: var(--hover-opacity); }
 
   /* ── Tablet: 2 cards ── */
   @media (max-width: 840px) {

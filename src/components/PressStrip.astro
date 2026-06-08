@@ -39,8 +39,8 @@ const pressPath = lang === 'ca' ? '/press' : `/${lang}/press`;
       </li>
     </ul>
 
-    <a href={pressPath} class="press-strip-cta reveal" data-delay="3">
-      {t('press.view-all')} →
+    <a href={pressPath} class="link-arrow press-strip-cta reveal" data-delay="3">
+      {t('press.view-all')}
     </a>
   </div>
 </section>
@@ -107,19 +107,12 @@ const pressPath = lang === 'ca' ? '/press' : `/${lang}/press`;
     filter: grayscale(1) opacity(1);
   }
 
+  /* Uses .link-arrow (DS); only layout deltas here. */
   .press-strip-cta {
-    font-size: var(--font-size-ui);
-    font-weight: var(--font-weight-btn);
-    letter-spacing: var(--letter-spacing-btn);
-    text-transform: uppercase;
-    color: var(--color-black);
-    text-decoration: none;
     min-height: var(--min-touch-target);
     display: inline-flex;
     align-items: center;
-    transition: opacity var(--t-fast);
   }
-  .press-strip-cta:hover { opacity: 0.65; }
 
   /* Mobile: stack everything */
   @media (max-width: 600px) {
