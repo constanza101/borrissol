@@ -403,6 +403,7 @@ export const ui = {
     // ── Talleres — Niveles Tufting ───────────────────────────────────────
     'tufting.intro':              'Crea tu tapiz desde cero con nuestra pistola de tufting. Disponible para todos los niveles. Materiales incluidos.',
     'tufting.panel.header':       'Elige un taller',
+    'tufting.blog.cta':           '¿Qué es el tufting?',
     'tufting.level.express':      'Express',
     'tufting.level.intro':        'Introductorio',
     'tufting.level.intermediate': 'Intermedio',
@@ -949,6 +950,7 @@ export const ui = {
     // ── Workshops — Tufting levels ───────────────────────────────────────
     'tufting.intro':              'Create your own tapestry from scratch with our tufting gun. Available for all levels. Materials included.',
     'tufting.panel.header':       'Choose a workshop',
+    'tufting.blog.cta':           'What is tufting?',
     'tufting.level.express':      'Express',
     'tufting.level.intro':        'Introductory',
     'tufting.level.intermediate': 'Intermediate',
@@ -1495,6 +1497,7 @@ export const ui = {
     // ── Tallers — Nivells Tufting ────────────────────────────────────────
     'tufting.intro':              'Crea el teu tapís des de zero amb la nostra pistola de tufting. Disponible per a tots els nivells. Materials inclosos.',
     'tufting.panel.header':       'Tria un taller',
+    'tufting.blog.cta':           'Què és el tufting?',
     'tufting.level.express':      'Express',
     'tufting.level.intro':        'Introductori',
     'tufting.level.intermediate': 'Intermedi',
@@ -2041,6 +2044,7 @@ export const ui = {
     // ── Ateliers — Niveaux Tufting ───────────────────────────────────────
     'tufting.intro':              "Créez votre tapisserie depuis zéro avec notre pistolet à tufting. Disponible pour tous les niveaux. Matériaux inclus.",
     'tufting.panel.header':       'Choisis un atelier',
+    'tufting.blog.cta':           'Qu\'est-ce que le tufting ?',
     'tufting.level.express':      'Express',
     'tufting.level.intro':        'Introductoire',
     'tufting.level.intermediate': 'Intermédiaire',
