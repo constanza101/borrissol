@@ -52,7 +52,7 @@ const techniques = [
             <h3 class="technique-name">{name}</h3>
             <p class="technique-desc">{desc}</p>
             {href && (
-              <a href={href} class="technique-link">{t('ws.learnmore')} <span aria-hidden="true">&rarr;</span></a>
+              <a href={href} class="link-arrow technique-link">{t('ws.learnmore')}</a>
             )}
           </div>
         </article>
@@ -165,23 +165,12 @@ const techniques = [
     margin: 0;
   }
 
+  /* Uses .link-arrow (DS); only layout deltas here. Push the link to the bottom
+     of the card so links align across the row regardless of description length. */
   .technique-link {
     align-self: flex-start;
-    /* Push the link to the bottom of the card so links align across the row,
-       regardless of how long each description is. */
     margin-top: auto;
     padding-top: var(--space-md);
-    font-size: var(--font-size-ui);
-    font-weight: var(--font-weight-btn);
-    letter-spacing: var(--letter-spacing-btn);
-    text-transform: uppercase;
-    color: var(--color-black);
-    text-decoration: none;
-  }
-
-  .technique-link:hover {
-    text-decoration: underline;
-    text-underline-offset: 3px;
   }
 
   /* ════════════════════════════════════════════════

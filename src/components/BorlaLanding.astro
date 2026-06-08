@@ -138,7 +138,7 @@ const courseSchema = {
           <div class="borla-tech-body">
             <h3 class="text-h4 borla-tech-name">{tech.name}</h3>
             <p class="text-p2 text-muted borla-tech-desc">{tech.desc}</p>
-            <a href={tech.href} class="borla-tech-link">{t('ws.learnmore')} <span aria-hidden="true">&rarr;</span></a>
+            <a href={tech.href} class="link-arrow borla-tech-link">{t('ws.learnmore')}</a>
           </div>
         </article>
 
@@ -306,21 +306,11 @@ const courseSchema = {
     margin: 0 0 var(--space-xs);
   }
 
+  /* Uses .link-arrow (DS); only layout deltas here. */
   .borla-tech-link {
     align-self: flex-start;
     margin-top: auto;
     padding-top: var(--space-md);
-    font-size: var(--font-size-ui);
-    font-weight: var(--font-weight-btn);
-    letter-spacing: var(--letter-spacing-btn);
-    text-transform: uppercase;
-    color: var(--color-black);
-    text-decoration: none;
-  }
-
-  .borla-tech-link:hover {
-    text-decoration: underline;
-    text-underline-offset: 3px;
   }
 
   .borla-tech-desc {

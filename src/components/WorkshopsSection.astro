@@ -117,7 +117,7 @@ const tuftingRows = [
                   {row.drawing} &middot; {row.finishing} &middot; {row.materials}
                 </p>
               </div>
-              <a href={row.href} target="_blank" rel="noopener noreferrer" class="tufting-row-btn">{t('ws.cta')}</a>
+              <a href={row.href} target="_blank" rel="noopener noreferrer" class="btn btn-primary tufting-row-btn">{t('ws.cta')}</a>
             </div>
           ))}
         </div>
@@ -147,7 +147,7 @@ const tuftingRows = [
             <p class="ws-details">{t('ws.group.details')}</p>
             <div class="ws-card-footer">
               <a href={waHref(t('wa.ws.group'))} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
-              <a href={pelussetesPath} class="ws-learnmore">{t('ws.learnmore')} <span class="ws-learnmore-arrow" aria-hidden="true">&rarr;</span></a>
+              <a href={pelussetesPath} class="link-arrow ws-learnmore">{t('ws.learnmore')}</a>
             </div>
           </div>
         </div>
@@ -164,7 +164,7 @@ const tuftingRows = [
             <p class="ws-details">{t('ws.borla.details')}</p>
             <div class="ws-card-footer">
               <a href={waHref(t('wa.ws.borla'))} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
-              <a href={borlaPath} class="ws-learnmore">{t('ws.learnmore')} <span class="ws-learnmore-arrow" aria-hidden="true">&rarr;</span></a>
+              <a href={borlaPath} class="link-arrow ws-learnmore">{t('ws.learnmore')}</a>
             </div>
           </div>
         </div>
@@ -195,7 +195,7 @@ const tuftingRows = [
             <p class="ws-details">{t('ws.teambuilding.details')}</p>
             <div class="ws-card-footer">
               <a href={waHref(t('wa.ws.teambuilding'))} target="_blank" rel="noopener noreferrer" class="btn btn-secondary ws-cta">{t('ws.consult')}</a>
-              <a href={teamBuildingPath} class="ws-learnmore">{t('ws.learnmore')} <span class="ws-learnmore-arrow" aria-hidden="true">&rarr;</span></a>
+              <a href={teamBuildingPath} class="link-arrow ws-learnmore">{t('ws.learnmore')}</a>
             </div>
           </div>
         </div>
@@ -216,7 +216,7 @@ const tuftingRows = [
             <p class="ws-details">{t('ws.summer.details')}</p>
             <div class="summer-card-footer">
               <a href={waHref(t('wa.ws.summer'))} target="_blank" rel="noopener noreferrer" class="btn btn-primary summer-cta">{t('ws.consult')}</a>
-              <a href={summerLabPath} class="ws-learnmore">{t('ws.learnmore')} <span class="ws-learnmore-arrow" aria-hidden="true">&rarr;</span></a>
+              <a href={summerLabPath} class="link-arrow ws-learnmore">{t('ws.learnmore')}</a>
             </div>
           </div>
         </div>
@@ -408,25 +408,15 @@ const tuftingRows = [
     margin-top: 4px;
   }
 
+  /* Uses .btn .btn-primary for fill/colour/hover; only the compact, sharp-edged
+     variant differences live here. */
   .tufting-row-btn {
-    display: inline-flex;
-    align-items: center;
     font-size: var(--font-size-ui);
-    font-weight: var(--font-weight-btn);
-    letter-spacing: var(--letter-spacing-btn);
-    text-transform: var(--text-transform-btn);
-    text-decoration: none;
-    background: var(--color-dark);
-    color: var(--color-white);
     padding: 0.65em 1.4em;
-    border-radius: 0;
+    border-radius: var(--radius-sharp);
     white-space: nowrap;
     flex-shrink: 0;
-    border: none;
-    cursor: pointer;
-    transition: opacity 0.15s;
   }
-  .tufting-row-btn:hover { opacity: 0.85; }
 
   /* ── Block 2: Other workshops ──────────────────────────────────────── */
   .other-block {
@@ -541,22 +531,9 @@ const tuftingRows = [
     margin-top: 0;
   }
 
+  /* Uses .link-arrow (DS) for the styling; only layout deltas here. */
   .ws-learnmore {
-    font-size: var(--font-size-ui);
-    font-weight: var(--font-weight-btn);
-    letter-spacing: var(--letter-spacing-btn);
-    text-transform: uppercase;
-    color: var(--color-black);
-    text-decoration: none;
     white-space: nowrap;
-  }
-
-  .ws-learnmore:hover {
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  .ws-learnmore-arrow {
     padding-right: var(--space-xs);
   }
 
