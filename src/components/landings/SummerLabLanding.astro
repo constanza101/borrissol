@@ -13,6 +13,7 @@
  */
 import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import TechniqueCard from '../ui/TechniqueCard.astro';
 import { SITE } from '../../config/site';
 import { summerLab } from '../../config/seasonal';
 import { waHref } from '../../config';
@@ -142,28 +143,15 @@ const courseSchema = {
     <p class="text-p2 text-muted sl-body sl-tech-intro">{t('sl.tech.intro')}</p>
     <div class="sl-tech-grid">
       {techniques.map(tech => (
-        <article class="sl-tech-card">
-          <div class="sl-tech-img-wrap">
-            <Picture
-              src={tech.img}
-              widths={[300, 500, 700]}
-              sizes="(max-width: 767px) 100vw, 25vw"
-              formats={['avif', 'webp']}
-              alt={tech.alt}
-              width={tech.width}
-              height={tech.height}
-              class="sl-tech-img"
-              loading="lazy"
-            />
-          </div>
-          <div class="sl-tech-body">
-            <h3 class="text-h4 sl-tech-name">{tech.name}</h3>
-            <p class="text-p2 text-muted sl-tech-desc">{tech.desc}</p>
-            {tech.href && (
-              <a href={tech.href} class="link-arrow sl-tech-link">{t('ws.learnmore')}</a>
-            )}
-          </div>
-        </article>
+        <TechniqueCard
+          name={tech.name}
+          desc={tech.desc}
+          img={tech.img}
+          width={tech.width}
+          height={tech.height}
+          alt={tech.alt}
+          href={tech.href}
+        />
       ))}
     </div>
   </section>
@@ -297,49 +285,7 @@ const courseSchema = {
     grid-template-columns: repeat(4, 1fr);
     gap: var(--space-md);
   }
-
-  .sl-tech-card {
-    background: var(--color-white);
-    border: var(--border-default);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .sl-tech-img-wrap {
-    aspect-ratio: 1 / 1;
-    overflow: hidden;
-  }
-
-  .sl-tech-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .sl-tech-body {
-    padding: var(--space-md);
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .sl-tech-name {
-    margin: 0 0 var(--space-xs);
-  }
-
-  .sl-tech-desc {
-    margin: 0;
-  }
-
-  /* Uses .link-arrow (DS); only layout deltas here. */
-  .sl-tech-link {
-    align-self: flex-start;
-    margin-top: auto;
-    padding-top: var(--space-md);
-  }
+  /* Cards: see src/components/ui/TechniqueCard.astro */
 
   /* ── Details ──────────────────────────────────────────────────────── */
   .sl-details-list {

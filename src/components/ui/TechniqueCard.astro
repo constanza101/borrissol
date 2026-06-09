@@ -1,0 +1,102 @@
+---
+/**
+ * Reusable technique card: image + name + description + optional "learn more"
+ * link. Used on the home (OfferSection) and the Borla / Summer Lab landings.
+ * Differences between those places are just data (props) plus a `compact`
+ * size variant — no duplicated markup.
+ *
+ * Container styling comes from the DS .card class; typography from .text-*
+ * utilities; scoped CSS holds only this card's layout.
+ */
+import { Picture, type ImageMetadata } from 'astro:assets';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+interface Props {
+  name: string;
+  desc: string;
+  img: ImageMetadata;
+  width: number;
+  height: number;
+  alt: string;
+  /** Dedicated landing for this technique. Renders the "learn more" link. */
+  href?: string;
+  /** Tighter spacing + smaller text — for rows of many cards (home). */
+  compact?: boolean;
+  /** Scroll-reveal animation hooks (optional). */
+  reveal?: boolean;
+  delay?: string;
+}
+const { name, desc, img, width, height, alt, href, compact = false, reveal = false, delay } = Astro.props;
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<article class:list={['card', 'tech-card', { 'tech-card--compact': compact, reveal }]} data-delay={delay}>
+  <div class="tech-card-media">
+    <Picture
+      src={img}
+      widths={[400, 600, 800]}
+      sizes="(max-width: 767px) 50vw, 25vw"
+      formats={['avif', 'webp']}
+      alt={alt}
+      width={width}
+      height={height}
+      loading="lazy"
+      class="tech-card-img"
+    />
+  </div>
+  <div class="tech-card-body">
+    <h3 class="text-h4 tech-card-name">{name}</h3>
+    <p class:list={[compact ? 'text-p3' : 'text-p2', 'text-muted', 'tech-card-desc']}>{desc}</p>
+    {href && <a href={href} class="link-arrow tech-card-link">{t('ws.learnmore')}</a>}
+  </div>
+</article>
+
+<style>
+  .tech-card {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tech-card-media {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+  }
+
+  .tech-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .tech-card:hover .tech-card-img {
+    transform: scale(1.04);
+  }
+
+  .tech-card-body {
+    padding: var(--space-lg);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tech-card--compact .tech-card-body {
+    padding: var(--space-sm) var(--space-md) var(--space-md);
+  }
+
+  .tech-card-name {
+    margin: 0 0 var(--space-xs);
+  }
+
+  .tech-card-desc {
+    margin: 0;
+  }
+
+  .tech-card-link {
+    align-self: flex-start;
+    margin-top: auto;
+    padding-top: var(--space-md);
+  }
+</style>

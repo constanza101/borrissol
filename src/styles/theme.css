@@ -387,6 +387,14 @@ a:hover { opacity: var(--hover-opacity); }
   color: var(--color-accent);
 }
 
+/* Card container — white surface, hairline border, soft corners. Components add
+   their own padding / layout / overflow on top. */
+.card {
+  background: var(--color-white);
+  border: var(--border-default);
+  border-radius: var(--radius-md);
+}
+
 
 /* =============================================================================
    BUTTONS

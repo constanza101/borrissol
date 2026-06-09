@@ -1,6 +1,6 @@
 ---
-import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import TechniqueCard from '../ui/TechniqueCard.astro';
 import imgTufting    from '../../assets/images/offer-tufting.jpg';
 import imgFelting    from '../../assets/images/offer-felting.jpg';
 import imgPunchNeedle from '../../assets/images/offer-punch-needle.jpg';
@@ -34,28 +34,7 @@ const techniques = [
 
     <div class="offer-grid">
       {techniques.map(({ name, desc, img, width, height, alt, href }, i) => (
-        <article class="technique-card reveal" data-delay={i > 0 ? String(i) : undefined}>
-          <div class="technique-img-wrap">
-            <Picture
-              src={img}
-              widths={[400, 600, 800]}
-              sizes="(max-width: 767px) 50vw, 25vw"
-              formats={['avif', 'webp']}
-              alt={alt}
-              width={width}
-              height={height}
-              loading="lazy"
-              class="technique-img"
-            />
-          </div>
-          <div class="technique-body">
-            <h3 class="technique-name">{name}</h3>
-            <p class="technique-desc">{desc}</p>
-            {href && (
-              <a href={href} class="link-arrow technique-link">{t('ws.learnmore')}</a>
-            )}
-          </div>
-        </article>
+        <TechniqueCard {name} {desc} {img} {width} {height} {alt} {href} compact reveal delay={i > 0 ? String(i) : undefined} />
       ))}
     </div>
   </div>
@@ -111,67 +90,7 @@ const techniques = [
     margin-top: var(--space-lg);
   }
 
-  /* ── Card ── */
-  .technique-card {
-    border: var(--border-default);
-    border-radius: var(--radius-xs);
-    overflow: hidden;
-    background: var(--color-white);
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* ── Image ── */
-  .technique-img-wrap {
-    aspect-ratio: 1 / 1;
-    overflow: hidden;
-  }
-
-  .technique-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.4s ease;
-  }
-
-  .technique-card:hover .technique-img {
-    transform: scale(1.04);
-  }
-
-  /* ── Text body ── */
-  .technique-body {
-    padding: var(--space-sm) var(--space-md) var(--space-md);
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .technique-name {
-    font-size: var(--font-size-h4);
-    font-weight: var(--font-weight-heading);
-    line-height: var(--line-height-heading);
-    letter-spacing: var(--letter-spacing-heading);
-    color: var(--color-black);
-    margin: 0 0 var(--space-xs);
-  }
-
-  .technique-desc {
-    font-size: var(--font-size-p3);
-    font-weight: var(--font-weight-body);
-    line-height: var(--line-height-body);
-    letter-spacing: var(--letter-spacing-body);
-    color: var(--color-muted);
-    margin: 0;
-  }
-
-  /* Uses .link-arrow (DS); only layout deltas here. Push the link to the bottom
-     of the card so links align across the row regardless of description length. */
-  .technique-link {
-    align-self: flex-start;
-    margin-top: auto;
-    padding-top: var(--space-md);
-  }
+  /* Cards: see src/components/ui/TechniqueCard.astro (compact variant). */
 
   /* ════════════════════════════════════════════════
      Tablet (≤ 1024px)
@@ -193,10 +112,6 @@ const techniques = [
     .offer-grid {
       grid-template-columns: repeat(2, 1fr);
       gap: var(--space-xs);
-    }
-
-    .technique-body {
-      padding: var(--space-xs) var(--space-sm) var(--space-sm);
     }
   }
 </style>

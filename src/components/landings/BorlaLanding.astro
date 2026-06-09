@@ -12,6 +12,7 @@
 import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 import Faq from '../ui/Faq.astro';
+import TechniqueCard from '../ui/TechniqueCard.astro';
 import { SITE } from '../../config/site';
 import { waHref } from '../../config';
 import heroImg from '../../assets/images/grupal.png';
@@ -121,26 +122,15 @@ const courseSchema = {
     <p class="text-p2 text-muted borla-body borla-tech-intro">{t('borla.tech.intro')}</p>
     <div class="borla-tech-grid">
       {techniques.map(tech => (
-        <article class="borla-tech-card">
-          <div class="borla-tech-img-wrap">
-            <Picture
-              src={tech.img}
-              widths={[400, 600, 800]}
-              sizes="(max-width: 767px) 100vw, 33vw"
-              formats={['avif', 'webp']}
-              alt={tech.alt}
-              width={tech.width}
-              height={tech.height}
-              class="borla-tech-img"
-              loading="lazy"
-            />
-          </div>
-          <div class="borla-tech-body">
-            <h3 class="text-h4 borla-tech-name">{tech.name}</h3>
-            <p class="text-p2 text-muted borla-tech-desc">{tech.desc}</p>
-            <a href={tech.href} class="link-arrow borla-tech-link">{t('ws.learnmore')}</a>
-          </div>
-        </article>
+        <TechniqueCard
+          name={tech.name}
+          desc={tech.desc}
+          img={tech.img}
+          width={tech.width}
+          height={tech.height}
+          alt={tech.alt}
+          href={tech.href}
+        />
       ))}
     </div>
   </section>
@@ -261,49 +251,7 @@ const courseSchema = {
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-md);
   }
-
-  .borla-tech-card {
-    background: var(--color-white);
-    border: var(--border-default);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .borla-tech-img-wrap {
-    aspect-ratio: 4 / 3;
-    overflow: hidden;
-  }
-
-  .borla-tech-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .borla-tech-body {
-    padding: var(--space-lg);
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .borla-tech-name {
-    margin: 0 0 var(--space-xs);
-  }
-
-  /* Uses .link-arrow (DS); only layout deltas here. */
-  .borla-tech-link {
-    align-self: flex-start;
-    margin-top: auto;
-    padding-top: var(--space-md);
-  }
-
-  .borla-tech-desc {
-    margin: 0;
-  }
+  /* Cards: see src/components/ui/TechniqueCard.astro */
 
   /* ── Details ──────────────────────────────────────────────────────── */
   .borla-details-list {
