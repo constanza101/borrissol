@@ -1,10 +1,10 @@
 ---
 import { Picture } from 'astro:assets';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import imgTufting    from '../assets/images/offer-tufting.jpg';
-import imgFelting    from '../assets/images/offer-felting.jpg';
-import imgPunchNeedle from '../assets/images/offer-punch-needle.jpg';
-import imgLoom       from '../assets/images/offer-loom.jpg';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import imgTufting    from '../../assets/images/offer-tufting.jpg';
+import imgFelting    from '../../assets/images/offer-felting.jpg';
+import imgPunchNeedle from '../../assets/images/offer-punch-needle.jpg';
+import imgLoom       from '../../assets/images/offer-loom.jpg';
 
 const lang = getLangFromUrl(Astro.url);
 const t    = useTranslations(lang);

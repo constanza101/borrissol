@@ -1,14 +1,14 @@
 ---
 import { Picture } from 'astro:assets';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import { waHref } from '../config';
-import tuftingInd2 from '../assets/images/tufting-ind2.jpg';
-import tallerTufting from '../assets/images/taller-tufting.jpg';
-import grupal from '../assets/images/grupal.png';
-import toteBag from '../assets/images/tote-bag1.png';
-import wristRest from '../assets/images/ws-wrist-rest.jpg';
-import grupo2 from '../assets/images/grupo2.jpg';
-import { isSummerLabVisible } from '../config/seasonal';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { waHref } from '../../config';
+import tuftingInd2 from '../../assets/images/tufting-ind2.jpg';
+import tallerTufting from '../../assets/images/taller-tufting.jpg';
+import grupal from '../../assets/images/grupal.png';
+import toteBag from '../../assets/images/tote-bag1.png';
+import wristRest from '../../assets/images/ws-wrist-rest.jpg';
+import grupo2 from '../../assets/images/grupo2.jpg';
+import { isSummerLabVisible } from '../../config/seasonal';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);

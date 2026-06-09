@@ -1,8 +1,8 @@
 ---
 import { Picture } from 'astro:assets';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import belu1 from '../assets/images/belu1.jpg';
-import materialsYarn from '../assets/images/materials-yarn.jpg';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import belu1 from '../../assets/images/belu1.jpg';
+import materialsYarn from '../../assets/images/materials-yarn.jpg';
 
 const lang = getLangFromUrl(Astro.url);
 const t    = useTranslations(lang);

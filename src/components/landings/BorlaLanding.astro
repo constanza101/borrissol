@@ -10,14 +10,14 @@
  * offer price is asserted).
  */
 import { Picture } from 'astro:assets';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import FaqSchema from './FaqSchema.astro';
-import { SITE } from '../config/site';
-import { waHref } from '../config';
-import heroImg from '../assets/images/grupal.png';
-import imgFelting from '../assets/images/offer-felting.jpg';
-import imgPunch from '../assets/images/offer-punch-needle.jpg';
-import imgLoom from '../assets/images/offer-loom.jpg';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import FaqSchema from '../ui/FaqSchema.astro';
+import { SITE } from '../../config/site';
+import { waHref } from '../../config';
+import heroImg from '../../assets/images/grupal.png';
+import imgFelting from '../../assets/images/offer-felting.jpg';
+import imgPunch from '../../assets/images/offer-punch-needle.jpg';
+import imgLoom from '../../assets/images/offer-loom.jpg';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);

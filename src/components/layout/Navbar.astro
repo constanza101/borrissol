@@ -1,7 +1,7 @@
 ---
-import { getLangFromUrl, useTranslations, getAlternatePath } from '../i18n/utils';
-import { languages, type Lang } from '../i18n/ui';
-import { waHref } from '../config';
+import { getLangFromUrl, useTranslations, getAlternatePath } from '../../i18n/utils';
+import { languages, type Lang } from '../../i18n/ui';
+import { waHref } from '../../config';
 
 const lang     = getLangFromUrl(Astro.url);
 const t        = useTranslations(lang);

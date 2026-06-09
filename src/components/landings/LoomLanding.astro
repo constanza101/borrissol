@@ -9,10 +9,10 @@
  * utilities (Hard Rule #15); scoped CSS = layout only.
  */
 import { Picture } from 'astro:assets';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import FaqSchema from './FaqSchema.astro';
-import { waHref } from '../config';
-import heroImg from '../assets/images/offer-loom.jpg';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import FaqSchema from '../ui/FaqSchema.astro';
+import { waHref } from '../../config';
+import heroImg from '../../assets/images/offer-loom.jpg';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);

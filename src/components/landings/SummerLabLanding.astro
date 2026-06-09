@@ -12,15 +12,16 @@
  * Course JSON-LD carries the per-week price.
  */
 import { Picture } from 'astro:assets';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import { SITE } from '../config/site';
-import { summerLab } from '../config/seasonal';
-import { waHref } from '../config';
-import heroImg from '../assets/images/grupo2.jpg';
-import imgTufting from '../assets/images/offer-tufting.jpg';
-import imgLoom from '../assets/images/offer-loom.jpg';
-import imgPunch from '../assets/images/offer-punch-needle.jpg';
-import imgFelting from '../assets/images/offer-felting.jpg';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { SITE } from '../../config/site';
+import { summerLab } from '../../config/seasonal';
+import { waHref } from '../../config';
+import heroImg from '../../assets/images/grupo2.jpg';
+import introImg from '../../assets/images/summer-lab.jpg';
+import imgTufting from '../../assets/images/offer-tufting.jpg';
+import imgLoom from '../../assets/images/offer-loom.jpg';
+import imgPunch from '../../assets/images/offer-punch-needle.jpg';
+import imgFelting from '../../assets/images/offer-felting.jpg';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -120,6 +121,19 @@ const courseSchema = {
   <section class="sl-section sl-intro" aria-labelledby="sl-intro-heading">
     <h2 id="sl-intro-heading" class="text-h2 sl-h2">{t('sl.intro.title')}</h2>
     <p class="text-p2 sl-body">{t('sl.intro.body')}</p>
+    <div class="sl-intro-img-wrap">
+      <Picture
+        src={introImg}
+        widths={[480, 768, 1100]}
+        sizes="(max-width: 1000px) 100vw, 960px"
+        formats={['avif', 'webp']}
+        alt="Participantes creando en el Laboratorio Textil de Verano de Borrissol, Mataró"
+        width={1600}
+        height={900}
+        class="sl-intro-img"
+        loading="lazy"
+      />
+    </div>
   </section>
 
   <!-- ── Techniques ───────────────────────────────────────────────────── -->
@@ -204,6 +218,20 @@ const courseSchema = {
   .sl-body {
     margin: 0;
     max-width: 720px;
+  }
+
+  .sl-intro-img-wrap {
+    margin-top: var(--space-lg);
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+  }
+
+  .sl-intro-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   /* ── Hero ─────────────────────────────────────────────────────────── */

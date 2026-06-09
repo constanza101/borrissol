@@ -9,12 +9,12 @@
  * layout only. Includes a Course JSON-LD node with the per-person price.
  */
 import { Picture } from 'astro:assets';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import FaqSchema from './FaqSchema.astro';
-import { SITE } from '../config/site';
-import { waHref } from '../config';
-import heroImg from '../assets/images/taller-tufting.jpg';
-import detailImg from '../assets/images/grupo2.jpg';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import FaqSchema from '../ui/FaqSchema.astro';
+import { SITE } from '../../config/site';
+import { waHref } from '../../config';
+import heroImg from '../../assets/images/taller-tufting.jpg';
+import detailImg from '../../assets/images/grupo2.jpg';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);

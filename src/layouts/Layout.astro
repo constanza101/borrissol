@@ -1,8 +1,8 @@
 ---
 import '../styles/theme.css';
-import Seo from '../components/Seo.astro';
-import WhatsAppFab from '../components/WhatsAppFab.astro';
-import CookieBanner from '../components/CookieBanner.astro';
+import Seo from '../components/layout/Seo.astro';
+import WhatsAppFab from '../components/layout/WhatsAppFab.astro';
+import CookieBanner from '../components/layout/CookieBanner.astro';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
