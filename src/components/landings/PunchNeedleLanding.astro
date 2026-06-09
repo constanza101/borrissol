@@ -12,6 +12,7 @@
  */
 import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import FeatureCard from '../ui/FeatureCard.astro';
 import Faq from '../ui/Faq.astro';
 import { waHref } from '../../config';
 import heroImg from '../../assets/images/offer-punch-needle.jpg';
@@ -125,10 +126,7 @@ const faqs = [1, 2, 3].map(n => ({
     <h2 id="pn-why-heading" class="text-h2 pn-h2">{t('pn.why.title')}</h2>
     <div class="pn-benefits-grid">
       {benefits.map(b => (
-        <div class="pn-benefit-card">
-          <h3 class="text-h4 pn-benefit-title">{b.title}</h3>
-          <p class="text-p2 text-muted pn-benefit-desc">{b.desc}</p>
-        </div>
+        <FeatureCard title={b.title} desc={b.desc} />
       ))}
     </div>
   </section>
@@ -298,21 +296,6 @@ const faqs = [1, 2, 3].map(n => ({
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-md);
-  }
-
-  .pn-benefit-card {
-    background: var(--color-white);
-    border: var(--border-default);
-    border-radius: var(--radius-md);
-    padding: var(--space-lg);
-  }
-
-  .pn-benefit-title {
-    margin: 0 0 var(--space-xs);
-  }
-
-  .pn-benefit-desc {
-    margin: 0;
   }
 
   /* ── Practice (funnel to Borla) ───────────────────────────────────── */

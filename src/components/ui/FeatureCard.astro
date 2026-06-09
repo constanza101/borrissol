@@ -1,0 +1,32 @@
+---
+/**
+ * Simple title + description card. Used for the "benefits" and "occasions"
+ * grids across the landings — same structure repeated, only the data changes.
+ *
+ * Container styling from the DS .card class; typography from .text-* utilities.
+ */
+interface Props {
+  title: string;
+  desc: string;
+}
+const { title, desc } = Astro.props;
+---
+
+<div class="card feature-card">
+  <h3 class="text-h4 feature-card-title">{title}</h3>
+  <p class="text-p2 text-muted feature-card-desc">{desc}</p>
+</div>
+
+<style>
+  .feature-card {
+    padding: var(--space-lg);
+  }
+
+  .feature-card-title {
+    margin: 0 0 var(--space-xs);
+  }
+
+  .feature-card-desc {
+    margin: 0;
+  }
+</style>
