@@ -11,7 +11,7 @@
  */
 import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
-import FaqSchema from '../ui/FaqSchema.astro';
+import Faq from '../ui/Faq.astro';
 import { SITE } from '../../config/site';
 import { waHref } from '../../config';
 import heroImg from '../../assets/images/grupal.png';
@@ -141,8 +141,6 @@ const courseSchema = {
             <a href={tech.href} class="link-arrow borla-tech-link">{t('ws.learnmore')}</a>
           </div>
         </article>
-
-<FaqSchema faqs={faqs} />
       ))}
     </div>
   </section>
@@ -161,17 +159,7 @@ const courseSchema = {
   </section>
 
   <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
-  <section class="borla-section borla-faq" aria-labelledby="borla-faq-heading">
-    <h2 id="borla-faq-heading" class="text-h2 borla-h2">{t('borla.faq.title')}</h2>
-    <div class="borla-faq-list">
-      {faqs.map(f => (
-        <div class="borla-faq-item">
-          <h3 class="text-h4 borla-faq-q">{f.q}</h3>
-          <p class="text-p2 text-muted borla-faq-a">{f.a}</p>
-        </div>
-      ))}
-    </div>
-  </section>
+  <Faq title={t('borla.faq.title')} faqs={faqs} />
 
   <!-- ── Final CTA ────────────────────────────────────────────────────── -->
   <section class="borla-section borla-final" aria-labelledby="borla-final-heading">
@@ -332,40 +320,6 @@ const courseSchema = {
   }
 
   .borla-details-value {
-    margin: 0;
-  }
-
-  /* ── FAQ ──────────────────────────────────────────────────────────── */
-  .borla-faq {
-    background: var(--bg-section);
-    max-width: none;
-  }
-
-  .borla-faq > .borla-h2,
-  .borla-faq-list {
-    max-width: var(--layout-max-width);
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .borla-faq-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
-  }
-
-  .borla-faq-item {
-    background: var(--color-white);
-    border: var(--border-default);
-    border-radius: var(--radius-md);
-    padding: var(--space-lg);
-  }
-
-  .borla-faq-q {
-    margin: 0 0 var(--space-xs);
-  }
-
-  .borla-faq-a {
     margin: 0;
   }
 

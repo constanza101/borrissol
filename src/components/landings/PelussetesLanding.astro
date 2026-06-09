@@ -10,7 +10,7 @@
  */
 import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
-import FaqSchema from '../ui/FaqSchema.astro';
+import Faq from '../ui/Faq.astro';
 import { SITE } from '../../config/site';
 import { waHref } from '../../config';
 import heroImg from '../../assets/images/taller-tufting.jpg';
@@ -177,17 +177,7 @@ const courseSchema = {
   </section>
 
   <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
-  <section class="pel-section pel-faq" aria-labelledby="pel-faq-heading">
-    <h2 id="pel-faq-heading" class="text-h2 pel-h2">{t('pel.faq.title')}</h2>
-    <div class="pel-faq-list">
-      {faqs.map(f => (
-        <div class="pel-faq-item">
-          <h3 class="text-h4 pel-faq-q">{f.q}</h3>
-          <p class="text-p2 text-muted pel-faq-a">{f.a}</p>
-        </div>
-      ))}
-    </div>
-  </section>
+  <Faq title={t('pel.faq.title')} faqs={faqs} />
 
   <!-- ── Final CTA ────────────────────────────────────────────────────── -->
   <section class="pel-section pel-final" aria-labelledby="pel-final-heading">
@@ -197,8 +187,6 @@ const courseSchema = {
   </section>
 
 </article>
-
-<FaqSchema faqs={faqs} />
 
 <script is:inline type="application/ld+json" set:html={JSON.stringify(courseSchema)} />
 
@@ -381,40 +369,6 @@ const courseSchema = {
     height: 100%;
     object-fit: cover;
     display: block;
-  }
-
-  /* ── FAQ ──────────────────────────────────────────────────────────── */
-  .pel-faq {
-    background: var(--bg-section);
-    max-width: none;
-  }
-
-  .pel-faq > .pel-h2,
-  .pel-faq-list {
-    max-width: var(--layout-max-width);
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .pel-faq-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
-  }
-
-  .pel-faq-item {
-    background: var(--color-white);
-    border: var(--border-default);
-    border-radius: var(--radius-md);
-    padding: var(--space-lg);
-  }
-
-  .pel-faq-q {
-    margin: 0 0 var(--space-xs);
-  }
-
-  .pel-faq-a {
-    margin: 0;
   }
 
   /* ── Final CTA ────────────────────────────────────────────────────── */

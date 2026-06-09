@@ -10,7 +10,7 @@
  */
 import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
-import FaqSchema from '../ui/FaqSchema.astro';
+import Faq from '../ui/Faq.astro';
 import { waHref } from '../../config';
 import heroImg from '../../assets/images/offer-loom.jpg';
 
@@ -90,17 +90,7 @@ const faqs = [1, 2, 3].map(n => ({
   </section>
 
   <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
-  <section class="loom-section loom-faq" aria-labelledby="loom-faq-heading">
-    <h2 id="loom-faq-heading" class="text-h2 loom-h2">{t('loom.faq.title')}</h2>
-    <div class="loom-faq-list">
-      {faqs.map(f => (
-        <div class="loom-faq-item">
-          <h3 class="text-h4 loom-faq-q">{f.q}</h3>
-          <p class="text-p2 text-muted loom-faq-a">{f.a}</p>
-        </div>
-      ))}
-    </div>
-  </section>
+  <Faq title={t('loom.faq.title')} faqs={faqs} />
 
   <!-- ── Final CTA ────────────────────────────────────────────────────── -->
   <section class="loom-section loom-final" aria-labelledby="loom-final-heading">
@@ -110,8 +100,6 @@ const faqs = [1, 2, 3].map(n => ({
   </section>
 
 </article>
-
-<FaqSchema faqs={faqs} />
 
 <style>
   .loom {
@@ -229,40 +217,6 @@ const faqs = [1, 2, 3].map(n => ({
 
   .loom-practice-cta {
     margin-top: var(--space-xs);
-  }
-
-  /* ── FAQ ──────────────────────────────────────────────────────────── */
-  .loom-faq {
-    background: var(--bg-section);
-    max-width: none;
-  }
-
-  .loom-faq > .loom-h2,
-  .loom-faq-list {
-    max-width: var(--layout-max-width);
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .loom-faq-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
-  }
-
-  .loom-faq-item {
-    background: var(--color-white);
-    border: var(--border-default);
-    border-radius: var(--radius-md);
-    padding: var(--space-lg);
-  }
-
-  .loom-faq-q {
-    margin: 0 0 var(--space-xs);
-  }
-
-  .loom-faq-a {
-    margin: 0;
   }
 
   /* ── Final CTA ────────────────────────────────────────────────────── */

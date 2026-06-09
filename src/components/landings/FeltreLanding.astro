@@ -10,7 +10,7 @@
  */
 import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
-import FaqSchema from '../ui/FaqSchema.astro';
+import Faq from '../ui/Faq.astro';
 import { waHref } from '../../config';
 import heroImg from '../../assets/images/offer-felting.jpg';
 
@@ -91,17 +91,7 @@ const faqs = [1, 2, 3].map(n => ({
   </section>
 
   <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
-  <section class="felt-section felt-faq" aria-labelledby="felt-faq-heading">
-    <h2 id="felt-faq-heading" class="text-h2 felt-h2">{t('felt.faq.title')}</h2>
-    <div class="felt-faq-list">
-      {faqs.map(f => (
-        <div class="felt-faq-item">
-          <h3 class="text-h4 felt-faq-q">{f.q}</h3>
-          <p class="text-p2 text-muted felt-faq-a">{f.a}</p>
-        </div>
-      ))}
-    </div>
-  </section>
+  <Faq title={t('felt.faq.title')} faqs={faqs} />
 
   <!-- ── Final CTA ────────────────────────────────────────────────────── -->
   <section class="felt-section felt-final" aria-labelledby="felt-final-heading">
@@ -111,8 +101,6 @@ const faqs = [1, 2, 3].map(n => ({
   </section>
 
 </article>
-
-<FaqSchema faqs={faqs} />
 
 <style>
   .felt {
@@ -231,40 +219,6 @@ const faqs = [1, 2, 3].map(n => ({
 
   .felt-practice-cta {
     margin-top: var(--space-xs);
-  }
-
-  /* ── FAQ ──────────────────────────────────────────────────────────── */
-  .felt-faq {
-    background: var(--bg-section);
-    max-width: none;
-  }
-
-  .felt-faq > .felt-h2,
-  .felt-faq-list {
-    max-width: var(--layout-max-width);
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .felt-faq-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
-  }
-
-  .felt-faq-item {
-    background: var(--color-white);
-    border: var(--border-default);
-    border-radius: var(--radius-md);
-    padding: var(--space-lg);
-  }
-
-  .felt-faq-q {
-    margin: 0 0 var(--space-xs);
-  }
-
-  .felt-faq-a {
-    margin: 0;
   }
 
   /* ── Final CTA ────────────────────────────────────────────────────── */

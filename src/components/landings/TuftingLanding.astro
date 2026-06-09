@@ -11,7 +11,7 @@
  */
 import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
-import FaqSchema from '../ui/FaqSchema.astro';
+import Faq from '../ui/Faq.astro';
 import { SITE } from '../../config/site';
 import { waHref } from '../../config';
 import heroImg from '../../assets/images/offer-tufting.jpg';
@@ -156,17 +156,7 @@ const courseSchema = {
   </section>
 
   <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
-  <section class="tuf-section tuf-faq" aria-labelledby="tuf-faq-heading">
-    <h2 id="tuf-faq-heading" class="text-h2 tuf-h2">{t('tuf.faq.title')}</h2>
-    <div class="tuf-faq-list">
-      {faqs.map(f => (
-        <div class="tuf-faq-item">
-          <h3 class="text-h4 tuf-faq-q">{f.q}</h3>
-          <p class="text-p2 text-muted tuf-faq-a">{f.a}</p>
-        </div>
-      ))}
-    </div>
-  </section>
+  <Faq title={t('tuf.faq.title')} faqs={faqs} />
 
   <!-- ── Final CTA ────────────────────────────────────────────────────── -->
   <section class="tuf-section tuf-final" aria-labelledby="tuf-final-heading">
@@ -176,8 +166,6 @@ const courseSchema = {
   </section>
 
 </article>
-
-<FaqSchema faqs={faqs} />
 
 <script is:inline type="application/ld+json" set:html={JSON.stringify(courseSchema)} />
 
@@ -353,40 +341,6 @@ const courseSchema = {
     margin-top: var(--space-md);
     border-radius: var(--radius-sharp);
     font-size: var(--font-size-ui);
-  }
-
-  /* ── FAQ ──────────────────────────────────────────────────────────── */
-  .tuf-faq {
-    background: var(--bg-section);
-    max-width: none;
-  }
-
-  .tuf-faq > .tuf-h2,
-  .tuf-faq-list {
-    max-width: var(--layout-max-width);
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .tuf-faq-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
-  }
-
-  .tuf-faq-item {
-    background: var(--color-white);
-    border: var(--border-default);
-    border-radius: var(--radius-md);
-    padding: var(--space-lg);
-  }
-
-  .tuf-faq-q {
-    margin: 0 0 var(--space-xs);
-  }
-
-  .tuf-faq-a {
-    margin: 0;
   }
 
   /* ── Final CTA ────────────────────────────────────────────────────── */

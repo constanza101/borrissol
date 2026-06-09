@@ -12,7 +12,7 @@
  */
 import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
-import FaqSchema from '../ui/FaqSchema.astro';
+import Faq from '../ui/Faq.astro';
 import { waHref } from '../../config';
 import heroImg from '../../assets/images/offer-punch-needle.jpg';
 import createImg from '../../assets/images/tote-bag-punch-needle.jpg';
@@ -141,17 +141,7 @@ const faqs = [1, 2, 3].map(n => ({
   </section>
 
   <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
-  <section class="pn-section pn-faq" aria-labelledby="pn-faq-heading">
-    <h2 id="pn-faq-heading" class="text-h2 pn-h2">{t('pn.faq.title')}</h2>
-    <div class="pn-faq-list">
-      {faqs.map(f => (
-        <div class="pn-faq-item">
-          <h3 class="text-h4 pn-faq-q">{f.q}</h3>
-          <p class="text-p2 text-muted pn-faq-a">{f.a}</p>
-        </div>
-      ))}
-    </div>
-  </section>
+  <Faq title={t('pn.faq.title')} faqs={faqs} />
 
   <!-- ── Final CTA ────────────────────────────────────────────────────── -->
   <section class="pn-section pn-final" aria-labelledby="pn-final-heading">
@@ -161,8 +151,6 @@ const faqs = [1, 2, 3].map(n => ({
   </section>
 
 </article>
-
-<FaqSchema faqs={faqs} />
 
 <style>
   .pn {
@@ -341,40 +329,6 @@ const faqs = [1, 2, 3].map(n => ({
 
   .pn-practice-cta {
     margin-top: var(--space-xs);
-  }
-
-  /* ── FAQ ──────────────────────────────────────────────────────────── */
-  .pn-faq {
-    background: var(--bg-section);
-    max-width: none;
-  }
-
-  .pn-faq > .pn-h2,
-  .pn-faq-list {
-    max-width: var(--layout-max-width);
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .pn-faq-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
-  }
-
-  .pn-faq-item {
-    background: var(--color-white);
-    border: var(--border-default);
-    border-radius: var(--radius-md);
-    padding: var(--space-lg);
-  }
-
-  .pn-faq-q {
-    margin: 0 0 var(--space-xs);
-  }
-
-  .pn-faq-a {
-    margin: 0;
   }
 
   /* ── Final CTA ────────────────────────────────────────────────────── */

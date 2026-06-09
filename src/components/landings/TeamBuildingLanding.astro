@@ -10,7 +10,7 @@
  */
 import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
-import FaqSchema from '../ui/FaqSchema.astro';
+import Faq from '../ui/Faq.astro';
 import { SITE } from '../../config/site';
 import { waHref } from '../../config';
 import heroImg from '../../assets/images/ws-wrist-rest.jpg';
@@ -175,17 +175,7 @@ const courseSchema = {
   </section>
 
   <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
-  <section class="tb-section tb-faq" aria-labelledby="tb-faq-heading">
-    <h2 id="tb-faq-heading" class="text-h2 tb-h2">{t('tb.faq.title')}</h2>
-    <div class="tb-faq-list">
-      {faqs.map(f => (
-        <div class="tb-faq-item">
-          <h3 class="text-h4 tb-faq-q">{f.q}</h3>
-          <p class="text-p2 text-muted tb-faq-a">{f.a}</p>
-        </div>
-      ))}
-    </div>
-  </section>
+  <Faq title={t('tb.faq.title')} faqs={faqs} />
 
   <!-- ── Final CTA ────────────────────────────────────────────────────── -->
   <section class="tb-section tb-final" aria-labelledby="tb-final-heading">
@@ -195,8 +185,6 @@ const courseSchema = {
   </section>
 
 </article>
-
-<FaqSchema faqs={faqs} />
 
 <script is:inline type="application/ld+json" set:html={JSON.stringify(courseSchema)} />
 
@@ -379,40 +367,6 @@ const courseSchema = {
   }
 
   .tb-step-desc {
-    margin: 0;
-  }
-
-  /* ── FAQ ──────────────────────────────────────────────────────────── */
-  .tb-faq {
-    background: var(--bg-section);
-    max-width: none;
-  }
-
-  .tb-faq > .tb-h2,
-  .tb-faq-list {
-    max-width: var(--layout-max-width);
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .tb-faq-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
-  }
-
-  .tb-faq-item {
-    background: var(--color-white);
-    border: var(--border-default);
-    border-radius: var(--radius-md);
-    padding: var(--space-lg);
-  }
-
-  .tb-faq-q {
-    margin: 0 0 var(--space-xs);
-  }
-
-  .tb-faq-a {
     margin: 0;
   }
 
