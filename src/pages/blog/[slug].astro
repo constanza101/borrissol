@@ -26,6 +26,7 @@ const formattedDate = new Date(post.data.publishedAt).toLocaleDateString('ca-ES'
   title={post.data.title}
   description={post.data.summary}
   ogImage={post.data.coverImage}
+  caOnly
 >
   <Navbar />
   <main id="main-content" class="post-main">

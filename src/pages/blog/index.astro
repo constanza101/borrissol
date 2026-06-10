@@ -8,7 +8,7 @@ const posts = (await getCollection('blog'))
   .sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime());
 ---
 
-<Layout title="Blog" description="Articles sobre tufting, tèxtils i creativitat de Borrissol Espai Creatiu, Mataró.">
+<Layout title="Blog" description="Articles sobre tufting, tèxtils i creativitat de Borrissol Espai Creatiu, Mataró." caOnly>
   <Navbar />
   <main id="main-content" class="blog-main">
 

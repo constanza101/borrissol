@@ -12,6 +12,13 @@ interface Props {
   ogType?: 'website' | 'article' | 'product';
   canonicalUrl?: string;
   noindex?: boolean;
+  /**
+   * CA-only page (the blog): emit only the catalan/x-default hreflang. The
+   * /es, /en, /fr variants don't exist as pages — they 301-redirect to the CA
+   * URL — so advertising them as alternates points Google at redirects
+   * (invalid hreflang + "Page with redirect" in Search Console).
+   */
+  caOnly?: boolean;
   // Article-specific Open Graph properties
   publishedAt?: Date;
   updatedAt?: Date;
@@ -27,6 +34,7 @@ const {
     ? new URL(Astro.url.pathname, Astro.site).href
     : Astro.url.href,
   noindex = false,
+  caOnly = false,
   publishedAt,
   updatedAt,
   author,
@@ -40,7 +48,10 @@ const absOgDefault = new URL(SITE.defaultOgImage, origin).href;
 
 const currentLang  = getLangFromUrl(Astro.url);
 const t            = useTranslations(currentLang);
-const hreflangLinks = (Object.keys(languages) as Lang[]).map(l => ({
+// CA-only pages (blog) have no real translated variants, so emit just the
+// default-locale alternate; multi-locale pages emit all four.
+const hreflangLangs = caOnly ? [defaultLang] : (Object.keys(languages) as Lang[]);
+const hreflangLinks = hreflangLangs.map(l => ({
   lang: l,
   href: `${origin}${getAlternatePath(Astro.url, l)}`,
 }));
