@@ -5,12 +5,12 @@
  * technique titles); this component is language-agnostic and is reused by the
  * CA root route (/borla) and the [lang] route.
  *
- * Typography uses the .text-* utility classes (Hard Rule #15); scoped CSS holds
- * layout only. Includes a Course JSON-LD node (price is "on request", so no
- * offer price is asserted).
+ * Skeleton from the shared landing components; scoped CSS holds only the
+ * techniques grid. Includes a Course JSON-LD node (price is "on request", so
+ * no offer price is asserted).
  */
-import { Picture } from 'astro:assets';
 import LandingHero from '../ui/LandingHero.astro';
+import LandingSection from '../ui/LandingSection.astro';
 import FinalCta from '../ui/FinalCta.astro';
 import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils';
 import Faq from '../ui/Faq.astro';
@@ -73,16 +73,14 @@ const faqs = [1, 2, 3].map(n => ({
   />
 
   <!-- ── Intro ────────────────────────────────────────────────────────── -->
-  <section class="borla-section borla-intro" aria-labelledby="borla-intro-heading">
-    <h2 id="borla-intro-heading" class="text-h2 borla-h2">{t('borla.intro.title')}</h2>
-    <p class="text-p2 borla-body">{t('borla.intro.body')}</p>
-    <p class="text-p2 text-muted borla-body borla-body-note">{t('borla.materials.note')}</p>
-  </section>
+  <LandingSection id="borla-intro" title={t('borla.intro.title')}>
+    <p class="text-p2 measure">{t('borla.intro.body')}</p>
+    <p class="text-p2 text-muted measure borla-note">{t('borla.materials.note')}</p>
+  </LandingSection>
 
   <!-- ── Techniques ───────────────────────────────────────────────────── -->
-  <section class="borla-section borla-tech" aria-labelledby="borla-tech-heading">
-    <h2 id="borla-tech-heading" class="text-h2 borla-h2">{t('borla.tech.title')}</h2>
-    <p class="text-p2 text-muted borla-body borla-tech-intro">{t('borla.tech.intro')}</p>
+  <LandingSection id="borla-tech" title={t('borla.tech.title')} tint>
+    <p class="text-p2 text-muted measure borla-tech-intro">{t('borla.tech.intro')}</p>
     <div class="borla-tech-grid">
       {techniques.map(tech => (
         <TechniqueCard
@@ -96,13 +94,12 @@ const faqs = [1, 2, 3].map(n => ({
         />
       ))}
     </div>
-  </section>
+  </LandingSection>
 
   <!-- ── Details ──────────────────────────────────────────────────────── -->
-  <section class="borla-section borla-details" aria-labelledby="borla-details-heading">
-    <h2 id="borla-details-heading" class="text-h2 borla-h2">{t('borla.details.title')}</h2>
+  <LandingSection id="borla-details" title={t('borla.details.title')}>
     <DetailsList details={details} />
-  </section>
+  </LandingSection>
 
   <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
   <Faq title={t('borla.faq.title')} faqs={faqs} />
@@ -125,41 +122,11 @@ const faqs = [1, 2, 3].map(n => ({
     background: var(--color-white);
   }
 
-  /* ── Shared section ───────────────────────────────────────────────── */
-  .borla-section {
-    max-width: var(--layout-max-width);
-    margin: 0 auto;
-    padding: var(--space-xl) var(--layout-page-padding-h);
-  }
-
-  /* Typography from .text-* utilities; scoped rules below are layout only. */
-  .borla-h2 {
-    margin: 0 0 var(--space-md);
-  }
-
-  .borla-body {
-    margin: 0;
-    max-width: 720px;
-  }
-
-  .borla-body-note {
+  .borla-note {
     margin-top: var(--space-md);
   }
 
   /* ── Techniques ───────────────────────────────────────────────────── */
-  .borla-tech {
-    background: var(--bg-section);
-    max-width: none;
-  }
-
-  .borla-tech > .borla-h2,
-  .borla-tech > .borla-tech-intro,
-  .borla-tech-grid {
-    max-width: var(--layout-max-width);
-    margin-left: auto;
-    margin-right: auto;
-  }
-
   .borla-tech-intro {
     margin-bottom: var(--space-lg);
   }
@@ -170,12 +137,6 @@ const faqs = [1, 2, 3].map(n => ({
     gap: var(--space-md);
   }
   /* Cards: see src/components/ui/TechniqueCard.astro */
-
-  /* ── Details ──────────────────────────────────────────────────────── */
-
-  /* ── Responsive ───────────────────────────────────────────────────── */
-  @media (max-width: 900px) {
-  }
 
   @media (max-width: 767px) {
     .borla-tech-grid {

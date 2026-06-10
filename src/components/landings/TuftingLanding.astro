@@ -5,12 +5,13 @@
  * durations and prices reused from the i18n catalog) and routes group interest
  * to the dedicated Pelussetes and Team Building landings.
  *
- * All copy from the i18n catalog. Typography uses .text-* utilities
- * (Hard Rule #15); scoped CSS = layout only. Course JSON-LD with an
- * AggregateOffer covering the individual price range.
+ * All copy from the i18n catalog. Skeleton from the shared landing components;
+ * the individual-formats band stays bespoke because it deliberately widens past
+ * the layout width. Course JSON-LD with an AggregateOffer covering the
+ * individual price range.
  */
-import { Picture } from 'astro:assets';
 import LandingHero from '../ui/LandingHero.astro';
+import LandingSection from '../ui/LandingSection.astro';
 import FinalCta from '../ui/FinalCta.astro';
 import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils';
 import Faq from '../ui/Faq.astro';
@@ -61,15 +62,14 @@ const faqs = [1, 2, 3].map(n => ({
   />
 
   <!-- ── What is it ───────────────────────────────────────────────────── -->
-  <section class="tuf-section tuf-text" aria-labelledby="tuf-what-heading">
-    <h2 id="tuf-what-heading" class="text-h2 tuf-h2">{t('tuf.what.title')}</h2>
-    <p class="text-p2 tuf-body">{t('tuf.what.body')}</p>
-  </section>
+  <LandingSection id="tuf-what" title={t('tuf.what.title')} tight>
+    <p class="text-p2 measure">{t('tuf.what.body')}</p>
+  </LandingSection>
 
-  <!-- ── Individual formats ───────────────────────────────────────────── -->
-  <section class="tuf-section tuf-individual" aria-labelledby="tuf-individual-heading">
-    <h2 id="tuf-individual-heading" class="text-h2 tuf-h2">{t('tuf.individual.title')}</h2>
-    <p class="text-p2 text-muted tuf-body tuf-individual-intro">{t('tuf.individual.intro')}</p>
+  <!-- ── Individual formats — bespoke: wider than the layout ──────────── -->
+  <section class="tuf-individual" aria-labelledby="tuf-individual-heading">
+    <h2 id="tuf-individual-heading" class="text-h2 tuf-individual-title">{t('tuf.individual.title')}</h2>
+    <p class="text-p2 text-muted tuf-individual-intro">{t('tuf.individual.intro')}</p>
     <div class="tuf-levels-grid">
       {levels.map(lv => (
         <div class="card tuf-level-card">
@@ -96,9 +96,8 @@ const faqs = [1, 2, 3].map(n => ({
   </section>
 
   <!-- ── Group formats ────────────────────────────────────────────────── -->
-  <section class="tuf-section tuf-group" aria-labelledby="tuf-group-heading">
-    <h2 id="tuf-group-heading" class="text-h2 tuf-h2">{t('tuf.group.title')}</h2>
-    <p class="text-p2 text-muted tuf-body tuf-group-intro">{t('tuf.group.intro')}</p>
+  <LandingSection id="tuf-group" title={t('tuf.group.title')}>
+    <p class="text-p2 text-muted measure tuf-group-intro">{t('tuf.group.intro')}</p>
     <div class="tuf-group-grid">
       {groupFormats.map(g => (
         <div class="card tuf-group-card">
@@ -108,7 +107,7 @@ const faqs = [1, 2, 3].map(n => ({
         </div>
       ))}
     </div>
-  </section>
+  </LandingSection>
 
   <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
   <Faq title={t('tuf.faq.title')} faqs={faqs} />
@@ -131,45 +130,29 @@ const faqs = [1, 2, 3].map(n => ({
     background: var(--color-white);
   }
 
-  /* ── Shared section ───────────────────────────────────────────────── */
-  .tuf-section {
-    max-width: var(--layout-max-width);
-    margin: 0 auto;
-    padding: var(--space-xl) var(--layout-page-padding-h);
-  }
-
-  /* Typography from .text-* utilities; scoped rules below are layout only. */
-  .tuf-h2 {
-    margin: 0 0 var(--space-md);
-  }
-
-  .tuf-body {
-    margin: 0;
-    max-width: 720px;
-  }
-
-  .tuf-text {
-    padding-top: var(--space-lg);
-    padding-bottom: var(--space-lg);
-  }
-
   /* ── Individual formats ───────────────────────────────────────────── */
   .tuf-individual {
     background: var(--bg-section);
-    max-width: none;
+    padding: var(--space-xl) var(--layout-page-padding-h);
   }
 
   /* Widen this block ~30% beyond the layout width so the four price cards are
      less cramped — it eats into the side margins on purpose. */
-  .tuf-individual > .tuf-h2,
-  .tuf-individual > .tuf-individual-intro,
+  .tuf-individual-title,
+  .tuf-individual-intro,
   .tuf-levels-grid {
     max-width: calc(var(--layout-max-width) * 1.3);
     margin-left: auto;
     margin-right: auto;
   }
 
+  .tuf-individual-title {
+    margin-top: 0;
+    margin-bottom: var(--space-md);
+  }
+
   .tuf-individual-intro {
+    margin-top: 0;
     margin-bottom: var(--space-lg);
   }
 
@@ -263,7 +246,6 @@ const faqs = [1, 2, 3].map(n => ({
   }
 
   @media (max-width: 900px) {
-
     .tuf-group-grid {
       grid-template-columns: 1fr;
     }

@@ -5,11 +5,12 @@
  * i18n catalog (tb.* keys); this component is language-agnostic and is reused
  * by both the CA root route (/team-building) and the [lang] route.
  *
- * Includes a Course JSON-LD node so Google can surface price/provider rich
- * results for the workshop.
+ * Skeleton from the shared landing components. Includes a Course JSON-LD node
+ * so Google can surface price/provider rich results for the workshop.
  */
 import { Picture } from 'astro:assets';
 import LandingHero from '../ui/LandingHero.astro';
+import LandingSection from '../ui/LandingSection.astro';
 import FinalCta from '../ui/FinalCta.astro';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 import FeatureCard from '../ui/FeatureCard.astro';
@@ -67,26 +68,24 @@ const faqs = [1, 2, 3, 4].map(n => ({
   />
 
   <!-- ── Intro ────────────────────────────────────────────────────────── -->
-  <section class="tb-section tb-intro" aria-labelledby="tb-intro-heading">
-    <h2 id="tb-intro-heading" class="text-h2 tb-h2">{t('tb.intro.title')}</h2>
-    <p class="text-p2 tb-body">{t('tb.intro.body')}</p>
-  </section>
+  <LandingSection id="tb-intro" title={t('tb.intro.title')}>
+    <p class="text-p2 measure">{t('tb.intro.body')}</p>
+  </LandingSection>
 
   <!-- ── Benefits ─────────────────────────────────────────────────────── -->
-  <section class="tb-section tb-benefits" aria-labelledby="tb-benefits-heading">
-    <h2 id="tb-benefits-heading" class="text-h2 tb-h2">{t('tb.benefits.title')}</h2>
+  <LandingSection id="tb-benefits" title={t('tb.benefits.title')} tint>
     <div class="tb-benefits-grid">
       {benefits.map(b => (
         <FeatureCard title={b.title} desc={b.desc} />
       ))}
     </div>
-  </section>
+  </LandingSection>
 
   <!-- ── Details + project image ──────────────────────────────────────── -->
-  <section class="tb-section tb-details" aria-labelledby="tb-details-heading">
+  <LandingSection id="tb-details">
     <div class="tb-details-layout">
       <div class="tb-details-text">
-        <h2 id="tb-details-heading" class="text-h2 tb-h2">{t('tb.details.title')}</h2>
+        <h2 id="tb-details-heading" class="text-h2 tb-details-title">{t('tb.details.title')}</h2>
         <DetailsList details={details} />
         <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary tb-details-cta">{t('tb.cta')}</a>
       </div>
@@ -103,11 +102,10 @@ const faqs = [1, 2, 3, 4].map(n => ({
         />
       </div>
     </div>
-  </section>
+  </LandingSection>
 
   <!-- ── How it works ─────────────────────────────────────────────────── -->
-  <section class="tb-section tb-how" aria-labelledby="tb-how-heading">
-    <h2 id="tb-how-heading" class="text-h2 tb-h2">{t('tb.how.title')}</h2>
+  <LandingSection id="tb-how" title={t('tb.how.title')}>
     <ol class="tb-steps">
       {steps.map((s, i) => (
         <li class="tb-step">
@@ -119,7 +117,7 @@ const faqs = [1, 2, 3, 4].map(n => ({
         </li>
       ))}
     </ol>
-  </section>
+  </LandingSection>
 
   <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
   <Faq title={t('tb.faq.title')} faqs={faqs} />
@@ -141,39 +139,8 @@ const faqs = [1, 2, 3, 4].map(n => ({
     background: var(--color-white);
   }
 
-  /* ── Shared section ───────────────────────────────────────────────── */
-  .tb-section {
-    max-width: var(--layout-max-width);
-    margin: 0 auto;
-    padding: var(--space-xl) var(--layout-page-padding-h);
-  }
-
-  /* Typography comes from .text-* utilities in the markup; scoped rules below
-     only handle layout (margins, max-width, grids) and component-specific bits. */
-  .tb-h2 {
-    margin: 0 0 var(--space-md);
-  }
-
-  .tb-body {
-    margin: 0;
-    max-width: 720px;
-  }
-
   /* ── Benefits ─────────────────────────────────────────────────────── */
-  .tb-benefits {
-    background: var(--bg-section);
-    max-width: none;
-  }
-
-  .tb-benefits > .tb-h2 {
-    max-width: var(--layout-max-width);
-    margin-left: auto;
-    margin-right: auto;
-  }
-
   .tb-benefits-grid {
-    max-width: var(--layout-max-width);
-    margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-md);
@@ -193,6 +160,10 @@ const faqs = [1, 2, 3, 4].map(n => ({
     align-items: flex-start;
   }
 
+  .tb-details-title {
+    margin: 0 0 var(--space-md);
+  }
+
   /* Spacing to the list above (was the list margin before <DetailsList>). */
   .tb-details-cta {
     margin-top: var(--space-lg);
@@ -210,7 +181,7 @@ const faqs = [1, 2, 3, 4].map(n => ({
     display: flex;
     flex-direction: column;
     gap: var(--space-lg);
-    max-width: 720px;
+    max-width: var(--measure-body);
   }
 
   .tb-step {
@@ -244,7 +215,6 @@ const faqs = [1, 2, 3, 4].map(n => ({
 
   /* ── Responsive ───────────────────────────────────────────────────── */
   @media (max-width: 900px) {
-
     .tb-benefits-grid {
       grid-template-columns: 1fr;
     }

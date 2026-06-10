@@ -5,11 +5,11 @@
  * Explains the technique and funnels to where it's practised: the Borla monthly
  * workshop (internal link) and WhatsApp.
  *
- * All copy from the i18n catalog (loom.* keys). Typography uses .text-*
- * utilities (Hard Rule #15); scoped CSS = layout only.
+ * All copy from the i18n catalog (loom.* keys). Skeleton from the shared
+ * landing components; scoped CSS holds only the benefits grid.
  */
-import { Picture } from 'astro:assets';
 import LandingHero from '../ui/LandingHero.astro';
+import LandingSection from '../ui/LandingSection.astro';
 import FinalCta from '../ui/FinalCta.astro';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 import FeatureCard from '../ui/FeatureCard.astro';
@@ -51,26 +51,23 @@ const faqs = [1, 2, 3].map(n => ({
   />
 
   <!-- ── What is it ───────────────────────────────────────────────────── -->
-  <section class="loom-section loom-text" aria-labelledby="loom-what-heading">
-    <h2 id="loom-what-heading" class="text-h2 loom-h2">{t('loom.what.title')}</h2>
-    <p class="text-p2 loom-body">{t('loom.what.body')}</p>
-  </section>
+  <LandingSection id="loom-what" title={t('loom.what.title')} tight>
+    <p class="text-p2 measure">{t('loom.what.body')}</p>
+  </LandingSection>
 
   <!-- ── What you can weave ───────────────────────────────────────────── -->
-  <section class="loom-section loom-text" aria-labelledby="loom-create-heading">
-    <h2 id="loom-create-heading" class="text-h2 loom-h2">{t('loom.create.title')}</h2>
-    <p class="text-p2 loom-body">{t('loom.create.body')}</p>
-  </section>
+  <LandingSection id="loom-create" title={t('loom.create.title')} tight>
+    <p class="text-p2 measure">{t('loom.create.body')}</p>
+  </LandingSection>
 
   <!-- ── Why / benefits ───────────────────────────────────────────────── -->
-  <section class="loom-section loom-why" aria-labelledby="loom-why-heading">
-    <h2 id="loom-why-heading" class="text-h2 loom-h2">{t('loom.why.title')}</h2>
+  <LandingSection id="loom-why" title={t('loom.why.title')} tint>
     <div class="loom-benefits-grid">
       {benefits.map(b => (
         <FeatureCard title={b.title} desc={b.desc} />
       ))}
     </div>
-  </section>
+  </LandingSection>
 
   <!-- ── Where to practise (funnel to Borla) ──────────────────────────── -->
   <BorlaFunnel
@@ -97,51 +94,13 @@ const faqs = [1, 2, 3].map(n => ({
     background: var(--color-white);
   }
 
-  /* ── Shared section ───────────────────────────────────────────────── */
-  .loom-section {
-    max-width: var(--layout-max-width);
-    margin: 0 auto;
-    padding: var(--space-xl) var(--layout-page-padding-h);
-  }
-
-  /* Typography from .text-* utilities; scoped rules below are layout only. */
-  .loom-h2 {
-    margin: 0 0 var(--space-md);
-  }
-
-  .loom-body {
-    margin: 0;
-    max-width: 720px;
-  }
-
-  .loom-text {
-    padding-top: var(--space-lg);
-    padding-bottom: var(--space-lg);
-  }
-
-  /* ── Why / benefits ───────────────────────────────────────────────── */
-  .loom-why {
-    background: var(--bg-section);
-    max-width: none;
-  }
-
-  .loom-why > .loom-h2 {
-    max-width: var(--layout-max-width);
-    margin-left: auto;
-    margin-right: auto;
-  }
-
   .loom-benefits-grid {
-    max-width: var(--layout-max-width);
-    margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-md);
   }
 
-  /* ── Responsive ───────────────────────────────────────────────────── */
   @media (max-width: 900px) {
-
     .loom-benefits-grid {
       grid-template-columns: 1fr;
     }

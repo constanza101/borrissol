@@ -8,11 +8,12 @@
  * The page is live year-round; only the promotional home card is seasonal
  * (see src/config/seasonal.ts).
  *
- * Typography uses .text-* utilities (Hard Rule #15); scoped CSS = layout only.
+ * Skeleton from the shared landing components.
  * Course JSON-LD carries the per-week price.
  */
 import { Picture } from 'astro:assets';
 import LandingHero from '../ui/LandingHero.astro';
+import LandingSection from '../ui/LandingSection.astro';
 import FinalCta from '../ui/FinalCta.astro';
 import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils';
 import TechniqueCard from '../ui/TechniqueCard.astro';
@@ -75,9 +76,8 @@ const details = [
   />
 
   <!-- ── Intro ────────────────────────────────────────────────────────── -->
-  <section class="sl-section sl-intro" aria-labelledby="sl-intro-heading">
-    <h2 id="sl-intro-heading" class="text-h2 sl-h2">{t('sl.intro.title')}</h2>
-    <p class="text-p2 sl-body">{t('sl.intro.body')}</p>
+  <LandingSection id="sl-intro" title={t('sl.intro.title')}>
+    <p class="text-p2 measure">{t('sl.intro.body')}</p>
     <div class="media sl-intro-img-wrap">
       <Picture
         src={introImg}
@@ -90,12 +90,11 @@ const details = [
         loading="lazy"
       />
     </div>
-  </section>
+  </LandingSection>
 
   <!-- ── Techniques ───────────────────────────────────────────────────── -->
-  <section class="sl-section sl-tech" aria-labelledby="sl-tech-heading">
-    <h2 id="sl-tech-heading" class="text-h2 sl-h2">{t('sl.tech.title')}</h2>
-    <p class="text-p2 text-muted sl-body sl-tech-intro">{t('sl.tech.intro')}</p>
+  <LandingSection id="sl-tech" title={t('sl.tech.title')} tint>
+    <p class="text-p2 text-muted measure sl-tech-intro">{t('sl.tech.intro')}</p>
     <div class="sl-tech-grid">
       {techniques.map(tech => (
         <TechniqueCard
@@ -109,19 +108,17 @@ const details = [
         />
       ))}
     </div>
-  </section>
+  </LandingSection>
 
   <!-- ── Who is it for ────────────────────────────────────────────────── -->
-  <section class="sl-section sl-who" aria-labelledby="sl-who-heading">
-    <h2 id="sl-who-heading" class="text-h2 sl-h2">{t('sl.who.title')}</h2>
-    <p class="text-p2 sl-body">{t('sl.who.body')}</p>
-  </section>
+  <LandingSection id="sl-who" title={t('sl.who.title')}>
+    <p class="text-p2 measure">{t('sl.who.body')}</p>
+  </LandingSection>
 
   <!-- ── Details ──────────────────────────────────────────────────────── -->
-  <section class="sl-section sl-details" aria-labelledby="sl-details-heading">
-    <h2 id="sl-details-heading" class="text-h2 sl-h2">{t('sl.details.title')}</h2>
+  <LandingSection id="sl-details" title={t('sl.details.title')}>
     <DetailsList details={details} />
-  </section>
+  </LandingSection>
 
   <!-- ── Final CTA ────────────────────────────────────────────────────── -->
   <FinalCta
@@ -140,42 +137,12 @@ const details = [
     background: var(--color-white);
   }
 
-  /* ── Shared section ───────────────────────────────────────────────── */
-  .sl-section {
-    max-width: var(--layout-max-width);
-    margin: 0 auto;
-    padding: var(--space-xl) var(--layout-page-padding-h);
-  }
-
-  /* Typography from .text-* utilities; scoped rules below are layout only. */
-  .sl-h2 {
-    margin: 0 0 var(--space-md);
-  }
-
-  .sl-body {
-    margin: 0;
-    max-width: 720px;
-  }
-
   .sl-intro-img-wrap {
     margin-top: var(--space-lg);
     aspect-ratio: 16 / 9;
   }
 
   /* ── Techniques ───────────────────────────────────────────────────── */
-  .sl-tech {
-    background: var(--bg-section);
-    max-width: none;
-  }
-
-  .sl-tech > .sl-h2,
-  .sl-tech > .sl-tech-intro,
-  .sl-tech-grid {
-    max-width: var(--layout-max-width);
-    margin-left: auto;
-    margin-right: auto;
-  }
-
   .sl-tech-intro {
     margin-bottom: var(--space-lg);
   }
@@ -187,16 +154,11 @@ const details = [
   }
   /* Cards: see src/components/ui/TechniqueCard.astro */
 
-  /* ── Details ──────────────────────────────────────────────────────── */
-
   /* ── Responsive ───────────────────────────────────────────────────── */
   @media (max-width: 1024px) {
     .sl-tech-grid {
       grid-template-columns: repeat(2, 1fr);
     }
-  }
-
-  @media (max-width: 900px) {
   }
 
   @media (max-width: 540px) {

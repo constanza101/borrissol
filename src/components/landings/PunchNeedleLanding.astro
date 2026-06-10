@@ -5,13 +5,14 @@
  * it in action (TikTok clips) and funnels to where it is practised: the Borla
  * monthly workshop (internal link) and WhatsApp.
  *
- * All copy comes from the i18n catalog (pn.* keys). Typography uses the .text-*
- * utility classes (Hard Rule #15); scoped CSS holds layout only. TikTok clips
- * are embedded as lazy <iframe>s (matching the press YouTube pattern) instead
- * of the heavy TikTok embed.js script.
+ * All copy comes from the i18n catalog (pn.* keys). Skeleton from the shared
+ * landing components; the videos band stays bespoke because it deliberately
+ * widens past the layout width. TikTok clips are embedded as lazy <iframe>s
+ * (matching the press YouTube pattern) instead of the heavy embed.js script.
  */
 import { Picture } from 'astro:assets';
 import LandingHero from '../ui/LandingHero.astro';
+import LandingSection from '../ui/LandingSection.astro';
 import FinalCta from '../ui/FinalCta.astro';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 import FeatureCard from '../ui/FeatureCard.astro';
@@ -61,17 +62,16 @@ const faqs = [1, 2, 3].map(n => ({
   />
 
   <!-- ── What is it ───────────────────────────────────────────────────── -->
-  <section class="pn-section pn-text" aria-labelledby="pn-what-heading">
-    <h2 id="pn-what-heading" class="text-h2 pn-h2">{t('pn.what.title')}</h2>
-    <p class="text-p2 pn-body">{t('pn.what.body')}</p>
-  </section>
+  <LandingSection id="pn-what" title={t('pn.what.title')} tight>
+    <p class="text-p2 measure">{t('pn.what.body')}</p>
+  </LandingSection>
 
   <!-- ── What you can create (text + image) ───────────────────────────── -->
-  <section class="pn-section pn-create" aria-labelledby="pn-create-heading">
+  <LandingSection id="pn-create">
     <div class="pn-create-layout">
       <div class="pn-create-text">
-        <h2 id="pn-create-heading" class="text-h2 pn-h2">{t('pn.create.title')}</h2>
-        <p class="text-p2 pn-body">{t('pn.create.body')}</p>
+        <h2 id="pn-create-heading" class="text-h2 pn-create-title">{t('pn.create.title')}</h2>
+        <p class="text-p2 measure">{t('pn.create.body')}</p>
       </div>
       <div class="media pn-create-img-wrap">
         <Picture
@@ -86,12 +86,12 @@ const faqs = [1, 2, 3].map(n => ({
         />
       </div>
     </div>
-  </section>
+  </LandingSection>
 
-  <!-- ── Videos (technique in action) ─────────────────────────────────── -->
-  <section class="pn-section pn-videos" aria-labelledby="pn-videos-heading">
-    <h2 id="pn-videos-heading" class="text-h2 pn-h2">{t('pn.videos.title')}</h2>
-    <p class="text-p2 text-muted pn-body pn-videos-intro">{t('pn.videos.intro')}</p>
+  <!-- ── Videos (technique in action) — bespoke: wider than the layout ── -->
+  <section class="pn-videos" aria-labelledby="pn-videos-heading">
+    <h2 id="pn-videos-heading" class="text-h2 pn-videos-title">{t('pn.videos.title')}</h2>
+    <p class="text-p2 text-muted pn-videos-intro">{t('pn.videos.intro')}</p>
     <div class="pn-videos-grid">
       {videos.map(v => (
         <figure class="pn-video">
@@ -111,14 +111,13 @@ const faqs = [1, 2, 3].map(n => ({
   </section>
 
   <!-- ── Why / benefits ───────────────────────────────────────────────── -->
-  <section class="pn-section pn-why" aria-labelledby="pn-why-heading">
-    <h2 id="pn-why-heading" class="text-h2 pn-h2">{t('pn.why.title')}</h2>
+  <LandingSection id="pn-why" title={t('pn.why.title')} tint>
     <div class="pn-benefits-grid">
       {benefits.map(b => (
         <FeatureCard title={b.title} desc={b.desc} />
       ))}
     </div>
-  </section>
+  </LandingSection>
 
   <!-- ── Where to practise (funnel to Borla) ──────────────────────────── -->
   <BorlaFunnel
@@ -145,34 +144,16 @@ const faqs = [1, 2, 3].map(n => ({
     background: var(--color-white);
   }
 
-  /* ── Shared section ───────────────────────────────────────────────── */
-  .pn-section {
-    max-width: var(--layout-max-width);
-    margin: 0 auto;
-    padding: var(--space-xl) var(--layout-page-padding-h);
-  }
-
-  /* Typography from .text-* utilities; scoped rules below are layout only. */
-  .pn-h2 {
-    margin: 0 0 var(--space-md);
-  }
-
-  .pn-body {
-    margin: 0;
-    max-width: 720px;
-  }
-
-  .pn-text {
-    padding-top: var(--space-lg);
-    padding-bottom: var(--space-lg);
-  }
-
   /* ── What you can create ──────────────────────────────────────────── */
   .pn-create-layout {
     display: grid;
     grid-template-columns: 1.6fr 1fr;
     gap: var(--space-xl);
     align-items: center;
+  }
+
+  .pn-create-title {
+    margin: 0 0 var(--space-md);
   }
 
   .pn-create-img-wrap {
@@ -182,20 +163,26 @@ const faqs = [1, 2, 3].map(n => ({
   /* ── Videos ───────────────────────────────────────────────────────── */
   .pn-videos {
     background: var(--bg-section);
-    max-width: none;
+    padding: var(--space-xl) var(--layout-page-padding-h);
   }
 
   /* Widen this block beyond the layout width so the three vertical clips fit on
      one row — it takes a bit from the side margins on purpose. */
-  .pn-videos > .pn-h2,
-  .pn-videos > .pn-videos-intro,
+  .pn-videos-title,
+  .pn-videos-intro,
   .pn-videos-grid {
     max-width: calc(var(--layout-max-width) * 1.25);
     margin-left: auto;
     margin-right: auto;
   }
 
+  .pn-videos-title {
+    margin-top: 0;
+    margin-bottom: var(--space-md);
+  }
+
   .pn-videos-intro {
+    margin-top: 0;
     margin-bottom: var(--space-lg);
   }
 
@@ -232,7 +219,6 @@ const faqs = [1, 2, 3].map(n => ({
 
   /* ── Responsive ───────────────────────────────────────────────────── */
   @media (max-width: 900px) {
-
     .pn-create-layout {
       grid-template-columns: 1fr;
       gap: var(--space-lg);
