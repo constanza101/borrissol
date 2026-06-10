@@ -43,7 +43,7 @@ const faqs = [1, 2, 3].map(n => ({
       <p class="text-p1 text-muted felt-lead">{t('felt.lead')}</p>
       <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('felt.cta')}</a>
     </div>
-    <div class="felt-hero-img-wrap">
+    <div class="media felt-hero-img-wrap">
       <Picture
         src={heroImg}
         widths={[480, 768, 1000]}
@@ -52,7 +52,6 @@ const faqs = [1, 2, 3].map(n => ({
         alt="Figuras creadas con feltre agullat (fieltro agujado) en el taller Borrissol, Mataró"
         width={3024}
         height={3024}
-        class="felt-hero-img"
         loading="eager"
         fetchpriority="high"
       />
@@ -157,16 +156,8 @@ const faqs = [1, 2, 3].map(n => ({
 
   .felt-hero-img-wrap {
     aspect-ratio: 1 / 1;
-    overflow: hidden;
-    border-radius: var(--radius-md);
   }
 
-  .felt-hero-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
 
   /* ── Why / benefits ───────────────────────────────────────────────── */
   .felt-why {

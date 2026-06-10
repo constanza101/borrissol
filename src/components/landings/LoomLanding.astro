@@ -42,7 +42,7 @@ const faqs = [1, 2, 3].map(n => ({
       <p class="text-p1 text-muted loom-lead">{t('loom.lead')}</p>
       <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('loom.cta')}</a>
     </div>
-    <div class="loom-hero-img-wrap">
+    <div class="media loom-hero-img-wrap">
       <Picture
         src={heroImg}
         widths={[480, 768, 1000]}
@@ -51,7 +51,6 @@ const faqs = [1, 2, 3].map(n => ({
         alt="Tejido en telar artesanal con hilos de colores en el taller Borrissol, Mataró"
         width={3024}
         height={3024}
-        class="loom-hero-img"
         loading="eager"
         fetchpriority="high"
       />
@@ -155,16 +154,8 @@ const faqs = [1, 2, 3].map(n => ({
 
   .loom-hero-img-wrap {
     aspect-ratio: 1 / 1;
-    overflow: hidden;
-    border-radius: var(--radius-md);
   }
 
-  .loom-hero-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
 
   /* ── Why / benefits ───────────────────────────────────────────────── */
   .loom-why {

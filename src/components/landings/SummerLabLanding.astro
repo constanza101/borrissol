@@ -65,7 +65,7 @@ const details = [
       <p class="text-p1 text-muted sl-lead">{t('sl.lead')}</p>
       <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('sl.cta')}</a>
     </div>
-    <div class="sl-hero-img-wrap">
+    <div class="media sl-hero-img-wrap">
       <Picture
         src={heroImg}
         widths={[480, 768, 1000]}
@@ -74,7 +74,6 @@ const details = [
         alt="Grupo creando en el Laboratorio Textil de Verano de Borrissol, Mataró"
         width={3000}
         height={4000}
-        class="sl-hero-img"
         loading="eager"
         fetchpriority="high"
       />
@@ -85,7 +84,7 @@ const details = [
   <section class="sl-section sl-intro" aria-labelledby="sl-intro-heading">
     <h2 id="sl-intro-heading" class="text-h2 sl-h2">{t('sl.intro.title')}</h2>
     <p class="text-p2 sl-body">{t('sl.intro.body')}</p>
-    <div class="sl-intro-img-wrap">
+    <div class="media sl-intro-img-wrap">
       <Picture
         src={introImg}
         widths={[480, 768, 1100]}
@@ -94,7 +93,6 @@ const details = [
         alt="Participantes creando en el Laboratorio Textil de Verano de Borrissol, Mataró"
         width={1600}
         height={900}
-        class="sl-intro-img"
         loading="lazy"
       />
     </div>
@@ -174,16 +172,8 @@ const details = [
   .sl-intro-img-wrap {
     margin-top: var(--space-lg);
     aspect-ratio: 16 / 9;
-    overflow: hidden;
-    border-radius: var(--radius-md);
   }
 
-  .sl-intro-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
 
   /* ── Hero ─────────────────────────────────────────────────────────── */
   .sl-hero {
@@ -214,16 +204,8 @@ const details = [
 
   .sl-hero-img-wrap {
     aspect-ratio: 3 / 4;
-    overflow: hidden;
-    border-radius: var(--radius-md);
   }
 
-  .sl-hero-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
 
   /* ── Techniques ───────────────────────────────────────────────────── */
   .sl-tech {

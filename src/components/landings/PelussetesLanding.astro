@@ -59,7 +59,7 @@ const faqs = [1, 2, 3, 4].map(n => ({
       <p class="text-p1 text-muted pel-lead">{t('pel.lead')}</p>
       <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('pel.cta')}</a>
     </div>
-    <div class="pel-hero-img-wrap">
+    <div class="media pel-hero-img-wrap">
       <Picture
         src={heroImg}
         widths={[480, 768, 1000]}
@@ -68,7 +68,6 @@ const faqs = [1, 2, 3, 4].map(n => ({
         alt="Grupo de amigas creando tapices en un taller de tufting Pelussetes en Borrissol, Mataró"
         width={2957}
         height={2085}
-        class="pel-hero-img"
         loading="eager"
         fetchpriority="high"
       />
@@ -122,7 +121,7 @@ const faqs = [1, 2, 3, 4].map(n => ({
         </dl>
         <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary pel-details-cta">{t('pel.cta')}</a>
       </div>
-      <div class="pel-details-img-wrap">
+      <div class="media pel-details-img-wrap">
         <Picture
           src={detailImg}
           widths={[400, 600, 800]}
@@ -131,7 +130,6 @@ const faqs = [1, 2, 3, 4].map(n => ({
           alt="Participantes en un taller de tufting en grupo en Borrissol, Mataró"
           width={3000}
           height={4000}
-          class="pel-details-img"
           loading="lazy"
         />
       </div>
@@ -203,16 +201,8 @@ const faqs = [1, 2, 3, 4].map(n => ({
 
   .pel-hero-img-wrap {
     aspect-ratio: 4 / 3;
-    overflow: hidden;
-    border-radius: var(--radius-md);
   }
 
-  .pel-hero-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
 
   /* ── Occasions ────────────────────────────────────────────────────── */
   .pel-occasions {
@@ -307,16 +297,8 @@ const faqs = [1, 2, 3, 4].map(n => ({
 
   .pel-details-img-wrap {
     aspect-ratio: 3 / 4;
-    overflow: hidden;
-    border-radius: var(--radius-md);
   }
 
-  .pel-details-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
 
   /* ── Final CTA ────────────────────────────────────────────────────── */
   .pel-final {

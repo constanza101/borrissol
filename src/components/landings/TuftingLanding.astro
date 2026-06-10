@@ -53,7 +53,7 @@ const faqs = [1, 2, 3].map(n => ({
       <p class="text-p1 text-muted tuf-lead">{t('tuf.lead')}</p>
       <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('tuf.cta')}</a>
     </div>
-    <div class="tuf-hero-img-wrap">
+    <div class="media tuf-hero-img-wrap">
       <Picture
         src={heroImg}
         widths={[480, 768, 1000]}
@@ -62,7 +62,6 @@ const faqs = [1, 2, 3].map(n => ({
         alt="Persona creando una alfombra con pistola de tufting en el taller Borrissol, Mataró"
         width={2904}
         height={2150}
-        class="tuf-hero-img"
         loading="eager"
         fetchpriority="high"
       />
@@ -190,16 +189,8 @@ const faqs = [1, 2, 3].map(n => ({
 
   .tuf-hero-img-wrap {
     aspect-ratio: 4 / 3;
-    overflow: hidden;
-    border-radius: var(--radius-md);
   }
 
-  .tuf-hero-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
 
   /* ── Individual formats ───────────────────────────────────────────── */
   .tuf-individual {

@@ -177,9 +177,16 @@ Usage: `<i data-lucide="icon-name"></i>` + `lucide.createIcons()`
 .text-p1 / .text-p2 / .text-p3
 .text-ui
 .text-muted
+.eyebrow
+
+.card   (container: white surface + hairline border + radius-md)
+.media  (media frame: radius-md + clip; child img/iframe/video fills & crops.
+         Set aspect-ratio in scoped CSS. For standalone frames — media inside
+         a .card that already clips, or radius-xs frames, stays bespoke)
+.link-arrow
 
 .btn  (base)
-.btn-primary / .btn-secondary / .btn-tertiary
+.btn-primary / .btn-secondary / .btn-tertiary / .btn-sm
 
 .badge / .badge-light
 

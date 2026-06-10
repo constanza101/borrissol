@@ -54,7 +54,7 @@ const faqs = [1, 2, 3].map(n => ({
       <p class="text-p1 text-muted pn-lead">{t('pn.lead')}</p>
       <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('pn.cta')}</a>
     </div>
-    <div class="pn-hero-img-wrap">
+    <div class="media pn-hero-img-wrap">
       <Picture
         src={heroImg}
         widths={[480, 768, 1000]}
@@ -63,7 +63,6 @@ const faqs = [1, 2, 3].map(n => ({
         alt="Primer plano de un bordado de punch needle (aguja mágica) hecho en el taller Borrissol, Mataró"
         width={4032}
         height={3024}
-        class="pn-hero-img"
         loading="eager"
         fetchpriority="high"
       />
@@ -83,7 +82,7 @@ const faqs = [1, 2, 3].map(n => ({
         <h2 id="pn-create-heading" class="text-h2 pn-h2">{t('pn.create.title')}</h2>
         <p class="text-p2 pn-body">{t('pn.create.body')}</p>
       </div>
-      <div class="pn-create-img-wrap">
+      <div class="media pn-create-img-wrap">
         <Picture
           src={createImg}
           widths={[400, 600, 800]}
@@ -92,7 +91,6 @@ const faqs = [1, 2, 3].map(n => ({
           alt="Tote bag bordada con la técnica de punch needle en Borrissol, Mataró"
           width={1050}
           height={1400}
-          class="pn-create-img"
           loading="lazy"
         />
       </div>
@@ -106,7 +104,7 @@ const faqs = [1, 2, 3].map(n => ({
     <div class="pn-videos-grid">
       {videos.map(v => (
         <figure class="pn-video">
-          <div class="pn-video-wrap">
+          <div class="media pn-video-wrap">
             <iframe
               src={`https://www.tiktok.com/embed/v2/${v.id}`}
               title={v.caption}
@@ -206,16 +204,8 @@ const faqs = [1, 2, 3].map(n => ({
 
   .pn-hero-img-wrap {
     aspect-ratio: 4 / 3;
-    overflow: hidden;
-    border-radius: var(--radius-md);
   }
 
-  .pn-hero-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
 
   /* ── What you can create ──────────────────────────────────────────── */
   .pn-create-layout {
@@ -227,16 +217,8 @@ const faqs = [1, 2, 3].map(n => ({
 
   .pn-create-img-wrap {
     aspect-ratio: 3 / 4;
-    overflow: hidden;
-    border-radius: var(--radius-md);
   }
 
-  .pn-create-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
 
   /* ── Videos ───────────────────────────────────────────────────────── */
   .pn-videos {
@@ -274,18 +256,10 @@ const faqs = [1, 2, 3].map(n => ({
   /* TikTok clips are vertical; the embed needs room for the post chrome. */
   .pn-video-wrap {
     aspect-ratio: 9 / 16;
-    border-radius: var(--radius-md);
-    overflow: hidden;
     background: var(--color-light);
     border: var(--border-default);
   }
 
-  .pn-video-wrap iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    display: block;
-  }
 
   .pn-video-caption {
     margin: var(--space-sm) 0 0;

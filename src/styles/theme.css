@@ -395,6 +395,26 @@ a:hover { opacity: var(--hover-opacity); }
   border-radius: var(--radius-md);
 }
 
+/* Media frame — rounded, clipped box whose image/video fills it edge to edge,
+   cropping as needed. Components set the box's aspect-ratio (and any bespoke
+   bg/border) in their scoped CSS. Descendant selectors because Astro <Picture>
+   nests the img inside a <picture> element. */
+.media {
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}
+.media img,
+.media iframe,
+.media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.media iframe {
+  border: 0;
+}
+
 
 /* =============================================================================
    BUTTONS
