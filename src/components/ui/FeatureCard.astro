@@ -20,6 +20,8 @@ const { title, desc } = Astro.props;
 <style>
   .feature-card {
     padding: var(--space-lg);
+    /* Deliberate exception to .card's radius-xs (Constanza, 2026-06-10). */
+    border-radius: var(--radius-md);
   }
 
   .feature-card-title {
