@@ -11,6 +11,8 @@
  * of the heavy TikTok embed.js script.
  */
 import { Picture } from 'astro:assets';
+import LandingHero from '../ui/LandingHero.astro';
+import FinalCta from '../ui/FinalCta.astro';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 import FeatureCard from '../ui/FeatureCard.astro';
 import Faq from '../ui/Faq.astro';
@@ -46,27 +48,17 @@ const faqs = [1, 2, 3].map(n => ({
 <article class="pn">
 
   <!-- ── Hero ─────────────────────────────────────────────────────────── -->
-  <section class="pn-hero" aria-labelledby="pn-hero-heading">
-    <div class="pn-hero-text">
-      <span class="text-ui text-muted">{t('pn.eyebrow')}</span>
-      <h1 id="pn-hero-heading" class="text-h1 pn-headline">{t('pn.headline')}</h1>
-      <p class="text-p1 text-muted pn-lead">{t('pn.lead')}</p>
-      <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('pn.cta')}</a>
-    </div>
-    <div class="media pn-hero-img-wrap">
-      <Picture
-        src={heroImg}
-        widths={[480, 768, 1000]}
-        sizes="(max-width: 900px) 100vw, 50vw"
-        formats={['avif', 'webp']}
-        alt="Primer plano de un bordado de punch needle (aguja mágica) hecho en el taller Borrissol, Mataró"
-        width={4032}
-        height={3024}
-        loading="eager"
-        fetchpriority="high"
-      />
-    </div>
-  </section>
+  <LandingHero
+    eyebrow={t('pn.eyebrow')}
+    headline={t('pn.headline')}
+    lead={t('pn.lead')}
+    cta={t('pn.cta')}
+    ctaHref={ctaHref}
+    img={heroImg}
+    alt="Primer plano de un bordado de punch needle (aguja mágica) hecho en el taller Borrissol, Mataró"
+    imgWidth={4032}
+    imgHeight={3024}
+  />
 
   <!-- ── What is it ───────────────────────────────────────────────────── -->
   <section class="pn-section pn-text" aria-labelledby="pn-what-heading">
@@ -139,11 +131,12 @@ const faqs = [1, 2, 3].map(n => ({
   <Faq title={t('pn.faq.title')} faqs={faqs} />
 
   <!-- ── Final CTA ────────────────────────────────────────────────────── -->
-  <section class="pn-section pn-final" aria-labelledby="pn-final-heading">
-    <h2 id="pn-final-heading" class="text-h2 pn-final-title">{t('pn.final.title')}</h2>
-    <p class="text-p1 text-muted pn-final-body">{t('pn.final.body')}</p>
-    <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('pn.final.cta')}</a>
-  </section>
+  <FinalCta
+    title={t('pn.final.title')}
+    body={t('pn.final.body')}
+    cta={t('pn.final.cta')}
+    ctaHref={ctaHref}
+  />
 
 </article>
 
@@ -174,38 +167,6 @@ const faqs = [1, 2, 3].map(n => ({
     padding-bottom: var(--space-lg);
   }
 
-  /* ── Hero ─────────────────────────────────────────────────────────── */
-  .pn-hero {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-xl);
-    align-items: center;
-    max-width: var(--layout-max-width);
-    margin: 0 auto;
-    padding: var(--space-xl) var(--layout-page-padding-h);
-    padding-top: calc(var(--space-xl) + 60px);
-  }
-
-  .pn-hero-text {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-md);
-  }
-
-  .pn-headline {
-    margin: 0;
-  }
-
-  .pn-lead {
-    margin: 0;
-  }
-
-  .pn-hero-img-wrap {
-    aspect-ratio: 4 / 3;
-  }
-
-
   /* ── What you can create ──────────────────────────────────────────── */
   .pn-create-layout {
     display: grid;
@@ -217,7 +178,6 @@ const faqs = [1, 2, 3].map(n => ({
   .pn-create-img-wrap {
     aspect-ratio: 3 / 4;
   }
-
 
   /* ── Videos ───────────────────────────────────────────────────────── */
   .pn-videos {
@@ -259,7 +219,6 @@ const faqs = [1, 2, 3].map(n => ({
     border: var(--border-default);
   }
 
-
   .pn-video-caption {
     margin: var(--space-sm) 0 0;
   }
@@ -271,31 +230,8 @@ const faqs = [1, 2, 3].map(n => ({
     gap: var(--space-md);
   }
 
-  /* ── Final CTA ────────────────────────────────────────────────────── */
-  .pn-final {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-md);
-    border-top: var(--border-default);
-  }
-
-  .pn-final-title {
-    margin: 0;
-  }
-
-  .pn-final-body {
-    margin: 0;
-    max-width: 560px;
-  }
-
   /* ── Responsive ───────────────────────────────────────────────────── */
   @media (max-width: 900px) {
-    .pn-hero {
-      grid-template-columns: 1fr;
-      gap: var(--space-lg);
-    }
 
     .pn-create-layout {
       grid-template-columns: 1fr;

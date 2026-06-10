@@ -1,0 +1,52 @@
+---
+/**
+ * Landing section shell — the standard band of a landing page: full-width
+ * background with the content centered at the layout width.
+ *
+ * - `title` renders the section h2 (wired to aria-labelledby via `id`).
+ *   When the heading must live deeper in the slot (e.g. inside a column),
+ *   omit `title` and give your own <h2> id={`${id}-heading`}.
+ * - `tint` paints the full-bleed gray section background.
+ * - `tight` halves the vertical padding, for stacked text blocks.
+ *
+ * Body paragraphs inside should use the .measure utility for line length.
+ */
+interface Props {
+  id: string;
+  title?: string;
+  tint?: boolean;
+  tight?: boolean;
+}
+const { id, title, tint = false, tight = false } = Astro.props;
+---
+
+<section class:list={['landing-section', { tint, tight }]} aria-labelledby={`${id}-heading`}>
+  <div class="landing-section-inner">
+    {title && <h2 id={`${id}-heading`} class="text-h2 landing-section-title">{title}</h2>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .landing-section {
+    padding: var(--space-xl) var(--layout-page-padding-h);
+  }
+
+  .landing-section.tight {
+    padding-top: var(--space-lg);
+    padding-bottom: var(--space-lg);
+  }
+
+  .landing-section.tint {
+    background: var(--bg-section);
+  }
+
+  .landing-section-inner {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+  }
+
+  .landing-section-title {
+    margin: 0 0 var(--space-md);
+  }
+</style>

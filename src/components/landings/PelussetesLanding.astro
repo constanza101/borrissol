@@ -9,6 +9,8 @@
  * layout only. Includes a Course JSON-LD node with the per-person price.
  */
 import { Picture } from 'astro:assets';
+import LandingHero from '../ui/LandingHero.astro';
+import FinalCta from '../ui/FinalCta.astro';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 import FeatureCard from '../ui/FeatureCard.astro';
 import Faq from '../ui/Faq.astro';
@@ -53,27 +55,17 @@ const faqs = [1, 2, 3, 4].map(n => ({
 <article class="pel">
 
   <!-- ── Hero ─────────────────────────────────────────────────────────── -->
-  <section class="pel-hero" aria-labelledby="pel-hero-heading">
-    <div class="pel-hero-text">
-      <span class="text-ui text-muted">{t('pel.eyebrow')}</span>
-      <h1 id="pel-hero-heading" class="text-h1 pel-headline">{t('pel.headline')}</h1>
-      <p class="text-p1 text-muted pel-lead">{t('pel.lead')}</p>
-      <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('pel.cta')}</a>
-    </div>
-    <div class="media pel-hero-img-wrap">
-      <Picture
-        src={heroImg}
-        widths={[480, 768, 1000]}
-        sizes="(max-width: 900px) 100vw, 50vw"
-        formats={['avif', 'webp']}
-        alt="Grupo de amigas creando tapices en un taller de tufting Pelussetes en Borrissol, Mataró"
-        width={2957}
-        height={2085}
-        loading="eager"
-        fetchpriority="high"
-      />
-    </div>
-  </section>
+  <LandingHero
+    eyebrow={t('pel.eyebrow')}
+    headline={t('pel.headline')}
+    lead={t('pel.lead')}
+    cta={t('pel.cta')}
+    ctaHref={ctaHref}
+    img={heroImg}
+    alt="Grupo de amigas creando tapices en un taller de tufting Pelussetes en Borrissol, Mataró"
+    imgWidth={2957}
+    imgHeight={2085}
+  />
 
   <!-- ── Intro ────────────────────────────────────────────────────────── -->
   <section class="pel-section pel-intro" aria-labelledby="pel-intro-heading">
@@ -134,11 +126,12 @@ const faqs = [1, 2, 3, 4].map(n => ({
   <Faq title={t('pel.faq.title')} faqs={faqs} />
 
   <!-- ── Final CTA ────────────────────────────────────────────────────── -->
-  <section class="pel-section pel-final" aria-labelledby="pel-final-heading">
-    <h2 id="pel-final-heading" class="text-h2 pel-final-title">{t('pel.final.title')}</h2>
-    <p class="text-p1 text-muted pel-final-body">{t('pel.final.body')}</p>
-    <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('pel.final.cta')}</a>
-  </section>
+  <FinalCta
+    title={t('pel.final.title')}
+    body={t('pel.final.body')}
+    cta={t('pel.final.cta')}
+    ctaHref={ctaHref}
+  />
 
 </article>
 
@@ -165,38 +158,6 @@ const faqs = [1, 2, 3, 4].map(n => ({
     margin: 0;
     max-width: 720px;
   }
-
-  /* ── Hero ─────────────────────────────────────────────────────────── */
-  .pel-hero {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-xl);
-    align-items: center;
-    max-width: var(--layout-max-width);
-    margin: 0 auto;
-    padding: var(--space-xl) var(--layout-page-padding-h);
-    padding-top: calc(var(--space-xl) + 60px);
-  }
-
-  .pel-hero-text {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-md);
-  }
-
-  .pel-headline {
-    margin: 0;
-  }
-
-  .pel-lead {
-    margin: 0;
-  }
-
-  .pel-hero-img-wrap {
-    aspect-ratio: 4 / 3;
-  }
-
 
   /* ── Occasions ────────────────────────────────────────────────────── */
   .pel-occasions {
@@ -281,32 +242,8 @@ const faqs = [1, 2, 3, 4].map(n => ({
     aspect-ratio: 3 / 4;
   }
 
-
-  /* ── Final CTA ────────────────────────────────────────────────────── */
-  .pel-final {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-md);
-    border-top: var(--border-default);
-  }
-
-  .pel-final-title {
-    margin: 0;
-  }
-
-  .pel-final-body {
-    margin: 0;
-    max-width: 560px;
-  }
-
   /* ── Responsive ───────────────────────────────────────────────────── */
   @media (max-width: 900px) {
-    .pel-hero {
-      grid-template-columns: 1fr;
-      gap: var(--space-lg);
-    }
 
     .pel-occasions-grid {
       grid-template-columns: 1fr;

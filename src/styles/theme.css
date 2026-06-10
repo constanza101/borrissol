@@ -243,6 +243,8 @@
   --layout-max-width:       960px;
   --layout-page-padding-h:  var(--space-lg);   /* 40px horizontal */
   --layout-page-padding-v:  60px;
+  --measure-body:           720px;  /* max line length for body copy blocks */
+  --measure-narrow:         560px;  /* max line length for short centered copy */
   --navbar-height:          76px;
 
 }
@@ -355,6 +357,13 @@ a:hover { opacity: var(--hover-opacity); }
 
 .text-muted {
   color: var(--color-muted);
+}
+
+/* Body copy block — caps the line length and resets the default margin.
+   Sections add their own spacing around it. */
+.measure {
+  margin: 0;
+  max-width: var(--measure-body);
 }
 
 /* Eyebrow — section labels. Numbers + em-dash convention: "01 — Section" */

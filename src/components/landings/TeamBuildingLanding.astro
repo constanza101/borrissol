@@ -9,6 +9,8 @@
  * results for the workshop.
  */
 import { Picture } from 'astro:assets';
+import LandingHero from '../ui/LandingHero.astro';
+import FinalCta from '../ui/FinalCta.astro';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 import FeatureCard from '../ui/FeatureCard.astro';
 import Faq from '../ui/Faq.astro';
@@ -52,27 +54,17 @@ const faqs = [1, 2, 3, 4].map(n => ({
 <article class="tb">
 
   <!-- ── Hero ─────────────────────────────────────────────────────────── -->
-  <section class="tb-hero" aria-labelledby="tb-hero-heading">
-    <div class="tb-hero-text">
-      <span class="text-ui text-muted">{t('tb.eyebrow')}</span>
-      <h1 id="tb-hero-heading" class="text-h1 tb-headline">{t('tb.headline')}</h1>
-      <p class="text-p1 text-muted tb-lead">{t('tb.lead')}</p>
-      <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('tb.cta')}</a>
-    </div>
-    <div class="media tb-hero-img-wrap">
-      <Picture
-        src={heroImg}
-        widths={[480, 768, 1000]}
-        sizes="(max-width: 900px) 100vw, 50vw"
-        formats={['avif', 'webp']}
-        alt="Reposamuñecas de tufting creado en un taller de team building en Borrissol, Mataró"
-        width={4032}
-        height={3024}
-        loading="eager"
-        fetchpriority="high"
-      />
-    </div>
-  </section>
+  <LandingHero
+    eyebrow={t('tb.eyebrow')}
+    headline={t('tb.headline')}
+    lead={t('tb.lead')}
+    cta={t('tb.cta')}
+    ctaHref={ctaHref}
+    img={heroImg}
+    alt="Reposamuñecas de tufting creado en un taller de team building en Borrissol, Mataró"
+    imgWidth={4032}
+    imgHeight={3024}
+  />
 
   <!-- ── Intro ────────────────────────────────────────────────────────── -->
   <section class="tb-section tb-intro" aria-labelledby="tb-intro-heading">
@@ -133,11 +125,12 @@ const faqs = [1, 2, 3, 4].map(n => ({
   <Faq title={t('tb.faq.title')} faqs={faqs} />
 
   <!-- ── Final CTA ────────────────────────────────────────────────────── -->
-  <section class="tb-section tb-final" aria-labelledby="tb-final-heading">
-    <h2 id="tb-final-heading" class="text-h2 tb-final-title">{t('tb.final.title')}</h2>
-    <p class="text-p1 text-muted tb-final-body">{t('tb.final.body')}</p>
-    <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('tb.final.cta')}</a>
-  </section>
+  <FinalCta
+    title={t('tb.final.title')}
+    body={t('tb.final.body')}
+    cta={t('tb.final.cta')}
+    ctaHref={ctaHref}
+  />
 
 </article>
 
@@ -165,38 +158,6 @@ const faqs = [1, 2, 3, 4].map(n => ({
     margin: 0;
     max-width: 720px;
   }
-
-  /* ── Hero ─────────────────────────────────────────────────────────── */
-  .tb-hero {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-xl);
-    align-items: center;
-    max-width: var(--layout-max-width);
-    margin: 0 auto;
-    padding: var(--space-xl) var(--layout-page-padding-h);
-    padding-top: calc(var(--space-xl) + 60px);
-  }
-
-  .tb-hero-text {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-md);
-  }
-
-  .tb-headline {
-    margin: 0;
-  }
-
-  .tb-lead {
-    margin: 0;
-  }
-
-  .tb-hero-img-wrap {
-    aspect-ratio: 4 / 3;
-  }
-
 
   /* ── Benefits ─────────────────────────────────────────────────────── */
   .tb-benefits {
@@ -241,7 +202,6 @@ const faqs = [1, 2, 3, 4].map(n => ({
     aspect-ratio: 1 / 1;
   }
 
-
   /* ── How it works ─────────────────────────────────────────────────── */
   .tb-steps {
     list-style: none;
@@ -282,31 +242,8 @@ const faqs = [1, 2, 3, 4].map(n => ({
     margin: 0;
   }
 
-  /* ── Final CTA ────────────────────────────────────────────────────── */
-  .tb-final {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-md);
-    border-top: var(--border-default);
-  }
-
-  .tb-final-title {
-    margin: 0;
-  }
-
-  .tb-final-body {
-    margin: 0;
-    max-width: 560px;
-  }
-
   /* ── Responsive ───────────────────────────────────────────────────── */
   @media (max-width: 900px) {
-    .tb-hero {
-      grid-template-columns: 1fr;
-      gap: var(--space-lg);
-    }
 
     .tb-benefits-grid {
       grid-template-columns: 1fr;

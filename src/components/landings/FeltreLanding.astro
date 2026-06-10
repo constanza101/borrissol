@@ -9,6 +9,8 @@
  * .text-* utility classes (Hard Rule #15); scoped CSS holds layout only.
  */
 import { Picture } from 'astro:assets';
+import LandingHero from '../ui/LandingHero.astro';
+import FinalCta from '../ui/FinalCta.astro';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 import FeatureCard from '../ui/FeatureCard.astro';
 import Faq from '../ui/Faq.astro';
@@ -35,27 +37,18 @@ const faqs = [1, 2, 3].map(n => ({
 <article class="felt">
 
   <!-- ── Hero ─────────────────────────────────────────────────────────── -->
-  <section class="felt-hero" aria-labelledby="felt-hero-heading">
-    <div class="felt-hero-text">
-      <span class="text-ui text-muted">{t('felt.eyebrow')}</span>
-      <h1 id="felt-hero-heading" class="text-h1 felt-headline">{t('felt.headline')}</h1>
-      <p class="text-p1 text-muted felt-lead">{t('felt.lead')}</p>
-      <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('felt.cta')}</a>
-    </div>
-    <div class="media felt-hero-img-wrap">
-      <Picture
-        src={heroImg}
-        widths={[480, 768, 1000]}
-        sizes="(max-width: 900px) 100vw, 50vw"
-        formats={['avif', 'webp']}
-        alt="Figuras creadas con feltre agullat (fieltro agujado) en el taller Borrissol, Mataró"
-        width={3024}
-        height={3024}
-        loading="eager"
-        fetchpriority="high"
-      />
-    </div>
-  </section>
+  <LandingHero
+    eyebrow={t('felt.eyebrow')}
+    headline={t('felt.headline')}
+    lead={t('felt.lead')}
+    cta={t('felt.cta')}
+    ctaHref={ctaHref}
+    img={heroImg}
+    alt="Figuras creadas con feltre agullat (fieltro agujado) en el taller Borrissol, Mataró"
+    imgWidth={3024}
+    imgHeight={3024}
+    aspect="1 / 1"
+  />
 
   <!-- ── What is it ───────────────────────────────────────────────────── -->
   <section class="felt-section felt-text" aria-labelledby="felt-what-heading">
@@ -90,11 +83,12 @@ const faqs = [1, 2, 3].map(n => ({
   <Faq title={t('felt.faq.title')} faqs={faqs} />
 
   <!-- ── Final CTA ────────────────────────────────────────────────────── -->
-  <section class="felt-section felt-final" aria-labelledby="felt-final-heading">
-    <h2 id="felt-final-heading" class="text-h2 felt-final-title">{t('felt.final.title')}</h2>
-    <p class="text-p1 text-muted felt-final-body">{t('felt.final.body')}</p>
-    <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('felt.final.cta')}</a>
-  </section>
+  <FinalCta
+    title={t('felt.final.title')}
+    body={t('felt.final.body')}
+    cta={t('felt.final.cta')}
+    ctaHref={ctaHref}
+  />
 
 </article>
 
@@ -126,38 +120,6 @@ const faqs = [1, 2, 3].map(n => ({
     padding-bottom: var(--space-lg);
   }
 
-  /* ── Hero ─────────────────────────────────────────────────────────── */
-  .felt-hero {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-xl);
-    align-items: center;
-    max-width: var(--layout-max-width);
-    margin: 0 auto;
-    padding: var(--space-xl) var(--layout-page-padding-h);
-    padding-top: calc(var(--space-xl) + 60px);
-  }
-
-  .felt-hero-text {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-md);
-  }
-
-  .felt-headline {
-    margin: 0;
-  }
-
-  .felt-lead {
-    margin: 0;
-  }
-
-  .felt-hero-img-wrap {
-    aspect-ratio: 1 / 1;
-  }
-
-
   /* ── Why / benefits ───────────────────────────────────────────────── */
   .felt-why {
     background: var(--bg-section);
@@ -178,31 +140,8 @@ const faqs = [1, 2, 3].map(n => ({
     gap: var(--space-md);
   }
 
-  /* ── Final CTA ────────────────────────────────────────────────────── */
-  .felt-final {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-md);
-    border-top: var(--border-default);
-  }
-
-  .felt-final-title {
-    margin: 0;
-  }
-
-  .felt-final-body {
-    margin: 0;
-    max-width: 560px;
-  }
-
   /* ── Responsive ───────────────────────────────────────────────────── */
   @media (max-width: 900px) {
-    .felt-hero {
-      grid-template-columns: 1fr;
-      gap: var(--space-lg);
-    }
 
     .felt-benefits-grid {
       grid-template-columns: 1fr;

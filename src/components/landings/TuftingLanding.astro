@@ -10,6 +10,8 @@
  * AggregateOffer covering the individual price range.
  */
 import { Picture } from 'astro:assets';
+import LandingHero from '../ui/LandingHero.astro';
+import FinalCta from '../ui/FinalCta.astro';
 import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils';
 import Faq from '../ui/Faq.astro';
 import CourseSchema from '../ui/CourseSchema.astro';
@@ -46,27 +48,17 @@ const faqs = [1, 2, 3].map(n => ({
 <article class="tuf">
 
   <!-- ── Hero ─────────────────────────────────────────────────────────── -->
-  <section class="tuf-hero" aria-labelledby="tuf-hero-heading">
-    <div class="tuf-hero-text">
-      <span class="text-ui text-muted">{t('tuf.eyebrow')}</span>
-      <h1 id="tuf-hero-heading" class="text-h1 tuf-headline">{t('tuf.headline')}</h1>
-      <p class="text-p1 text-muted tuf-lead">{t('tuf.lead')}</p>
-      <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('tuf.cta')}</a>
-    </div>
-    <div class="media tuf-hero-img-wrap">
-      <Picture
-        src={heroImg}
-        widths={[480, 768, 1000]}
-        sizes="(max-width: 900px) 100vw, 50vw"
-        formats={['avif', 'webp']}
-        alt="Persona creando una alfombra con pistola de tufting en el taller Borrissol, Mataró"
-        width={2904}
-        height={2150}
-        loading="eager"
-        fetchpriority="high"
-      />
-    </div>
-  </section>
+  <LandingHero
+    eyebrow={t('tuf.eyebrow')}
+    headline={t('tuf.headline')}
+    lead={t('tuf.lead')}
+    cta={t('tuf.cta')}
+    ctaHref={ctaHref}
+    img={heroImg}
+    alt="Persona creando una alfombra con pistola de tufting en el taller Borrissol, Mataró"
+    imgWidth={2904}
+    imgHeight={2150}
+  />
 
   <!-- ── What is it ───────────────────────────────────────────────────── -->
   <section class="tuf-section tuf-text" aria-labelledby="tuf-what-heading">
@@ -122,11 +114,12 @@ const faqs = [1, 2, 3].map(n => ({
   <Faq title={t('tuf.faq.title')} faqs={faqs} />
 
   <!-- ── Final CTA ────────────────────────────────────────────────────── -->
-  <section class="tuf-section tuf-final" aria-labelledby="tuf-final-heading">
-    <h2 id="tuf-final-heading" class="text-h2 tuf-final-title">{t('tuf.final.title')}</h2>
-    <p class="text-p1 text-muted tuf-final-body">{t('tuf.final.body')}</p>
-    <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('tuf.final.cta')}</a>
-  </section>
+  <FinalCta
+    title={t('tuf.final.title')}
+    body={t('tuf.final.body')}
+    cta={t('tuf.final.cta')}
+    ctaHref={ctaHref}
+  />
 
 </article>
 
@@ -159,38 +152,6 @@ const faqs = [1, 2, 3].map(n => ({
     padding-top: var(--space-lg);
     padding-bottom: var(--space-lg);
   }
-
-  /* ── Hero ─────────────────────────────────────────────────────────── */
-  .tuf-hero {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-xl);
-    align-items: center;
-    max-width: var(--layout-max-width);
-    margin: 0 auto;
-    padding: var(--space-xl) var(--layout-page-padding-h);
-    padding-top: calc(var(--space-xl) + 60px);
-  }
-
-  .tuf-hero-text {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-md);
-  }
-
-  .tuf-headline {
-    margin: 0;
-  }
-
-  .tuf-lead {
-    margin: 0;
-  }
-
-  .tuf-hero-img-wrap {
-    aspect-ratio: 4 / 3;
-  }
-
 
   /* ── Individual formats ───────────────────────────────────────────── */
   .tuf-individual {
@@ -294,25 +255,6 @@ const faqs = [1, 2, 3].map(n => ({
     font-size: var(--font-size-ui);
   }
 
-  /* ── Final CTA ────────────────────────────────────────────────────── */
-  .tuf-final {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-md);
-    border-top: var(--border-default);
-  }
-
-  .tuf-final-title {
-    margin: 0;
-  }
-
-  .tuf-final-body {
-    margin: 0;
-    max-width: 560px;
-  }
-
   /* ── Responsive ───────────────────────────────────────────────────── */
   @media (max-width: 1024px) {
     .tuf-levels-grid {
@@ -321,10 +263,6 @@ const faqs = [1, 2, 3].map(n => ({
   }
 
   @media (max-width: 900px) {
-    .tuf-hero {
-      grid-template-columns: 1fr;
-      gap: var(--space-lg);
-    }
 
     .tuf-group-grid {
       grid-template-columns: 1fr;

@@ -1,0 +1,90 @@
+---
+/**
+ * Landing page hero — two columns: eyebrow + h1 + lead + primary CTA on the
+ * left, framed picture on the right. Used by every landing; only the texts,
+ * the image and its frame's aspect ratio change per page.
+ */
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  eyebrow: string;
+  headline: string;
+  lead: string;
+  cta: string;
+  /** External CTA target (WhatsApp) — opens in a new tab. */
+  ctaHref: string;
+  img: ImageMetadata;
+  alt: string;
+  /** Intrinsic source dimensions, forwarded to <Picture>. */
+  imgWidth: number;
+  imgHeight: number;
+  /** CSS aspect-ratio of the image frame, e.g. '4 / 3'. */
+  aspect?: string;
+  /** Responsive source widths; trim when the source is smaller. */
+  widths?: number[];
+}
+const {
+  eyebrow, headline, lead, cta, ctaHref, img, alt, imgWidth, imgHeight,
+  aspect = '4 / 3',
+  widths = [480, 768, 1000],
+} = Astro.props;
+---
+
+<section class="landing-hero" aria-labelledby="landing-hero-heading">
+  <div class="landing-hero-text">
+    <span class="text-ui text-muted">{eyebrow}</span>
+    <h1 id="landing-hero-heading" class="text-h1 landing-hero-headline">{headline}</h1>
+    <p class="text-p1 text-muted landing-hero-lead">{lead}</p>
+    <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{cta}</a>
+  </div>
+  <div class="media landing-hero-img-wrap" style={`aspect-ratio: ${aspect}`}>
+    <Picture
+      src={img}
+      widths={widths}
+      sizes="(max-width: 900px) 100vw, 50vw"
+      formats={['avif', 'webp']}
+      alt={alt}
+      width={imgWidth}
+      height={imgHeight}
+      loading="eager"
+      fetchpriority="high"
+    />
+  </div>
+</section>
+
+<style>
+  .landing-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: var(--space-xl) var(--layout-page-padding-h);
+    /* Clear the fixed navbar. */
+    padding-top: calc(var(--space-xl) + var(--layout-page-padding-v));
+  }
+
+  .landing-hero-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .landing-hero-headline {
+    margin: 0;
+  }
+
+  .landing-hero-lead {
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .landing-hero {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+  }
+</style>

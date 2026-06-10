@@ -12,6 +12,8 @@
  * Course JSON-LD carries the per-week price.
  */
 import { Picture } from 'astro:assets';
+import LandingHero from '../ui/LandingHero.astro';
+import FinalCta from '../ui/FinalCta.astro';
 import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils';
 import TechniqueCard from '../ui/TechniqueCard.astro';
 import CourseSchema from '../ui/CourseSchema.astro';
@@ -59,27 +61,18 @@ const details = [
 <article class="sl">
 
   <!-- ── Hero ─────────────────────────────────────────────────────────── -->
-  <section class="sl-hero" aria-labelledby="sl-hero-heading">
-    <div class="sl-hero-text">
-      <span class="text-ui text-muted">{t('sl.eyebrow')}</span>
-      <h1 id="sl-hero-heading" class="text-h1 sl-headline">{t('sl.headline')}</h1>
-      <p class="text-p1 text-muted sl-lead">{t('sl.lead')}</p>
-      <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('sl.cta')}</a>
-    </div>
-    <div class="media sl-hero-img-wrap">
-      <Picture
-        src={heroImg}
-        widths={[480, 768, 1000]}
-        sizes="(max-width: 900px) 100vw, 50vw"
-        formats={['avif', 'webp']}
-        alt="Grupo creando en el Laboratorio Textil de Verano de Borrissol, Mataró"
-        width={3000}
-        height={4000}
-        loading="eager"
-        fetchpriority="high"
-      />
-    </div>
-  </section>
+  <LandingHero
+    eyebrow={t('sl.eyebrow')}
+    headline={t('sl.headline')}
+    lead={t('sl.lead')}
+    cta={t('sl.cta')}
+    ctaHref={ctaHref}
+    img={heroImg}
+    alt="Grupo creando en el Laboratorio Textil de Verano de Borrissol, Mataró"
+    imgWidth={3000}
+    imgHeight={4000}
+    aspect="3 / 4"
+  />
 
   <!-- ── Intro ────────────────────────────────────────────────────────── -->
   <section class="sl-section sl-intro" aria-labelledby="sl-intro-heading">
@@ -131,11 +124,12 @@ const details = [
   </section>
 
   <!-- ── Final CTA ────────────────────────────────────────────────────── -->
-  <section class="sl-section sl-final" aria-labelledby="sl-final-heading">
-    <h2 id="sl-final-heading" class="text-h2 sl-final-title">{t('sl.final.title')}</h2>
-    <p class="text-p1 text-muted sl-final-body">{t('sl.final.body')}</p>
-    <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('sl.final.cta')}</a>
-  </section>
+  <FinalCta
+    title={t('sl.final.title')}
+    body={t('sl.final.body')}
+    cta={t('sl.final.cta')}
+    ctaHref={ctaHref}
+  />
 
 </article>
 
@@ -168,39 +162,6 @@ const details = [
     aspect-ratio: 16 / 9;
   }
 
-
-  /* ── Hero ─────────────────────────────────────────────────────────── */
-  .sl-hero {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-xl);
-    align-items: center;
-    max-width: var(--layout-max-width);
-    margin: 0 auto;
-    padding: var(--space-xl) var(--layout-page-padding-h);
-    padding-top: calc(var(--space-xl) + 60px);
-  }
-
-  .sl-hero-text {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-md);
-  }
-
-  .sl-headline {
-    margin: 0;
-  }
-
-  .sl-lead {
-    margin: 0;
-  }
-
-  .sl-hero-img-wrap {
-    aspect-ratio: 3 / 4;
-  }
-
-
   /* ── Techniques ───────────────────────────────────────────────────── */
   .sl-tech {
     background: var(--bg-section);
@@ -227,24 +188,6 @@ const details = [
   /* Cards: see src/components/ui/TechniqueCard.astro */
 
   /* ── Details ──────────────────────────────────────────────────────── */
-  /* ── Final CTA ────────────────────────────────────────────────────── */
-  .sl-final {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-md);
-    border-top: var(--border-default);
-  }
-
-  .sl-final-title {
-    margin: 0;
-  }
-
-  .sl-final-body {
-    margin: 0;
-    max-width: 560px;
-  }
 
   /* ── Responsive ───────────────────────────────────────────────────── */
   @media (max-width: 1024px) {
@@ -254,10 +197,6 @@ const details = [
   }
 
   @media (max-width: 900px) {
-    .sl-hero {
-      grid-template-columns: 1fr;
-      gap: var(--space-lg);
-    }
   }
 
   @media (max-width: 540px) {

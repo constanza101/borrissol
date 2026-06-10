@@ -10,6 +10,8 @@
  * offer price is asserted).
  */
 import { Picture } from 'astro:assets';
+import LandingHero from '../ui/LandingHero.astro';
+import FinalCta from '../ui/FinalCta.astro';
 import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils';
 import Faq from '../ui/Faq.astro';
 import TechniqueCard from '../ui/TechniqueCard.astro';
@@ -57,27 +59,18 @@ const faqs = [1, 2, 3].map(n => ({
 <article class="borla">
 
   <!-- ── Hero ─────────────────────────────────────────────────────────── -->
-  <section class="borla-hero" aria-labelledby="borla-hero-heading">
-    <div class="borla-hero-text">
-      <span class="text-ui text-muted">{t('borla.eyebrow')}</span>
-      <h1 id="borla-hero-heading" class="text-h1 borla-headline">{t('borla.headline')}</h1>
-      <p class="text-p1 text-muted borla-lead">{t('borla.lead')}</p>
-      <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('borla.cta')}</a>
-    </div>
-    <div class="media borla-hero-img-wrap">
-      <Picture
-        src={heroImg}
-        widths={[480, 768, 894]}
-        sizes="(max-width: 900px) 100vw, 50vw"
-        formats={['avif', 'webp']}
-        alt="Grupo creando técnicas textiles en el taller mensual Borla de Borrissol, Mataró"
-        width={894}
-        height={644}
-        loading="eager"
-        fetchpriority="high"
-      />
-    </div>
-  </section>
+  <LandingHero
+    eyebrow={t('borla.eyebrow')}
+    headline={t('borla.headline')}
+    lead={t('borla.lead')}
+    cta={t('borla.cta')}
+    ctaHref={ctaHref}
+    img={heroImg}
+    alt="Grupo creando técnicas textiles en el taller mensual Borla de Borrissol, Mataró"
+    imgWidth={894}
+    imgHeight={644}
+    widths={[480, 768, 894]}
+  />
 
   <!-- ── Intro ────────────────────────────────────────────────────────── -->
   <section class="borla-section borla-intro" aria-labelledby="borla-intro-heading">
@@ -115,11 +108,12 @@ const faqs = [1, 2, 3].map(n => ({
   <Faq title={t('borla.faq.title')} faqs={faqs} />
 
   <!-- ── Final CTA ────────────────────────────────────────────────────── -->
-  <section class="borla-section borla-final" aria-labelledby="borla-final-heading">
-    <h2 id="borla-final-heading" class="text-h2 borla-final-title">{t('borla.final.title')}</h2>
-    <p class="text-p1 text-muted borla-final-body">{t('borla.final.body')}</p>
-    <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{t('borla.final.cta')}</a>
-  </section>
+  <FinalCta
+    title={t('borla.final.title')}
+    body={t('borla.final.body')}
+    cta={t('borla.final.cta')}
+    ctaHref={ctaHref}
+  />
 
 </article>
 
@@ -152,38 +146,6 @@ const faqs = [1, 2, 3].map(n => ({
     margin-top: var(--space-md);
   }
 
-  /* ── Hero ─────────────────────────────────────────────────────────── */
-  .borla-hero {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-xl);
-    align-items: center;
-    max-width: var(--layout-max-width);
-    margin: 0 auto;
-    padding: var(--space-xl) var(--layout-page-padding-h);
-    padding-top: calc(var(--space-xl) + 60px);
-  }
-
-  .borla-hero-text {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-md);
-  }
-
-  .borla-headline {
-    margin: 0;
-  }
-
-  .borla-lead {
-    margin: 0;
-  }
-
-  .borla-hero-img-wrap {
-    aspect-ratio: 4 / 3;
-  }
-
-
   /* ── Techniques ───────────────────────────────────────────────────── */
   .borla-tech {
     background: var(--bg-section);
@@ -210,31 +172,9 @@ const faqs = [1, 2, 3].map(n => ({
   /* Cards: see src/components/ui/TechniqueCard.astro */
 
   /* ── Details ──────────────────────────────────────────────────────── */
-  /* ── Final CTA ────────────────────────────────────────────────────── */
-  .borla-final {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-md);
-    border-top: var(--border-default);
-  }
-
-  .borla-final-title {
-    margin: 0;
-  }
-
-  .borla-final-body {
-    margin: 0;
-    max-width: 560px;
-  }
 
   /* ── Responsive ───────────────────────────────────────────────────── */
   @media (max-width: 900px) {
-    .borla-hero {
-      grid-template-columns: 1fr;
-      gap: var(--space-lg);
-    }
   }
 
   @media (max-width: 767px) {

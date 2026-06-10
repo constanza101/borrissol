@@ -1,0 +1,43 @@
+---
+/**
+ * Closing CTA section of a landing — centered title + short copy + primary
+ * button, separated from the page by a hairline top border. The CTA target is
+ * external (WhatsApp) and opens in a new tab.
+ */
+interface Props {
+  title: string;
+  body: string;
+  cta: string;
+  ctaHref: string;
+}
+const { title, body, cta, ctaHref } = Astro.props;
+---
+
+<section class="final-cta" aria-labelledby="final-cta-heading">
+  <h2 id="final-cta-heading" class="text-h2 final-cta-title">{title}</h2>
+  <p class="text-p1 text-muted final-cta-body">{body}</p>
+  <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary">{cta}</a>
+</section>
+
+<style>
+  .final-cta {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: var(--space-xl) var(--layout-page-padding-h);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    border-top: var(--border-default);
+  }
+
+  .final-cta-title {
+    margin: 0;
+  }
+
+  .final-cta-body {
+    margin: 0;
+    max-width: var(--measure-narrow);
+  }
+</style>
