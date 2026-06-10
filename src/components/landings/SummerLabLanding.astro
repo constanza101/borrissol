@@ -15,6 +15,7 @@ import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils';
 import TechniqueCard from '../ui/TechniqueCard.astro';
 import CourseSchema from '../ui/CourseSchema.astro';
+import DetailsList from '../ui/DetailsList.astro';
 import { summerLab } from '../../config/seasonal';
 import { waHref } from '../../config';
 import heroImg from '../../assets/images/grupo2.jpg';
@@ -126,14 +127,7 @@ const details = [
   <!-- ── Details ──────────────────────────────────────────────────────── -->
   <section class="sl-section sl-details" aria-labelledby="sl-details-heading">
     <h2 id="sl-details-heading" class="text-h2 sl-h2">{t('sl.details.title')}</h2>
-    <dl class="sl-details-list">
-      {details.map(d => (
-        <div class="sl-details-row">
-          <dt class="text-ui text-muted">{d.label}</dt>
-          <dd class="text-p2 sl-details-value">{d.value}</dd>
-        </div>
-      ))}
-    </dl>
+    <DetailsList details={details} />
   </section>
 
   <!-- ── Final CTA ────────────────────────────────────────────────────── -->
@@ -233,23 +227,6 @@ const details = [
   /* Cards: see src/components/ui/TechniqueCard.astro */
 
   /* ── Details ──────────────────────────────────────────────────────── */
-  .sl-details-list {
-    margin: 0;
-    max-width: 720px;
-  }
-
-  .sl-details-row {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: var(--space-md);
-    padding: var(--space-sm) 0;
-    border-bottom: var(--border-default);
-  }
-
-  .sl-details-value {
-    margin: 0;
-  }
-
   /* ── Final CTA ────────────────────────────────────────────────────── */
   .sl-final {
     text-align: center;

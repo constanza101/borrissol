@@ -13,6 +13,7 @@ import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 import FeatureCard from '../ui/FeatureCard.astro';
 import Faq from '../ui/Faq.astro';
 import CourseSchema from '../ui/CourseSchema.astro';
+import DetailsList from '../ui/DetailsList.astro';
 import { waHref } from '../../config';
 import heroImg from '../../assets/images/ws-wrist-rest.jpg';
 import projectImg from '../../assets/images/gallery/img_7713.jpg';
@@ -94,14 +95,7 @@ const faqs = [1, 2, 3, 4].map(n => ({
     <div class="tb-details-layout">
       <div class="tb-details-text">
         <h2 id="tb-details-heading" class="text-h2 tb-h2">{t('tb.details.title')}</h2>
-        <dl class="tb-details-list">
-          {details.map(d => (
-            <div class="tb-details-row">
-              <dt class="text-ui text-muted">{d.label}</dt>
-              <dd class="text-p2 tb-details-value">{d.value}</dd>
-            </div>
-          ))}
-        </dl>
+        <DetailsList details={details} />
         <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="btn btn-primary tb-details-cta">{t('tb.cta')}</a>
       </div>
       <div class="media tb-details-img-wrap">
@@ -238,21 +232,9 @@ const faqs = [1, 2, 3, 4].map(n => ({
     align-items: flex-start;
   }
 
-  .tb-details-list {
-    margin: 0 0 var(--space-lg);
-    width: 100%;
-  }
-
-  .tb-details-row {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: var(--space-md);
-    padding: var(--space-sm) 0;
-    border-bottom: var(--border-default);
-  }
-
-  .tb-details-value {
-    margin: 0;
+  /* Spacing to the list above (was the list margin before <DetailsList>). */
+  .tb-details-cta {
+    margin-top: var(--space-lg);
   }
 
   .tb-details-img-wrap {

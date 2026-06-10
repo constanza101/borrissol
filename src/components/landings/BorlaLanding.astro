@@ -14,6 +14,7 @@ import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils
 import Faq from '../ui/Faq.astro';
 import TechniqueCard from '../ui/TechniqueCard.astro';
 import CourseSchema from '../ui/CourseSchema.astro';
+import DetailsList from '../ui/DetailsList.astro';
 import { waHref } from '../../config';
 import heroImg from '../../assets/images/grupal.png';
 import imgFelting from '../../assets/images/offer-felting.jpg';
@@ -107,14 +108,7 @@ const faqs = [1, 2, 3].map(n => ({
   <!-- ── Details ──────────────────────────────────────────────────────── -->
   <section class="borla-section borla-details" aria-labelledby="borla-details-heading">
     <h2 id="borla-details-heading" class="text-h2 borla-h2">{t('borla.details.title')}</h2>
-    <dl class="borla-details-list">
-      {details.map(d => (
-        <div class="borla-details-row">
-          <dt class="text-ui text-muted">{d.label}</dt>
-          <dd class="text-p2 borla-details-value">{d.value}</dd>
-        </div>
-      ))}
-    </dl>
+    <DetailsList details={details} />
   </section>
 
   <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
@@ -216,23 +210,6 @@ const faqs = [1, 2, 3].map(n => ({
   /* Cards: see src/components/ui/TechniqueCard.astro */
 
   /* ── Details ──────────────────────────────────────────────────────── */
-  .borla-details-list {
-    margin: 0;
-    max-width: 720px;
-  }
-
-  .borla-details-row {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: var(--space-md);
-    padding: var(--space-sm) 0;
-    border-bottom: var(--border-default);
-  }
-
-  .borla-details-value {
-    margin: 0;
-  }
-
   /* ── Final CTA ────────────────────────────────────────────────────── */
   .borla-final {
     text-align: center;

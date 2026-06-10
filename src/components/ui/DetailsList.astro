@@ -1,0 +1,43 @@
+---
+/**
+ * Label/value spec list used by the workshop landings ("what's included",
+ * "how it works", "course details"). Rows are a two-column grid separated by
+ * hairline rules; labels use the UI style, values body copy.
+ *
+ * Width works in both placements without props: fills a narrow text column
+ * (width: 100%) and caps line length in a full-width section (max-width).
+ */
+interface Props {
+  details: { label: string; value: string }[];
+}
+const { details } = Astro.props;
+---
+
+<dl class="details-list">
+  {details.map(d => (
+    <div class="details-row">
+      <dt class="text-ui text-muted">{d.label}</dt>
+      <dd class="text-p2 details-value">{d.value}</dd>
+    </div>
+  ))}
+</dl>
+
+<style>
+  .details-list {
+    margin: 0;
+    width: 100%;
+    max-width: 720px;
+  }
+
+  .details-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-md);
+    padding: var(--space-sm) 0;
+    border-bottom: var(--border-default);
+  }
+
+  .details-value {
+    margin: 0;
+  }
+</style>
