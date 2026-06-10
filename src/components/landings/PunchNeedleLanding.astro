@@ -1,31 +1,20 @@
 ---
 /**
  * Punch needle (aguja mágica) landing — informational page targeting the
- * "taller punch needle Barcelona" search intent. Explains the technique, shows
- * it in action (TikTok clips) and funnels to where it is practised: the Borla
- * monthly workshop (internal link) and WhatsApp.
+ * "taller punch needle Barcelona" search intent. Structure and copy wiring
+ * live in <TechniqueLanding> (pn.* keys); this file holds the per-technique
+ * config plus the bespoke TikTok videos band (via the after-create slot).
  *
- * All copy comes from the i18n catalog (pn.* keys). Skeleton from the shared
- * landing components; the videos band stays bespoke because it deliberately
- * widens past the layout width. TikTok clips are embedded as lazy <iframe>s
- * (matching the press YouTube pattern) instead of the heavy embed.js script.
+ * TikTok clips are embedded as lazy <iframe>s (matching the press YouTube
+ * pattern) instead of the heavy embed.js script.
  */
-import { Picture } from 'astro:assets';
-import LandingHero from '../ui/LandingHero.astro';
-import LandingSection from '../ui/LandingSection.astro';
-import FinalCta from '../ui/FinalCta.astro';
+import TechniqueLanding from './TechniqueLanding.astro';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
-import FeatureCard from '../ui/FeatureCard.astro';
-import Faq from '../ui/Faq.astro';
-import BorlaFunnel from '../ui/BorlaFunnel.astro';
-import { waHref } from '../../config';
 import heroImg from '../../assets/images/offer-punch-needle.jpg';
 import createImg from '../../assets/images/tote-bag-punch-needle.jpg';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-
-const ctaHref = waHref(t('wa.pn.landing'));
 
 // TikTok clips embedded as lazy iframes (no embed.js). Add the third clip's id
 // here when available.
@@ -34,62 +23,23 @@ const videos = [
   { id: '7645740574317743362', caption: t('pn.video.2.caption') },
   { id: '7633469163104636182', caption: t('pn.video.3.caption') },
 ];
-
-const benefits = [1, 2, 3].map(n => ({
-  title: t(`pn.benefit.${n}.title` as any),
-  desc:  t(`pn.benefit.${n}.desc` as any),
-}));
-
-const faqs = [1, 2, 3].map(n => ({
-  q: t(`pn.faq.q${n}` as any),
-  a: t(`pn.faq.a${n}` as any),
-}));
 ---
 
-<article class="pn">
-
-  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
-  <LandingHero
-    eyebrow={t('pn.eyebrow')}
-    headline={t('pn.headline')}
-    lead={t('pn.lead')}
-    cta={t('pn.cta')}
-    ctaHref={ctaHref}
-    img={heroImg}
-    alt="Primer plano de un bordado de punch needle (aguja mágica) hecho en el taller Borrissol, Mataró"
-    imgWidth={4032}
-    imgHeight={3024}
-  />
-
-  <!-- ── What is it ───────────────────────────────────────────────────── -->
-  <LandingSection id="pn-what" title={t('pn.what.title')} tight>
-    <p class="text-p2 measure">{t('pn.what.body')}</p>
-  </LandingSection>
-
-  <!-- ── What you can create (text + image) ───────────────────────────── -->
-  <LandingSection id="pn-create">
-    <div class="pn-create-layout">
-      <div class="pn-create-text">
-        <h2 id="pn-create-heading" class="text-h2 pn-create-title">{t('pn.create.title')}</h2>
-        <p class="text-p2 measure">{t('pn.create.body')}</p>
-      </div>
-      <div class="media pn-create-img-wrap">
-        <Picture
-          src={createImg}
-          widths={[400, 600, 800]}
-          sizes="(max-width: 900px) 100vw, 35vw"
-          formats={['avif', 'webp']}
-          alt="Tote bag bordada con la técnica de punch needle en Borrissol, Mataró"
-          width={1050}
-          height={1400}
-          loading="lazy"
-        />
-      </div>
-    </div>
-  </LandingSection>
-
+<TechniqueLanding
+  prefix="pn"
+  img={heroImg}
+  alt="Primer plano de un bordado de punch needle (aguja mágica) hecho en el taller Borrissol, Mataró"
+  imgWidth={4032}
+  imgHeight={3024}
+  createImg={{
+    src: createImg,
+    alt: 'Tote bag bordada con la técnica de punch needle en Borrissol, Mataró',
+    width: 1050,
+    height: 1400,
+  }}
+>
   <!-- ── Videos (technique in action) — bespoke: wider than the layout ── -->
-  <section class="pn-videos" aria-labelledby="pn-videos-heading">
+  <section slot="after-create" class="pn-videos" aria-labelledby="pn-videos-heading">
     <h2 id="pn-videos-heading" class="text-h2 pn-videos-title">{t('pn.videos.title')}</h2>
     <p class="text-p2 text-muted pn-videos-intro">{t('pn.videos.intro')}</p>
     <div class="pn-videos-grid">
@@ -109,58 +59,9 @@ const faqs = [1, 2, 3].map(n => ({
       ))}
     </div>
   </section>
-
-  <!-- ── Why / benefits ───────────────────────────────────────────────── -->
-  <LandingSection id="pn-why" title={t('pn.why.title')} tint>
-    <div class="pn-benefits-grid">
-      {benefits.map(b => (
-        <FeatureCard title={b.title} desc={b.desc} />
-      ))}
-    </div>
-  </LandingSection>
-
-  <!-- ── Where to practise (funnel to Borla) ──────────────────────────── -->
-  <BorlaFunnel
-    title={t('pn.practice.title')}
-    body={t('pn.practice.body')}
-    cta={t('pn.practice.cta')}
-  />
-
-  <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
-  <Faq title={t('pn.faq.title')} faqs={faqs} />
-
-  <!-- ── Final CTA ────────────────────────────────────────────────────── -->
-  <FinalCta
-    title={t('pn.final.title')}
-    body={t('pn.final.body')}
-    cta={t('pn.final.cta')}
-    ctaHref={ctaHref}
-  />
-
-</article>
+</TechniqueLanding>
 
 <style>
-  .pn {
-    background: var(--color-white);
-  }
-
-  /* ── What you can create ──────────────────────────────────────────── */
-  .pn-create-layout {
-    display: grid;
-    grid-template-columns: 1.6fr 1fr;
-    gap: var(--space-xl);
-    align-items: center;
-  }
-
-  .pn-create-title {
-    margin: 0 0 var(--space-md);
-  }
-
-  .pn-create-img-wrap {
-    aspect-ratio: 3 / 4;
-  }
-
-  /* ── Videos ───────────────────────────────────────────────────────── */
   .pn-videos {
     background: var(--bg-section);
     padding: var(--space-xl) var(--layout-page-padding-h);
@@ -208,25 +109,6 @@ const faqs = [1, 2, 3].map(n => ({
 
   .pn-video-caption {
     margin: var(--space-sm) 0 0;
-  }
-
-  /* ── Why / benefits ───────────────────────────────────────────────── */
-  .pn-benefits-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-md);
-  }
-
-  /* ── Responsive ───────────────────────────────────────────────────── */
-  @media (max-width: 900px) {
-    .pn-create-layout {
-      grid-template-columns: 1fr;
-      gap: var(--space-lg);
-    }
-
-    .pn-benefits-grid {
-      grid-template-columns: 1fr;
-    }
   }
 
   /* Vertical clips get too narrow three-across on small screens → stack. */

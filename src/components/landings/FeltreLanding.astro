@@ -2,107 +2,18 @@
 /**
  * Feltre agullat (needle felting) landing — informational page targeting the
  * "taller feltre agullat / fieltro agujado" search intent (a near-empty niche).
- * It explains the technique and funnels to where it can be practised: the Borla
- * monthly workshop (internal link) and WhatsApp.
- *
- * All copy comes from the i18n catalog (felt.* keys). Skeleton from the shared
- * landing components; scoped CSS holds only the benefits grid.
+ * Structure and copy wiring live in <TechniqueLanding> (felt.* keys); this file
+ * only holds the per-technique config.
  */
-import LandingHero from '../ui/LandingHero.astro';
-import LandingSection from '../ui/LandingSection.astro';
-import FinalCta from '../ui/FinalCta.astro';
-import { getLangFromUrl, useTranslations } from '../../i18n/utils';
-import FeatureCard from '../ui/FeatureCard.astro';
-import Faq from '../ui/Faq.astro';
-import BorlaFunnel from '../ui/BorlaFunnel.astro';
-import { waHref } from '../../config';
+import TechniqueLanding from './TechniqueLanding.astro';
 import heroImg from '../../assets/images/offer-felting.jpg';
-
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
-
-const ctaHref = waHref(t('wa.felt.landing'));
-
-const benefits = [1, 2, 3].map(n => ({
-  title: t(`felt.benefit.${n}.title` as any),
-  desc:  t(`felt.benefit.${n}.desc` as any),
-}));
-
-const faqs = [1, 2, 3].map(n => ({
-  q: t(`felt.faq.q${n}` as any),
-  a: t(`felt.faq.a${n}` as any),
-}));
 ---
 
-<article class="felt">
-
-  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
-  <LandingHero
-    eyebrow={t('felt.eyebrow')}
-    headline={t('felt.headline')}
-    lead={t('felt.lead')}
-    cta={t('felt.cta')}
-    ctaHref={ctaHref}
-    img={heroImg}
-    alt="Figuras creadas con feltre agullat (fieltro agujado) en el taller Borrissol, Mataró"
-    imgWidth={3024}
-    imgHeight={3024}
-    aspect="1 / 1"
-  />
-
-  <!-- ── What is it ───────────────────────────────────────────────────── -->
-  <LandingSection id="felt-what" title={t('felt.what.title')} tight>
-    <p class="text-p2 measure">{t('felt.what.body')}</p>
-  </LandingSection>
-
-  <!-- ── What you can create ──────────────────────────────────────────── -->
-  <LandingSection id="felt-create" title={t('felt.create.title')} tight>
-    <p class="text-p2 measure">{t('felt.create.body')}</p>
-  </LandingSection>
-
-  <!-- ── Why / benefits ───────────────────────────────────────────────── -->
-  <LandingSection id="felt-why" title={t('felt.why.title')} tint>
-    <div class="felt-benefits-grid">
-      {benefits.map(b => (
-        <FeatureCard title={b.title} desc={b.desc} />
-      ))}
-    </div>
-  </LandingSection>
-
-  <!-- ── Where to practise (funnel to Borla) ──────────────────────────── -->
-  <BorlaFunnel
-    title={t('felt.practice.title')}
-    body={t('felt.practice.body')}
-    cta={t('felt.practice.cta')}
-  />
-
-  <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
-  <Faq title={t('felt.faq.title')} faqs={faqs} />
-
-  <!-- ── Final CTA ────────────────────────────────────────────────────── -->
-  <FinalCta
-    title={t('felt.final.title')}
-    body={t('felt.final.body')}
-    cta={t('felt.final.cta')}
-    ctaHref={ctaHref}
-  />
-
-</article>
-
-<style>
-  .felt {
-    background: var(--color-white);
-  }
-
-  .felt-benefits-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-md);
-  }
-
-  @media (max-width: 900px) {
-    .felt-benefits-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>
+<TechniqueLanding
+  prefix="felt"
+  img={heroImg}
+  alt="Figuras creadas con feltre agullat (fieltro agujado) en el taller Borrissol, Mataró"
+  imgWidth={3024}
+  imgHeight={3024}
+  aspect="1 / 1"
+/>

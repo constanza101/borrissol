@@ -2,107 +2,18 @@
 /**
  * Loom / weaving (telar) landing — informational page targeting the
  * "taller telar / teler / weaving" search intent (a low-competition niche).
- * Explains the technique and funnels to where it's practised: the Borla monthly
- * workshop (internal link) and WhatsApp.
- *
- * All copy from the i18n catalog (loom.* keys). Skeleton from the shared
- * landing components; scoped CSS holds only the benefits grid.
+ * Structure and copy wiring live in <TechniqueLanding> (loom.* keys); this file
+ * only holds the per-technique config.
  */
-import LandingHero from '../ui/LandingHero.astro';
-import LandingSection from '../ui/LandingSection.astro';
-import FinalCta from '../ui/FinalCta.astro';
-import { getLangFromUrl, useTranslations } from '../../i18n/utils';
-import FeatureCard from '../ui/FeatureCard.astro';
-import Faq from '../ui/Faq.astro';
-import BorlaFunnel from '../ui/BorlaFunnel.astro';
-import { waHref } from '../../config';
+import TechniqueLanding from './TechniqueLanding.astro';
 import heroImg from '../../assets/images/offer-loom.jpg';
-
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
-
-const ctaHref = waHref(t('wa.loom.landing'));
-
-const benefits = [1, 2, 3].map(n => ({
-  title: t(`loom.benefit.${n}.title` as any),
-  desc:  t(`loom.benefit.${n}.desc` as any),
-}));
-
-const faqs = [1, 2, 3].map(n => ({
-  q: t(`loom.faq.q${n}` as any),
-  a: t(`loom.faq.a${n}` as any),
-}));
 ---
 
-<article class="loom">
-
-  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
-  <LandingHero
-    eyebrow={t('loom.eyebrow')}
-    headline={t('loom.headline')}
-    lead={t('loom.lead')}
-    cta={t('loom.cta')}
-    ctaHref={ctaHref}
-    img={heroImg}
-    alt="Tejido en telar artesanal con hilos de colores en el taller Borrissol, Mataró"
-    imgWidth={3024}
-    imgHeight={3024}
-    aspect="1 / 1"
-  />
-
-  <!-- ── What is it ───────────────────────────────────────────────────── -->
-  <LandingSection id="loom-what" title={t('loom.what.title')} tight>
-    <p class="text-p2 measure">{t('loom.what.body')}</p>
-  </LandingSection>
-
-  <!-- ── What you can weave ───────────────────────────────────────────── -->
-  <LandingSection id="loom-create" title={t('loom.create.title')} tight>
-    <p class="text-p2 measure">{t('loom.create.body')}</p>
-  </LandingSection>
-
-  <!-- ── Why / benefits ───────────────────────────────────────────────── -->
-  <LandingSection id="loom-why" title={t('loom.why.title')} tint>
-    <div class="loom-benefits-grid">
-      {benefits.map(b => (
-        <FeatureCard title={b.title} desc={b.desc} />
-      ))}
-    </div>
-  </LandingSection>
-
-  <!-- ── Where to practise (funnel to Borla) ──────────────────────────── -->
-  <BorlaFunnel
-    title={t('loom.practice.title')}
-    body={t('loom.practice.body')}
-    cta={t('loom.practice.cta')}
-  />
-
-  <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
-  <Faq title={t('loom.faq.title')} faqs={faqs} />
-
-  <!-- ── Final CTA ────────────────────────────────────────────────────── -->
-  <FinalCta
-    title={t('loom.final.title')}
-    body={t('loom.final.body')}
-    cta={t('loom.final.cta')}
-    ctaHref={ctaHref}
-  />
-
-</article>
-
-<style>
-  .loom {
-    background: var(--color-white);
-  }
-
-  .loom-benefits-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-md);
-  }
-
-  @media (max-width: 900px) {
-    .loom-benefits-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>
+<TechniqueLanding
+  prefix="loom"
+  img={heroImg}
+  alt="Tejido en telar artesanal con hilos de colores en el taller Borrissol, Mataró"
+  imgWidth={3024}
+  imgHeight={3024}
+  aspect="1 / 1"
+/>
