@@ -161,9 +161,9 @@
      --------------------------------------------------------------------------- */
 
   --radius-sharp: 0;       /* Badges, sharp-edge elements */
-  --radius-xs:    2px;     /* Product cards */
+  --radius-xs:    2px;     /* Cards (.card) */
   --radius-sm:    4px;     /* Small UI elements */
-  --radius-md:    8px;     /* Cards, nav, containers */
+  --radius-md:    8px;     /* Media frames (.media), nav, containers */
   --radius-lg:    24px;    /* Mobile nav panel, large rounded containers */
   --radius-pill:  9999px;  /* Inputs, primary/secondary buttons */
 
@@ -392,7 +392,7 @@ a:hover { opacity: var(--hover-opacity); }
 .card {
   background: var(--color-white);
   border: var(--border-default);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-xs);
 }
 
 /* Media frame — rounded, clipped box whose image/video fills it edge to edge,

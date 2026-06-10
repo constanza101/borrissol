@@ -182,7 +182,7 @@ const reviews = REVIEWS.map(r => ({ name: r.name, text: t(r.key as any) }));
     flex: 0 0 calc((100% - 2 * var(--space-sm)) / 3);
     scroll-snap-align: start;
     background: var(--color-white);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-xs);  /* card radius; borderless on purpose (light section bg) */
     padding: var(--space-md);
     display: flex;
     flex-direction: column;

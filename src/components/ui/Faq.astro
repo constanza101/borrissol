@@ -19,7 +19,7 @@ const { title, faqs } = Astro.props;
   <h2 id="faq-heading" class="text-h2 faq-title">{title}</h2>
   <div class="faq-list">
     {faqs.map(f => (
-      <div class="faq-item">
+      <div class="card faq-item">
         <h3 class="text-h4 faq-q">{f.q}</h3>
         <p class="text-p2 text-muted faq-a">{f.a}</p>
       </div>
@@ -53,9 +53,6 @@ const { title, faqs } = Astro.props;
   }
 
   .faq-item {
-    background: var(--color-white);
-    border: var(--border-default);
-    border-radius: var(--radius-md);
     padding: var(--space-lg);
   }
 

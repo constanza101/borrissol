@@ -106,9 +106,9 @@
 | Token | Value | Usage |
 |---|---|---|
 | `--radius-pill` | `9999px` | Inputs, primary/secondary buttons |
-| `--radius-md` | `8px` | Cards, nav, containers |
+| `--radius-md` | `8px` | Media frames (`.media`), nav, containers |
 | `--radius-sm` | `4px` | Small UI elements |
-| `--radius-xs` | `2px` | Product cards |
+| `--radius-xs` | `2px` | Cards (`.card`) |
 
 ### Borders
 
@@ -179,7 +179,7 @@ Usage: `<i data-lucide="icon-name"></i>` + `lucide.createIcons()`
 .text-muted
 .eyebrow
 
-.card   (container: white surface + hairline border + radius-md)
+.card   (container: white surface + hairline border + radius-xs)
 .media  (media frame: radius-md + clip; child img/iframe/video fills & crops.
          Set aspect-ratio in scoped CSS. For standalone frames — media inside
          a .card that already clips, or radius-xs frames, stays bespoke)
