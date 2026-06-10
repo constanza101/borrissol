@@ -34,6 +34,31 @@ export function useTranslations(lang: Lang) {
 }
 
 /**
+ * Localizes an internal route path for a language. The default locale lives at
+ * the root (no prefix); every other locale gets its prefix.
+ *
+ * Examples (with defaultLang = 'ca'):
+ *   localizedPath('ca', '/borla') → '/borla'
+ *   localizedPath('es', '/borla') → '/es/borla'
+ *   localizedPath('en', '/')      → '/en'
+ */
+export function localizedPath(lang: Lang, path: string): string {
+  if (lang === defaultLang) return path;
+  return path === '/' ? `/${lang}` : `/${lang}${path}`;
+}
+
+/**
+ * Shared getStaticPaths body for every src/pages/[lang]/*.astro route: one
+ * static path per non-default locale. The default locale is served at the
+ * root by the route's src/pages/*.astro twin.
+ */
+export function nonDefaultLangPaths() {
+  return (Object.keys(languages) as Lang[])
+    .filter(l => l !== defaultLang)
+    .map(l => ({ params: { lang: l } }));
+}
+
+/**
  * Returns the equivalent URL for the current page in a different locale.
  * Works for ANY page (home, gallery, press, blog, future routes) because it
  * does a URL-prefix swap instead of relying on a lookup table.

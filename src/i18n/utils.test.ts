@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getLangFromUrl, useTranslations, getAlternatePath } from './utils';
+import { getLangFromUrl, useTranslations, getAlternatePath, localizedPath, nonDefaultLangPaths } from './utils';
 
 describe('getLangFromUrl', () => {
   it('returns default (ca) for the root path', () => {
@@ -51,6 +51,30 @@ describe('useTranslations', () => {
   it('falls back to defaultLang then to the key itself for missing keys', () => {
     const t = useTranslations('es');
     expect(t('this.key.does.not.exist' as never)).toBe('this.key.does.not.exist');
+  });
+});
+
+describe('localizedPath', () => {
+  it('default locale (ca) keeps the path unprefixed', () => {
+    expect(localizedPath('ca', '/borla')).toBe('/borla');
+  });
+
+  it('non-default locale gets its prefix', () => {
+    expect(localizedPath('es', '/borla')).toBe('/es/borla');
+    expect(localizedPath('fr', '/punch-needle')).toBe('/fr/punch-needle');
+  });
+
+  it('home: ca → /, others → /<lang> (no trailing slash)', () => {
+    expect(localizedPath('ca', '/')).toBe('/');
+    expect(localizedPath('en', '/')).toBe('/en');
+  });
+});
+
+describe('nonDefaultLangPaths', () => {
+  it('returns one static path per non-default locale', () => {
+    const langs = nonDefaultLangPaths().map(p => p.params.lang);
+    expect(langs).not.toContain('ca');
+    expect(langs.sort()).toEqual(['en', 'es', 'fr']);
   });
 });
 

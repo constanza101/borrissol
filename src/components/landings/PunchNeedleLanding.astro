@@ -11,7 +11,7 @@
  * of the heavy TikTok embed.js script.
  */
 import { Picture } from 'astro:assets';
-import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils';
 import FeatureCard from '../ui/FeatureCard.astro';
 import Faq from '../ui/Faq.astro';
 import { waHref } from '../../config';
@@ -23,7 +23,7 @@ const t = useTranslations(lang);
 
 const ctaHref = waHref(t('wa.pn.landing'));
 // Internal funnel: punch needle is practised at the Borla monthly workshop.
-const borlaPath = lang === 'ca' ? '/borla' : `/${lang}/borla`;
+const borlaPath = localizedPath(lang, '/borla');
 
 // TikTok clips embedded as lazy iframes (no embed.js). Add the third clip's id
 // here when available.

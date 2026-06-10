@@ -10,7 +10,7 @@
  * offer price is asserted).
  */
 import { Picture } from 'astro:assets';
-import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils';
 import Faq from '../ui/Faq.astro';
 import TechniqueCard from '../ui/TechniqueCard.astro';
 import { SITE } from '../../config/site';
@@ -25,9 +25,9 @@ const t = useTranslations(lang);
 
 const ctaHref = waHref(t('wa.borla.landing'));
 // Localized paths to each technique's dedicated landing (ca = no prefix).
-const feltingPath = lang === 'ca' ? '/felting' : `/${lang}/felting`;
-const punchPath   = lang === 'ca' ? '/punch-needle' : `/${lang}/punch-needle`;
-const loomPath    = lang === 'ca' ? '/loom' : `/${lang}/loom`;
+const feltingPath = localizedPath(lang, '/felting');
+const punchPath   = localizedPath(lang, '/punch-needle');
+const loomPath    = localizedPath(lang, '/loom');
 
 // Technique names reuse the existing offer.* catalog (single source of truth);
 // descriptions are Borla-specific (borla.*.desc). `href` links to each

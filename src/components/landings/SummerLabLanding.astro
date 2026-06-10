@@ -12,7 +12,7 @@
  * Course JSON-LD carries the per-week price.
  */
 import { Picture } from 'astro:assets';
-import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils';
 import TechniqueCard from '../ui/TechniqueCard.astro';
 import { SITE } from '../../config/site';
 import { summerLab } from '../../config/seasonal';
@@ -29,10 +29,10 @@ const t = useTranslations(lang);
 
 const ctaHref = waHref(t('wa.sl.landing'));
 // Internal links to the dedicated technique landings (ca = no prefix).
-const tuftingPath = lang === 'ca' ? '/tufting' : `/${lang}/tufting`;
-const loomPath    = lang === 'ca' ? '/loom' : `/${lang}/loom`;
-const feltingPath = lang === 'ca' ? '/felting' : `/${lang}/felting`;
-const punchPath   = lang === 'ca' ? '/punch-needle' : `/${lang}/punch-needle`;
+const tuftingPath = localizedPath(lang, '/tufting');
+const loomPath    = localizedPath(lang, '/loom');
+const feltingPath = localizedPath(lang, '/felting');
+const punchPath   = localizedPath(lang, '/punch-needle');
 
 // Technique names reuse the offer.* catalog; descriptions are summer-lab
 // specific (sl.tech.*). `href` links to each technique's dedicated landing.

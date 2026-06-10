@@ -1,5 +1,5 @@
 ---
-import { getLangFromUrl, useTranslations, getAlternatePath } from '../../i18n/utils';
+import { getLangFromUrl, useTranslations, getAlternatePath, localizedPath } from '../../i18n/utils';
 import { languages, type Lang } from '../../i18n/ui';
 import { waHref } from '../../config';
 
@@ -11,9 +11,9 @@ const altPaths = Object.fromEntries(
 
 // Internal pages respect current language prefix (ca is default = no prefix).
 // Site config has `trailingSlash: 'never'`, so non-default home is `/fr` not `/fr/`.
-const homePath    = lang === 'ca' ? '/' : `/${lang}`;
-const pressPath   = lang === 'ca' ? '/press' : `/${lang}/press`;
-const galleryPath = lang === 'ca' ? '/gallery' : `/${lang}/gallery`;
+const homePath    = localizedPath(lang, '/');
+const pressPath   = localizedPath(lang, '/press');
+const galleryPath = localizedPath(lang, '/gallery');
 
 // Anchors on the home page must be prefixed with the home path so they work
 // from non-home pages (e.g. /press, /blog). Browsers treat same-path+hash

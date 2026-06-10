@@ -9,7 +9,7 @@
  * .text-* utility classes (Hard Rule #15); scoped CSS holds layout only.
  */
 import { Picture } from 'astro:assets';
-import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils';
 import FeatureCard from '../ui/FeatureCard.astro';
 import Faq from '../ui/Faq.astro';
 import { waHref } from '../../config';
@@ -20,7 +20,7 @@ const t = useTranslations(lang);
 
 const ctaHref = waHref(t('wa.felt.landing'));
 // Internal funnel: needle felting is practised at the Borla monthly workshop.
-const borlaPath = lang === 'ca' ? '/borla' : `/${lang}/borla`;
+const borlaPath = localizedPath(lang, '/borla');
 
 const benefits = [1, 2, 3].map(n => ({
   title: t(`felt.benefit.${n}.title` as any),

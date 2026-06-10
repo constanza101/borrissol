@@ -9,7 +9,7 @@
  * utilities (Hard Rule #15); scoped CSS = layout only.
  */
 import { Picture } from 'astro:assets';
-import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils';
 import FeatureCard from '../ui/FeatureCard.astro';
 import Faq from '../ui/Faq.astro';
 import { waHref } from '../../config';
@@ -19,7 +19,7 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const ctaHref = waHref(t('wa.loom.landing'));
-const borlaPath = lang === 'ca' ? '/borla' : `/${lang}/borla`;
+const borlaPath = localizedPath(lang, '/borla');
 
 const benefits = [1, 2, 3].map(n => ({
   title: t(`loom.benefit.${n}.title` as any),

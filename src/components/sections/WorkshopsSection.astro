@@ -1,6 +1,6 @@
 ---
 import { Picture } from 'astro:assets';
-import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils';
 import { waHref } from '../../config';
 import tuftingInd2 from '../../assets/images/tufting-ind2.jpg';
 import tallerTufting from '../../assets/images/taller-tufting.jpg';
@@ -13,10 +13,10 @@ import { isSummerLabVisible } from '../../config/seasonal';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 // Localized paths to the dedicated landings (ca is default = no prefix).
-const teamBuildingPath = lang === 'ca' ? '/team-building' : `/${lang}/team-building`;
-const borlaPath        = lang === 'ca' ? '/borla' : `/${lang}/borla`;
-const pelussetesPath   = lang === 'ca' ? '/pelussetes' : `/${lang}/pelussetes`;
-const summerLabPath    = lang === 'ca' ? '/summer-lab' : `/${lang}/summer-lab`;
+const teamBuildingPath = localizedPath(lang, '/team-building');
+const borlaPath        = localizedPath(lang, '/borla');
+const pelussetesPath   = localizedPath(lang, '/pelussetes');
+const summerLabPath    = localizedPath(lang, '/summer-lab');
 // Seasonal: the Summer Lab card auto-hides after the course end date.
 const summerLabVisible = isSummerLabVisible();
 const tuftingRows = [

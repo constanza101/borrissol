@@ -1,5 +1,5 @@
 ---
-import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils';
 import TechniqueCard from '../ui/TechniqueCard.astro';
 import imgTufting    from '../../assets/images/offer-tufting.jpg';
 import imgFelting    from '../../assets/images/offer-felting.jpg';
@@ -10,10 +10,10 @@ const lang = getLangFromUrl(Astro.url);
 const t    = useTranslations(lang);
 
 // Localized paths to dedicated technique landings (ca = no prefix).
-const tuftingPath = lang === 'ca' ? '/tufting' : `/${lang}/tufting`;
-const feltingPath = lang === 'ca' ? '/felting' : `/${lang}/felting`;
-const punchPath   = lang === 'ca' ? '/punch-needle' : `/${lang}/punch-needle`;
-const loomPath    = lang === 'ca' ? '/loom' : `/${lang}/loom`;
+const tuftingPath = localizedPath(lang, '/tufting');
+const feltingPath = localizedPath(lang, '/felting');
+const punchPath   = localizedPath(lang, '/punch-needle');
+const loomPath    = localizedPath(lang, '/loom');
 
 // Every technique now has a dedicated landing → "learn more" link on each card.
 const techniques = [

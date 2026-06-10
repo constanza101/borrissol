@@ -8,13 +8,11 @@ import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/layout/Navbar.astro';
 import PelussetesLanding from '../../components/landings/PelussetesLanding.astro';
 import Footer from '../../components/layout/Footer.astro';
-import { useTranslations } from '../../i18n/utils';
-import { languages, defaultLang, type Lang } from '../../i18n/ui';
+import { useTranslations, nonDefaultLangPaths } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
 
 export async function getStaticPaths() {
-  return (Object.keys(languages) as Lang[])
-    .filter(l => l !== defaultLang)
-    .map(l => ({ params: { lang: l } }));
+  return nonDefaultLangPaths();
 }
 
 const { lang } = Astro.params as { lang: Lang };

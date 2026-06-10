@@ -10,7 +10,7 @@
  * AggregateOffer covering the individual price range.
  */
 import { Picture } from 'astro:assets';
-import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils';
 import Faq from '../ui/Faq.astro';
 import { SITE } from '../../config/site';
 import { waHref } from '../../config';
@@ -20,8 +20,8 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const ctaHref = waHref(t('wa.tuf.landing'));
-const pelussetesPath   = lang === 'ca' ? '/pelussetes' : `/${lang}/pelussetes`;
-const teamBuildingPath = lang === 'ca' ? '/team-building' : `/${lang}/team-building`;
+const pelussetesPath   = localizedPath(lang, '/pelussetes');
+const teamBuildingPath = localizedPath(lang, '/team-building');
 
 // Individual formats — real data, same source as the home tufting panel.
 const levels = [
