@@ -57,21 +57,28 @@ const blogHref = '/blog';
       <li><a href={blogHref} aria-current={isCurrentPage(blogHref) ? 'page' : undefined}>Blog</a></li>
     </ul>
 
-    <!-- Desktop language dropdown -->
-    <div class="nav-lang-dropdown" aria-label="Language switcher">
-      <button class="nav-lang-trigger" type="button" aria-haspopup="listbox">
-        {languages[lang]}
-      </button>
-      <ul class="nav-lang-menu" role="listbox">
+    <!-- Language switcher: the current language is a toggle; the others reveal
+         in line to its left (click or hover), floating over the bar. Shown on
+         every breakpoint. -->
+    <div class="nav-lang-switch" aria-label="Language switcher">
+      <ul class="nav-lang-reveal" id="nav-lang-reveal" role="list">
         {(Object.entries(languages) as [Lang, string][])
           .filter(([l]) => l !== lang)
           .map(([l, label]) => (
-            <li role="option">
-              <a href={altPaths[l]} class="nav-lang-option">{label}</a>
+            <li>
+              <a href={altPaths[l]} class="nav-lang-reveal-link">{label}</a>
             </li>
           ))
         }
       </ul>
+      <button
+        class="nav-lang-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="nav-lang-reveal"
+      >
+        {languages[lang]}
+      </button>
     </div>
 
     <!-- Desktop CTA — last item before hamburger -->
@@ -84,19 +91,6 @@ const blogHref = '/blog';
     >
       {t('nav.cta')}
     </a>
-
-    <!-- Mobile lang — pill bar, left of hamburger -->
-    <div class="nav-bar-lang" aria-label="Language switcher">
-      {(Object.entries(languages) as [Lang, string][]).map(([l, label], i) => (
-        <Fragment>
-          {i > 0 && <span class="nav-lang-sep" aria-hidden="true">/</span>}
-          {l === lang
-            ? <span class="nav-lang-current">{label}</span>
-            : <a href={altPaths[l]} class="nav-lang-link">{label}</a>
-          }
-        </Fragment>
-      ))}
-    </div>
 
     <!-- Mobile hamburger: two thin lines that animate into an X -->
     <button
@@ -140,30 +134,17 @@ const blogHref = '/blog';
       </a>
     </div>
 
-    <div class="nav-mobile-lang" aria-label="Language switcher">
-      {(Object.entries(languages) as [Lang, string][]).map(([l, label], i) => (
-        <Fragment>
-          {i > 0 && <span class="nav-lang-sep" aria-hidden="true">/</span>}
-          {l === lang
-            ? <span class="nav-lang-current">{label}</span>
-            : <a href={altPaths[l]} class="nav-lang-link">{label}</a>
-          }
-        </Fragment>
-      ))}
-    </div>
-
   </div>
 
 </header>
 
 <script is:inline>
   // Preserve URL hash when switching language. The hash is purely client-side
-  // (never reaches the server), so getAlternatePath cannot include it.
-  // Selector covers desktop dropdown (.nav-lang-option) and mobile inline +
-  // mobile menu (.nav-lang-link). We append window.location.hash to the href
-  // at click time so the user stays on the same anchor after navigating.
+  // (never reaches the server), so getAlternatePath cannot include it. We
+  // append window.location.hash to the switcher links' href at click time so
+  // the user stays on the same anchor after navigating.
   (function () {
-    document.querySelectorAll('.nav-lang-option, .nav-lang-link').forEach(function (link) {
+    document.querySelectorAll('.nav-lang-reveal-link').forEach(function (link) {
       link.addEventListener('click', function (e) {
         var hash = window.location.hash;
         if (!hash) return;
@@ -174,6 +155,40 @@ const blogHref = '/blog';
         e.preventDefault();
         window.location.href = href + hash;
       });
+    });
+  })();
+
+  // Language switcher. .is-open is the single source of truth so a click can
+  // always close the reveal — even while the pointer is still over it.
+  //  • click toggles open/closed (authoritative; works on touch + keyboard).
+  //  • on mouse devices, hover opens and leaving closes. Since a click-to-close
+  //    leaves .is-open false and mouseenter won't refire until the pointer
+  //    actually re-enters, the reveal stays closed as expected.
+  //  • click-outside and Escape close it.
+  (function () {
+    var sw = document.querySelector('.nav-lang-switch');
+    if (!sw) return;
+    var toggle = sw.querySelector('.nav-lang-toggle');
+    if (!toggle) return;
+
+    function open()  { sw.classList.add('is-open');    toggle.setAttribute('aria-expanded', 'true'); }
+    function close() { sw.classList.remove('is-open'); toggle.setAttribute('aria-expanded', 'false'); }
+
+    toggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      sw.classList.contains('is-open') ? close() : open();
+    });
+
+    if (window.matchMedia('(hover: hover)').matches) {
+      sw.addEventListener('mouseenter', open);
+      sw.addEventListener('mouseleave', close);
+    }
+
+    document.addEventListener('click', function (e) {
+      if (!sw.contains(e.target)) close();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') close();
     });
   })();
 
@@ -304,16 +319,20 @@ const blogHref = '/blog';
     font-weight: var(--font-weight-btn);
   }
 
-  /* ── Desktop language dropdown ── */
-  .nav-lang-dropdown {
+  /* ── Language switcher: current label + others that reveal in line, to the
+        left, floating over the bar (no layout push). Opens on hover, keyboard
+        focus, or click (.is-open). Visible on every breakpoint. ── */
+  .nav-lang-switch {
     position: relative;
     flex-shrink: 0;
-  }
-
-  .nav-lang-trigger {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+  }
+
+  .nav-lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     min-height: var(--min-touch-target);
     padding: 0;
     background: none;
@@ -327,68 +346,89 @@ const blogHref = '/blog';
     color: var(--color-black);
   }
 
-  /* CSS-only down/up chevron */
-  .nav-lang-trigger::after {
+  /* Left-pointing caret; flips to point right (toward current) when open. */
+  .nav-lang-toggle::before {
     content: '';
     display: block;
     width: 5px;
     height: 5px;
     border-right: 1.5px solid currentColor;
     border-bottom: 1.5px solid currentColor;
-    transform: rotate(45deg) translateY(-2px);
-    transition: transform 0.2s ease;
+    transform: rotate(135deg);
+    transition: transform 0.32s ease;
     flex-shrink: 0;
   }
-
-  .nav-lang-dropdown:hover .nav-lang-trigger::after,
-  .nav-lang-dropdown:focus-within .nav-lang-trigger::after {
-    transform: rotate(-135deg) translateY(2px);
+  .nav-lang-switch.is-open .nav-lang-toggle::before {
+    transform: rotate(-45deg);
   }
 
-  .nav-lang-menu {
+  /* The other languages, anchored just left of the current one. Absolute so
+     they overlay the bar instead of pushing its content. */
+  .nav-lang-reveal {
     position: absolute;
-    top: 100%;
-    right: 0;
+    right: calc(100% + var(--space-xs));
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
+    padding: 2px var(--space-xs);
     list-style: none;
-    background: var(--color-white);
-    border: var(--border-default);
-    min-width: 4rem;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-4px);
-    pointer-events: none;
-    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0s linear 0.15s;
-  }
-
-  .nav-lang-dropdown:hover .nav-lang-menu,
-  .nav-lang-dropdown:focus-within .nav-lang-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    pointer-events: auto;
-    transition: opacity 0.15s ease, transform 0.15s ease;
-  }
-
-  .nav-lang-option {
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: var(--space-xs) var(--space-sm);
+    gap: var(--space-xs);
+    background: var(--color-white);
+    border: var(--border-default);
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.32s ease, visibility 0s linear 0.32s;
+  }
+
+  .nav-lang-reveal li { display: flex; }
+
+  .nav-lang-reveal-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--min-touch-target);
+    padding: 0 var(--space-xs);
     font-size: var(--font-size-ui);
     font-weight: var(--font-weight-btn);
     letter-spacing: var(--letter-spacing-btn);
     text-transform: uppercase;
     color: var(--color-muted);
     text-decoration: none;
-    white-space: nowrap;
-    transition: color 0.15s, background 0.15s;
+    /* each item slides out from behind the current one */
+    opacity: 0;
+    transform: translateX(8px);
+    transition: opacity 0.32s ease, transform 0.32s ease, color 0.15s ease;
   }
-  .nav-lang-option:hover {
-    color: var(--color-black);
-    background: var(--color-light);
+  .nav-lang-reveal-link:hover { color: var(--color-black); }
+
+  /* Stagger: the item nearest the current language reveals first. */
+  .nav-lang-reveal li:nth-last-child(2) .nav-lang-reveal-link { transition-delay: 0.08s; }
+  .nav-lang-reveal li:nth-last-child(3) .nav-lang-reveal-link { transition-delay: 0.16s; }
+
+  /* Open state is driven solely by .is-open (toggled by JS on click, and on
+     hover for mouse devices) so a click can always close it, even while the
+     pointer is still over the switch. */
+  .nav-lang-switch.is-open .nav-lang-reveal {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition: opacity 0.32s ease;
+  }
+
+  .nav-lang-switch.is-open .nav-lang-reveal-link {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-lang-reveal,
+    .nav-lang-toggle::before { transition: none; }
+    .nav-lang-reveal-link { transition: color 0.15s ease; transform: none; }
   }
 
   /* ── Desktop CTA — pill shape in pill nav ── */
@@ -399,34 +439,6 @@ const blogHref = '/blog';
     font-size: var(--font-size-ui);
     text-decoration: none;
   }
-
-  /* ── Shared lang switcher tokens (used in mobile dropdown) ── */
-  .nav-lang-current {
-    font-size: var(--font-size-ui);
-    font-weight: var(--font-weight-btn);
-    letter-spacing: var(--letter-spacing-btn);
-    text-transform: uppercase;
-    color: var(--color-black);
-  }
-
-  .nav-lang-link {
-    font-size: var(--font-size-ui);
-    font-weight: var(--font-weight-btn);
-    letter-spacing: var(--letter-spacing-btn);
-    text-transform: uppercase;
-    color: var(--color-muted);
-    text-decoration: none;
-    transition: color var(--t-fast);
-  }
-  .nav-lang-link:hover { color: var(--color-black); }
-
-  .nav-lang-sep {
-    font-size: var(--font-size-ui);
-    color: var(--color-muted);
-  }
-
-  /* ── Mobile bar lang — hidden on desktop ── */
-  .nav-bar-lang { display: none; }
 
   /* ── Hamburger — hidden on desktop ── */
   .nav-hamburger { display: none; }
@@ -442,15 +454,11 @@ const blogHref = '/blog';
      ================================================================ */
   @media (max-width: 767px) {
 
-    .nav-links         { display: none; }
-    .nav-cta           { display: none; }
-    .nav-lang-dropdown { display: none; }
-
-    /* Language switcher lives only inside the mobile dropdown now —
-       keep it out of the always-visible bar. */
-    .nav-bar-lang {
-      display: none;
-    }
+    .nav-links { display: none; }
+    .nav-cta   { display: none; }
+    /* .nav-lang-switch stays visible in the bar on mobile; push it to the
+       right so it sits next to the hamburger instead of mid-bar. */
+    .nav-lang-switch { margin-left: auto; }
 
     /* Tighten pill padding on mobile */
     .site-nav {
@@ -572,15 +580,6 @@ const blogHref = '/blog';
       border-radius: 0;
     }
 
-    /* ── Dropdown lang switcher ── */
-    .nav-mobile-lang {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      padding-top: var(--space-md);
-      padding-bottom: var(--space-xs);
-    }
 
   }
 </style>
