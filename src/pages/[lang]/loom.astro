@@ -1,32 +1,15 @@
 ---
 /**
- * Loom / weaving landing — dynamic route, generates /es/loom, /en/loom,
- * /fr/loom statically. The default-locale (CA) URL `/loom` is served by
- * src/pages/loom.astro.
+ * LoomLanding route — generates /es/loom, /en/loom, /fr/loom statically.
+ * The default-locale URL /loom is served by src/pages/loom.astro.
  */
-import Layout from '../../layouts/Layout.astro';
-import Navbar from '../../components/layout/Navbar.astro';
+import LandingPage from '../../layouts/LandingPage.astro';
 import LoomLanding from '../../components/landings/LoomLanding.astro';
-import Footer from '../../components/layout/Footer.astro';
-import { useTranslations, nonDefaultLangPaths } from '../../i18n/utils';
-import type { Lang } from '../../i18n/ui';
+import { nonDefaultLangPaths } from '../../i18n/utils';
 
-export async function getStaticPaths() {
-  return nonDefaultLangPaths();
-}
-
-const { lang } = Astro.params as { lang: Lang };
-const t = useTranslations(lang);
+export const getStaticPaths = nonDefaultLangPaths;
 ---
 
-<Layout
-  title={t('page.loom.title')}
-  description={t('page.loom.description')}
-  ogType="website"
->
-  <Navbar />
-  <main id="main-content" tabindex="-1">
-    <LoomLanding />
-  </main>
-  <Footer />
-</Layout>
+<LandingPage titleKey="page.loom.title" descKey="page.loom.description">
+  <LoomLanding />
+</LandingPage>

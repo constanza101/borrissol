@@ -1,32 +1,15 @@
 ---
 /**
- * Tufting landing — dynamic route, generates /es/tufting, /en/tufting,
- * /fr/tufting statically. The default-locale (CA) URL `/tufting` is served by
- * src/pages/tufting.astro.
+ * TuftingLanding route — generates /es/tufting, /en/tufting, /fr/tufting statically.
+ * The default-locale URL /tufting is served by src/pages/tufting.astro.
  */
-import Layout from '../../layouts/Layout.astro';
-import Navbar from '../../components/layout/Navbar.astro';
+import LandingPage from '../../layouts/LandingPage.astro';
 import TuftingLanding from '../../components/landings/TuftingLanding.astro';
-import Footer from '../../components/layout/Footer.astro';
-import { useTranslations, nonDefaultLangPaths } from '../../i18n/utils';
-import type { Lang } from '../../i18n/ui';
+import { nonDefaultLangPaths } from '../../i18n/utils';
 
-export async function getStaticPaths() {
-  return nonDefaultLangPaths();
-}
-
-const { lang } = Astro.params as { lang: Lang };
-const t = useTranslations(lang);
+export const getStaticPaths = nonDefaultLangPaths;
 ---
 
-<Layout
-  title={t('page.tuf.title')}
-  description={t('page.tuf.description')}
-  ogType="website"
->
-  <Navbar />
-  <main id="main-content" tabindex="-1">
-    <TuftingLanding />
-  </main>
-  <Footer />
-</Layout>
+<LandingPage titleKey="page.tuf.title" descKey="page.tuf.description">
+  <TuftingLanding />
+</LandingPage>

@@ -1,32 +1,15 @@
 ---
 /**
- * Punch needle landing — dynamic route, generates /es/punch-needle,
- * /en/punch-needle, /fr/punch-needle statically from a single source. The
- * default-locale (CA) URL `/punch-needle` is served by src/pages/punch-needle.astro.
+ * PunchNeedleLanding route — generates /es/punch-needle, /en/punch-needle, /fr/punch-needle statically.
+ * The default-locale URL /punch-needle is served by src/pages/punch-needle.astro.
  */
-import Layout from '../../layouts/Layout.astro';
-import Navbar from '../../components/layout/Navbar.astro';
+import LandingPage from '../../layouts/LandingPage.astro';
 import PunchNeedleLanding from '../../components/landings/PunchNeedleLanding.astro';
-import Footer from '../../components/layout/Footer.astro';
-import { useTranslations, nonDefaultLangPaths } from '../../i18n/utils';
-import type { Lang } from '../../i18n/ui';
+import { nonDefaultLangPaths } from '../../i18n/utils';
 
-export async function getStaticPaths() {
-  return nonDefaultLangPaths();
-}
-
-const { lang } = Astro.params as { lang: Lang };
-const t = useTranslations(lang);
+export const getStaticPaths = nonDefaultLangPaths;
 ---
 
-<Layout
-  title={t('page.pn.title')}
-  description={t('page.pn.description')}
-  ogType="website"
->
-  <Navbar />
-  <main id="main-content" tabindex="-1">
-    <PunchNeedleLanding />
-  </main>
-  <Footer />
-</Layout>
+<LandingPage titleKey="page.pn.title" descKey="page.pn.description">
+  <PunchNeedleLanding />
+</LandingPage>

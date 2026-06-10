@@ -1,32 +1,15 @@
 ---
 /**
- * Borla landing — dynamic route, generates /es/borla, /en/borla, /fr/borla
- * statically from a single source. The default-locale (CA) URL `/borla` is
- * served by src/pages/borla.astro.
+ * BorlaLanding route — generates /es/borla, /en/borla, /fr/borla statically.
+ * The default-locale URL /borla is served by src/pages/borla.astro.
  */
-import Layout from '../../layouts/Layout.astro';
-import Navbar from '../../components/layout/Navbar.astro';
+import LandingPage from '../../layouts/LandingPage.astro';
 import BorlaLanding from '../../components/landings/BorlaLanding.astro';
-import Footer from '../../components/layout/Footer.astro';
-import { useTranslations, nonDefaultLangPaths } from '../../i18n/utils';
-import type { Lang } from '../../i18n/ui';
+import { nonDefaultLangPaths } from '../../i18n/utils';
 
-export async function getStaticPaths() {
-  return nonDefaultLangPaths();
-}
-
-const { lang } = Astro.params as { lang: Lang };
-const t = useTranslations(lang);
+export const getStaticPaths = nonDefaultLangPaths;
 ---
 
-<Layout
-  title={t('page.borla.title')}
-  description={t('page.borla.description')}
-  ogType="website"
->
-  <Navbar />
-  <main id="main-content" tabindex="-1">
-    <BorlaLanding />
-  </main>
-  <Footer />
-</Layout>
+<LandingPage titleKey="page.borla.title" descKey="page.borla.description">
+  <BorlaLanding />
+</LandingPage>

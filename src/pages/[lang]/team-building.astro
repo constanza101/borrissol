@@ -1,33 +1,15 @@
 ---
 /**
- * Team Building landing — dynamic route, generates /es/team-building,
- * /en/team-building, /fr/team-building statically from a single source.
- * The default-locale (CA) URL `/team-building` is served by
- * src/pages/team-building.astro.
+ * TeamBuildingLanding route — generates /es/team-building, /en/team-building, /fr/team-building statically.
+ * The default-locale URL /team-building is served by src/pages/team-building.astro.
  */
-import Layout from '../../layouts/Layout.astro';
-import Navbar from '../../components/layout/Navbar.astro';
+import LandingPage from '../../layouts/LandingPage.astro';
 import TeamBuildingLanding from '../../components/landings/TeamBuildingLanding.astro';
-import Footer from '../../components/layout/Footer.astro';
-import { useTranslations, nonDefaultLangPaths } from '../../i18n/utils';
-import type { Lang } from '../../i18n/ui';
+import { nonDefaultLangPaths } from '../../i18n/utils';
 
-export async function getStaticPaths() {
-  return nonDefaultLangPaths();
-}
-
-const { lang } = Astro.params as { lang: Lang };
-const t = useTranslations(lang);
+export const getStaticPaths = nonDefaultLangPaths;
 ---
 
-<Layout
-  title={t('page.tb.title')}
-  description={t('page.tb.description')}
-  ogType="website"
->
-  <Navbar />
-  <main id="main-content" tabindex="-1">
-    <TeamBuildingLanding />
-  </main>
-  <Footer />
-</Layout>
+<LandingPage titleKey="page.tb.title" descKey="page.tb.description">
+  <TeamBuildingLanding />
+</LandingPage>

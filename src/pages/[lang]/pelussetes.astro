@@ -1,32 +1,15 @@
 ---
 /**
- * Pelussetes landing — dynamic route, generates /es/pelussetes,
- * /en/pelussetes, /fr/pelussetes statically from a single source. The
- * default-locale (CA) URL `/pelussetes` is served by src/pages/pelussetes.astro.
+ * PelussetesLanding route — generates /es/pelussetes, /en/pelussetes, /fr/pelussetes statically.
+ * The default-locale URL /pelussetes is served by src/pages/pelussetes.astro.
  */
-import Layout from '../../layouts/Layout.astro';
-import Navbar from '../../components/layout/Navbar.astro';
+import LandingPage from '../../layouts/LandingPage.astro';
 import PelussetesLanding from '../../components/landings/PelussetesLanding.astro';
-import Footer from '../../components/layout/Footer.astro';
-import { useTranslations, nonDefaultLangPaths } from '../../i18n/utils';
-import type { Lang } from '../../i18n/ui';
+import { nonDefaultLangPaths } from '../../i18n/utils';
 
-export async function getStaticPaths() {
-  return nonDefaultLangPaths();
-}
-
-const { lang } = Astro.params as { lang: Lang };
-const t = useTranslations(lang);
+export const getStaticPaths = nonDefaultLangPaths;
 ---
 
-<Layout
-  title={t('page.pel.title')}
-  description={t('page.pel.description')}
-  ogType="website"
->
-  <Navbar />
-  <main id="main-content" tabindex="-1">
-    <PelussetesLanding />
-  </main>
-  <Footer />
-</Layout>
+<LandingPage titleKey="page.pel.title" descKey="page.pel.description">
+  <PelussetesLanding />
+</LandingPage>
