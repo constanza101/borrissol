@@ -1,0 +1,394 @@
+---
+/**
+ * 404 page — "El pompon saltarin", a tiny endless-runner where the brand pompom
+ * (the navbar logo) jumps textile obstacles. B/W with fuchsia accents.
+ *
+ * Astro serves this for any unmatched route; Netlify returns it with a 404
+ * status. Output is static, so a single 404.html is built in the default
+ * locale — language is therefore detected client-side from the URL (the bad
+ * path keeps its /es, /en, /fr prefix), and all four catalogs are serialized
+ * to the page. Wrapped in Layout for tokens/fonts/SEO; noindex + caOnly keep
+ * crawlers and hreflang clean.
+ */
+import Layout from '../layouts/Layout.astro';
+import { notFound, languages, defaultLang } from '../i18n/ui';
+
+const locales = Object.keys(languages);
+// Title rendered server-side in the default locale (visible H1/sub are
+// localized client-side). document.title is refreshed by the client too.
+const ca = notFound[defaultLang];
+---
+
+<Layout title={ca.title} description={ca.sub} noindex caOnly>
+  <main id="main-content" class="notfound" tabindex="-1">
+
+    <a class="nf-back" href="/">
+      <span class="nf-back-pom" aria-hidden="true"></span>
+      <span class="nf-back-label" data-i18n="home">{ca.home}</span>
+    </a>
+
+    <h1 class="nf-code" aria-label="404">4<span class="o">0</span>4</h1>
+    <p class="nf-title" data-i18n="title">{ca.title}</p>
+    <p class="nf-sub" data-i18n="sub">{ca.sub}</p>
+
+    <div class="nf-game">
+      <div class="nf-stage">
+        <div class="nf-hud">
+          <span><span class="num" id="score">0</span> <span class="lbl" data-i18n="metres">{ca.metres}</span></span>
+          <span><span class="lbl" data-i18n="best">{ca.best}</span> <span class="num" id="best">0</span></span>
+        </div>
+        <canvas id="game" width="720" height="220" role="img" aria-label="404"></canvas>
+        <div class="nf-overlay" id="overlay">
+          <p class="ov-title" data-i18n="playTitle">{ca.playTitle}</p>
+          <button class="play-btn" id="play" data-i18n="play">{ca.play}</button>
+          <p class="ov-hint" data-i18n="controls">{ca.controls}</p>
+        </div>
+      </div>
+      <p class="nf-controls" data-i18n="controls">{ca.controls}</p>
+    </div>
+
+  </main>
+</Layout>
+
+<script define:vars={{ i18n: notFound, locales, defaultLang }}>
+  (function () {
+    /* ── language from the (bad) URL ── */
+    var seg = location.pathname.split('/')[1];
+    var lang = locales.indexOf(seg) !== -1 ? seg : defaultLang;
+    var S = i18n[lang];
+
+    document.documentElement.lang = lang;
+    document.title = S.title + ' · Borrissol';
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      el.textContent = S[el.getAttribute('data-i18n')];
+    });
+    var homeEl = document.querySelector('.nf-back');
+    if (homeEl) homeEl.setAttribute('href', lang === defaultLang ? '/' : '/' + lang);
+
+    /* ── tokens from the design system ── */
+    var css = getComputedStyle(document.documentElement);
+    var COL = {
+      ink:    css.getPropertyValue('--color-dark').trim()   || '#1a1a1a',
+      black:  css.getPropertyValue('--color-black').trim()  || '#000',
+      accent: css.getPropertyValue('--color-accent').trim() || '#ff058b',
+      mid:    css.getPropertyValue('--color-mid').trim()    || '#d9d9d9',
+    };
+
+    /* ── canvas (hi-dpi) ── */
+    var canvas = document.getElementById('game');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var W = 720, H = 220, GROUND = H - 38;
+    function fitDPR() {
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    fitDPR();
+
+    /* ── pompom sprite (tinted SVG silhouette) ── */
+    var SPRITE = 64, darkPom = null, accentPom = null;
+    var pomImg = new Image();
+    pomImg.onload = function () { darkPom = tint(COL.ink, SPRITE); accentPom = tint(COL.accent, SPRITE); draw(); };
+    pomImg.src = '/images/borrissol-pompom.svg';
+    function tint(color, size) {
+      var c = document.createElement('canvas'); c.width = c.height = size;
+      var x = c.getContext('2d');
+      x.drawImage(pomImg, 0, 0, size, size);
+      x.globalCompositeOperation = 'source-in';
+      x.fillStyle = color; x.fillRect(0, 0, size, size);
+      return c;
+    }
+
+    /* ── state ── */
+    var PLAYER_SIZE = 46, BEST_KEY = 'borrissol-404-best';
+    var overlay = document.getElementById('overlay');
+    var scoreEl = document.getElementById('score');
+    var bestEl  = document.getElementById('best');
+    var state = 'idle', player, obstacles, speed, distance, score, spawnIn, rot, last;
+    var best = parseInt(localStorage.getItem(BEST_KEY) || '0', 10);
+    bestEl.textContent = best;
+
+    function reset() {
+      player = { y: GROUND, vy: 0, onGround: true };
+      obstacles = []; speed = 320; distance = 0; score = 0; spawnIn = 60; rot = 0;
+    }
+    reset();
+
+    function start() {
+      if (state === 'running') return;
+      reset(); state = 'running'; overlay.setAttribute('hidden', '');
+      last = performance.now(); requestAnimationFrame(loop);
+    }
+    function jump() {
+      if (state === 'idle' || state === 'over') { start(); return; }
+      if (player.onGround) { player.vy = -560; player.onGround = false; }
+    }
+    function gameOver() {
+      state = 'over';
+      if (score > best) { best = score; localStorage.setItem(BEST_KEY, String(best)); }
+      bestEl.textContent = best;
+      overlay.querySelector('.ov-title').textContent = S.over;
+      overlay.querySelector('#play').textContent = S.play;
+      overlay.querySelector('.ov-hint').textContent = S.retry;
+      overlay.removeAttribute('hidden');
+    }
+
+    /* ── obstacles ── */
+    function spawn() {
+      var r = Math.random();
+      var type = r < 0.34 ? 'scissors' : r < 0.62 ? 'needle' : r < 0.9 ? 'spool' : 'cat';
+      var sizes = {
+        scissors: { w: 26, h: 38 }, needle: { w: 10, h: 44 },
+        spool:    { w: 30, h: 26 }, cat:    { w: 40, h: 34 },
+      };
+      var s = sizes[type];
+      obstacles.push({ x: W + 20, type: type, w: s.w, h: s.h });
+    }
+    function drawObstacle(o) {
+      var x = o.x, baseY = GROUND, t = o.type, i, yy;
+      ctx.save();
+      ctx.strokeStyle = COL.black; ctx.fillStyle = COL.black; ctx.lineWidth = 2;
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      if (t === 'needle') {
+        ctx.beginPath(); ctx.moveTo(x + o.w / 2, baseY); ctx.lineTo(x + o.w / 2, baseY - o.h); ctx.stroke();
+        ctx.beginPath(); ctx.ellipse(x + o.w / 2, baseY - o.h + 5, 2.4, 4, 0, 0, Math.PI * 2); ctx.stroke();
+        ctx.strokeStyle = COL.accent;
+        ctx.beginPath(); ctx.moveTo(x + o.w / 2, baseY - o.h + 5); ctx.lineTo(x + o.w / 2 + 9, baseY - o.h - 3); ctx.stroke();
+      } else if (t === 'spool') {
+        var w = o.w, h = o.h, top = baseY - h;
+        ctx.beginPath(); ctx.moveTo(x, top); ctx.lineTo(x + w, top); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(x, baseY); ctx.lineTo(x + w, baseY); ctx.stroke();
+        ctx.strokeStyle = COL.accent;
+        for (i = 1; i <= 4; i++) { yy = top + (h * i / 5); ctx.beginPath(); ctx.moveTo(x + 4, yy); ctx.lineTo(x + w - 4, yy); ctx.stroke(); }
+        ctx.strokeStyle = COL.black;
+        ctx.beginPath(); ctx.moveTo(x + 3, top); ctx.lineTo(x + 3, baseY); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(x + w - 3, top); ctx.lineTo(x + w - 3, baseY); ctx.stroke();
+      } else if (t === 'scissors') {
+        var cx = x + o.w / 2, topY = baseY - o.h;
+        ctx.beginPath(); ctx.moveTo(cx, baseY - 10); ctx.lineTo(x, topY); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx, baseY - 10); ctx.lineTo(x + o.w, topY); ctx.stroke();
+        ctx.beginPath(); ctx.arc(x + 5, baseY - 4, 5, 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.arc(x + o.w - 5, baseY - 4, 5, 0, Math.PI * 2); ctx.stroke();
+        ctx.fillStyle = COL.accent; ctx.beginPath(); ctx.arc(cx, baseY - 10, 2.2, 0, Math.PI * 2); ctx.fill();
+      } else {
+        var cw = o.w, ch = o.h, ctop = baseY - ch;
+        ctx.fillStyle = COL.ink;
+        ctx.beginPath();
+        ctx.moveTo(x, baseY); ctx.lineTo(x, ctop + 10); ctx.lineTo(x + 6, ctop);
+        ctx.lineTo(x + 12, ctop + 9); ctx.lineTo(x + cw - 12, ctop + 9); ctx.lineTo(x + cw - 6, ctop);
+        ctx.lineTo(x + cw, ctop + 10); ctx.lineTo(x + cw, baseY); ctx.closePath(); ctx.fill();
+        ctx.fillStyle = COL.accent;
+        ctx.beginPath(); ctx.arc(x + cw / 2, ctop + 18, 2, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    /* ── loop ── */
+    function loop(now) {
+      var dt = Math.min((now - last) / 1000, 0.05); last = now;
+      if (state === 'running') update(dt);
+      draw();
+      if (state === 'running') requestAnimationFrame(loop);
+    }
+    function update(dt) {
+      speed += dt * 6;
+      distance += speed * dt;
+      score = Math.floor(distance / 28);
+      scoreEl.textContent = score;
+      rot += (speed * dt) / 46;
+
+      player.vy += 1500 * dt;
+      player.y += player.vy * dt;
+      if (player.y >= GROUND) { player.y = GROUND; player.vy = 0; player.onGround = true; }
+
+      spawnIn -= speed * dt;
+      if (spawnIn <= 0) { spawn(); spawnIn = (260 + Math.random() * 240) + speed * 0.18; }
+
+      var px = 70, pad = 8, ph = PLAYER_SIZE, pTop = player.y - ph;
+      for (var k = 0; k < obstacles.length; k++) {
+        var o = obstacles[k]; o.x -= speed * dt;
+        var oTop = GROUND - o.h;
+        if (px + ph - pad > o.x + pad && px + pad < o.x + o.w - pad &&
+            player.y - pad > oTop && pTop + pad < GROUND) { gameOver(); }
+      }
+      obstacles = obstacles.filter(function (o) { return o.x + o.w > -10; });
+    }
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      ctx.strokeStyle = COL.mid; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(0, GROUND + 1); ctx.lineTo(W, GROUND + 1); ctx.stroke();
+      if (obstacles) obstacles.forEach(drawObstacle);
+      var sprite = (player && !player.onGround) ? accentPom : darkPom;
+      var px = 70, ph = PLAYER_SIZE;
+      if (sprite) {
+        ctx.save();
+        ctx.translate(px + ph / 2, (player ? player.y : GROUND) - ph / 2);
+        ctx.rotate(rot || 0);
+        ctx.drawImage(sprite, -ph / 2, -ph / 2, ph, ph);
+        ctx.restore();
+      }
+    }
+
+    /* ── input (never autostarts → respects prefers-reduced-motion) ── */
+    document.getElementById('play').addEventListener('click', function (e) { e.stopPropagation(); start(); });
+    window.addEventListener('keydown', function (e) {
+      if (e.code === 'Space' || e.code === 'ArrowUp') { e.preventDefault(); jump(); }
+    });
+    canvas.addEventListener('pointerdown', function (e) { e.preventDefault(); jump(); });
+    window.addEventListener('resize', function () { fitDPR(); draw(); });
+
+    draw();
+  })();
+</script>
+
+<style>
+  .notfound {
+    position: relative;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-lg);
+    padding: var(--space-xl) var(--layout-page-padding-h);
+    text-align: center;
+  }
+
+  /* Back-home affordance, top-left: brand pompom + "‹ home". Mirrors the navbar
+     brand (pompom is dark, turns fuchsia on hover). */
+  .nf-back {
+    position: absolute;
+    top: var(--space-lg);
+    left: var(--layout-page-padding-h);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    text-decoration: none;
+  }
+
+  .nf-back-pom {
+    width: 33px;
+    height: 32px;
+    display: block;
+    flex-shrink: 0;
+    background-color: var(--color-dark);
+    -webkit-mask: url("/images/borrissol-pompom.svg") center / contain no-repeat;
+    mask: url("/images/borrissol-pompom.svg") center / contain no-repeat;
+    transition: background-color var(--t-fast);
+  }
+  .nf-back:hover .nf-back-pom { background-color: var(--color-accent); }
+
+  .nf-back-label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-btn);
+    letter-spacing: var(--letter-spacing-btn);
+    text-transform: uppercase;
+    color: var(--color-black);
+    transition: color var(--t-fast);
+  }
+  .nf-back:hover .nf-back-label { color: var(--color-accent); }
+
+  /* Left chevron before the label. */
+  .nf-back-label::before {
+    content: '';
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(135deg);
+    flex-shrink: 0;
+  }
+
+  .nf-code {
+    font-size: clamp(4rem, 14vw, 8rem);
+    line-height: 1;
+    font-weight: var(--font-weight-heading);
+    letter-spacing: var(--letter-spacing-heading);
+    margin: 0;
+  }
+  .nf-code .o { color: var(--color-accent); }
+
+  .nf-title {
+    font-size: var(--font-size-h3);
+    letter-spacing: var(--letter-spacing-heading);
+    margin: 0;
+  }
+  .nf-sub {
+    font-size: var(--font-size-p2);
+    color: var(--color-muted);
+    margin: 0;
+    max-width: 44ch;
+  }
+
+  .nf-game {
+    width: min(720px, 100%);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  .nf-stage {
+    position: relative;
+    width: 100%;
+    border: var(--border-default);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  .nf-stage canvas { display: block; width: 100%; height: auto; touch-action: manipulation; }
+
+  .nf-hud {
+    position: absolute;
+    top: var(--space-xs);
+    right: var(--space-sm);
+    display: flex;
+    gap: var(--space-md);
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-btn);
+    letter-spacing: var(--letter-spacing-btn);
+    text-transform: uppercase;
+  }
+  .nf-hud .num { color: var(--color-accent); }
+  .nf-hud .lbl { color: var(--color-muted); }
+
+  .nf-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    background: color-mix(in srgb, var(--color-white) 82%, transparent);
+    backdrop-filter: blur(2px);
+  }
+  .nf-overlay[hidden] { display: none; }
+  .nf-overlay p { margin: 0; }
+  .nf-overlay .ov-title { font-size: var(--font-size-h4); }
+  .nf-overlay .ov-hint { font-size: var(--font-size-p3); color: var(--color-muted); }
+
+  .play-btn {
+    cursor: pointer;
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-btn);
+    letter-spacing: var(--letter-spacing-btn);
+    text-transform: uppercase;
+    color: var(--color-white);
+    background: var(--color-black);
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: 0.9em 2em;
+    transition: background var(--t-fast);
+  }
+  .play-btn:hover { background: var(--color-accent); }
+
+  .nf-controls {
+    font-size: var(--font-size-p3);
+    color: var(--color-muted);
+    margin: 0;
+  }
+</style>

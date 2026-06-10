@@ -8,6 +8,62 @@ export const languages = {
 export const defaultLang = 'ca' as const;
 export type Lang = keyof typeof languages;
 
+/**
+ * 404 page copy. Grouped on its own (not in `ui`) because it is consumed only
+ * client-side: the static 404.html is built once in the default locale, so the
+ * page serializes all four languages and picks one from the URL at runtime.
+ */
+export const notFound: Record<Lang, Record<string, string>> = {
+  ca: {
+    title:     "S'ha descosit un fil",
+    sub:       "No trobem aquesta pàgina… però pots fer saltar el pompon mentre tornes.",
+    metres:    'metres de fil',
+    best:      'rècord',
+    playTitle: 'Salta amb el pompon',
+    play:      'Jugar',
+    controls:  'Espai o toca per saltar',
+    over:      'Ensopegada!',
+    retry:     'Prem o toca per tornar-hi',
+    home:      "Torna a l'inici",
+  },
+  es: {
+    title:     'Se ha soltado un hilo',
+    sub:       'No encontramos esta página… pero puedes hacer saltar al pompón mientras vuelves.',
+    metres:    'metros de hilo',
+    best:      'récord',
+    playTitle: 'Salta con el pompón',
+    play:      'Jugar',
+    controls:  'Espacio o toca para saltar',
+    over:      '¡Tropiezo!',
+    retry:     'Pulsa o toca para reintentar',
+    home:      'Volver al inicio',
+  },
+  en: {
+    title:     'A thread came loose',
+    sub:       "We can't find this page… but you can bounce the pompom while you head back.",
+    metres:    'metres of thread',
+    best:      'best',
+    playTitle: 'Jump with the pompom',
+    play:      'Play',
+    controls:  'Space or tap to jump',
+    over:      'Tripped!',
+    retry:     'Press or tap to play again',
+    home:      'Back to home',
+  },
+  fr: {
+    title:     "Un fil s'est défait",
+    sub:       'Page introuvable… mais tu peux faire sauter le pompon en attendant.',
+    metres:    'mètres de fil',
+    best:      'record',
+    playTitle: 'Saute avec le pompon',
+    play:      'Jouer',
+    controls:  'Espace ou touche pour sauter',
+    over:      'Faux pas !',
+    retry:     'Appuie ou touche pour rejouer',
+    home:      "Retour à l'accueil",
+  },
+};
+
 export const ui = {
   es: {
     'skip.link':      'Saltar al contenido',
