@@ -9,9 +9,10 @@
  * .text-* utility classes (Hard Rule #15); scoped CSS holds layout only.
  */
 import { Picture } from 'astro:assets';
-import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 import FeatureCard from '../ui/FeatureCard.astro';
 import Faq from '../ui/Faq.astro';
+import BorlaFunnel from '../ui/BorlaFunnel.astro';
 import { waHref } from '../../config';
 import heroImg from '../../assets/images/offer-felting.jpg';
 
@@ -19,8 +20,6 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const ctaHref = waHref(t('wa.felt.landing'));
-// Internal funnel: needle felting is practised at the Borla monthly workshop.
-const borlaPath = localizedPath(lang, '/borla');
 
 const benefits = [1, 2, 3].map(n => ({
   title: t(`felt.benefit.${n}.title` as any),
@@ -81,11 +80,11 @@ const faqs = [1, 2, 3].map(n => ({
   </section>
 
   <!-- ── Where to practise (funnel to Borla) ──────────────────────────── -->
-  <section class="felt-section felt-practice" aria-labelledby="felt-practice-heading">
-    <h2 id="felt-practice-heading" class="text-h2 felt-h2">{t('felt.practice.title')}</h2>
-    <p class="text-p2 felt-body">{t('felt.practice.body')}</p>
-    <a href={borlaPath} class="btn btn-secondary felt-practice-cta">{t('felt.practice.cta')}</a>
-  </section>
+  <BorlaFunnel
+    title={t('felt.practice.title')}
+    body={t('felt.practice.body')}
+    cta={t('felt.practice.cta')}
+  />
 
   <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
   <Faq title={t('felt.faq.title')} faqs={faqs} />
@@ -177,22 +176,6 @@ const faqs = [1, 2, 3].map(n => ({
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-md);
-  }
-
-  /* ── Practice (funnel to Borla) ───────────────────────────────────── */
-  .felt-practice {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-md);
-  }
-
-  .felt-practice .felt-h2 {
-    margin-bottom: 0;
-  }
-
-  .felt-practice-cta {
-    margin-top: var(--space-xs);
   }
 
   /* ── Final CTA ────────────────────────────────────────────────────── */

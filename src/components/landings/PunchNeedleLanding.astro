@@ -11,9 +11,10 @@
  * of the heavy TikTok embed.js script.
  */
 import { Picture } from 'astro:assets';
-import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 import FeatureCard from '../ui/FeatureCard.astro';
 import Faq from '../ui/Faq.astro';
+import BorlaFunnel from '../ui/BorlaFunnel.astro';
 import { waHref } from '../../config';
 import heroImg from '../../assets/images/offer-punch-needle.jpg';
 import createImg from '../../assets/images/tote-bag-punch-needle.jpg';
@@ -22,8 +23,6 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const ctaHref = waHref(t('wa.pn.landing'));
-// Internal funnel: punch needle is practised at the Borla monthly workshop.
-const borlaPath = localizedPath(lang, '/borla');
 
 // TikTok clips embedded as lazy iframes (no embed.js). Add the third clip's id
 // here when available.
@@ -130,11 +129,11 @@ const faqs = [1, 2, 3].map(n => ({
   </section>
 
   <!-- ── Where to practise (funnel to Borla) ──────────────────────────── -->
-  <section class="pn-section pn-practice" aria-labelledby="pn-practice-heading">
-    <h2 id="pn-practice-heading" class="text-h2 pn-h2">{t('pn.practice.title')}</h2>
-    <p class="text-p2 pn-body">{t('pn.practice.body')}</p>
-    <a href={borlaPath} class="btn btn-secondary pn-practice-cta">{t('pn.practice.cta')}</a>
-  </section>
+  <BorlaFunnel
+    title={t('pn.practice.title')}
+    body={t('pn.practice.body')}
+    cta={t('pn.practice.cta')}
+  />
 
   <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
   <Faq title={t('pn.faq.title')} faqs={faqs} />
@@ -270,22 +269,6 @@ const faqs = [1, 2, 3].map(n => ({
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-md);
-  }
-
-  /* ── Practice (funnel to Borla) ───────────────────────────────────── */
-  .pn-practice {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-md);
-  }
-
-  .pn-practice .pn-h2 {
-    margin-bottom: 0;
-  }
-
-  .pn-practice-cta {
-    margin-top: var(--space-xs);
   }
 
   /* ── Final CTA ────────────────────────────────────────────────────── */

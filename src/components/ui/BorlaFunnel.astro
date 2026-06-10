@@ -1,0 +1,49 @@
+---
+/**
+ * "Where to practise it" funnel section. The technique landings (felting,
+ * punch needle, loom) all close with the same block pointing to the Borla
+ * monthly workshop, where these techniques are actually practised. Texts come
+ * in as already-translated strings; the link localizes itself.
+ */
+import { getLangFromUrl, localizedPath } from '../../i18n/utils';
+
+interface Props {
+  title: string;
+  body: string;
+  cta: string;
+}
+const { title, body, cta } = Astro.props;
+
+const borlaPath = localizedPath(getLangFromUrl(Astro.url), '/borla');
+---
+
+<section class="borla-funnel" aria-labelledby="borla-funnel-heading">
+  <h2 id="borla-funnel-heading" class="text-h2 borla-funnel-title">{title}</h2>
+  <p class="text-p2 borla-funnel-body">{body}</p>
+  <a href={borlaPath} class="btn btn-secondary borla-funnel-cta">{cta}</a>
+</section>
+
+<style>
+  .borla-funnel {
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    padding: var(--space-xl) var(--layout-page-padding-h);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+
+  .borla-funnel-title {
+    margin: 0;
+  }
+
+  .borla-funnel-body {
+    margin: 0;
+    max-width: 720px;
+  }
+
+  .borla-funnel-cta {
+    margin-top: var(--space-xs);
+  }
+</style>

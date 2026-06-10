@@ -9,9 +9,10 @@
  * utilities (Hard Rule #15); scoped CSS = layout only.
  */
 import { Picture } from 'astro:assets';
-import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 import FeatureCard from '../ui/FeatureCard.astro';
 import Faq from '../ui/Faq.astro';
+import BorlaFunnel from '../ui/BorlaFunnel.astro';
 import { waHref } from '../../config';
 import heroImg from '../../assets/images/offer-loom.jpg';
 
@@ -19,7 +20,6 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const ctaHref = waHref(t('wa.loom.landing'));
-const borlaPath = localizedPath(lang, '/borla');
 
 const benefits = [1, 2, 3].map(n => ({
   title: t(`loom.benefit.${n}.title` as any),
@@ -80,11 +80,11 @@ const faqs = [1, 2, 3].map(n => ({
   </section>
 
   <!-- ── Where to practise (funnel to Borla) ──────────────────────────── -->
-  <section class="loom-section loom-practice" aria-labelledby="loom-practice-heading">
-    <h2 id="loom-practice-heading" class="text-h2 loom-h2">{t('loom.practice.title')}</h2>
-    <p class="text-p2 loom-body">{t('loom.practice.body')}</p>
-    <a href={borlaPath} class="btn btn-secondary loom-practice-cta">{t('loom.practice.cta')}</a>
-  </section>
+  <BorlaFunnel
+    title={t('loom.practice.title')}
+    body={t('loom.practice.body')}
+    cta={t('loom.practice.cta')}
+  />
 
   <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
   <Faq title={t('loom.faq.title')} faqs={faqs} />
@@ -175,22 +175,6 @@ const faqs = [1, 2, 3].map(n => ({
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-md);
-  }
-
-  /* ── Practice (funnel to Borla) ───────────────────────────────────── */
-  .loom-practice {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-md);
-  }
-
-  .loom-practice .loom-h2 {
-    margin-bottom: 0;
-  }
-
-  .loom-practice-cta {
-    margin-top: var(--space-xs);
   }
 
   /* ── Final CTA ────────────────────────────────────────────────────── */
