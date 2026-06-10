@@ -12,7 +12,7 @@ import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 import FeatureCard from '../ui/FeatureCard.astro';
 import Faq from '../ui/Faq.astro';
-import { SITE } from '../../config/site';
+import CourseSchema from '../ui/CourseSchema.astro';
 import { waHref } from '../../config';
 import heroImg from '../../assets/images/ws-wrist-rest.jpg';
 import projectImg from '../../assets/images/gallery/img_7713.jpg';
@@ -46,41 +46,6 @@ const faqs = [1, 2, 3, 4].map(n => ({
   a: t(`tb.faq.a${n}` as any),
 }));
 
-// ── Course schema (real data only) ──────────────────────────────────────────
-const origin = (Astro.site ?? Astro.url).origin;
-const courseSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Course',
-  name: t('tb.headline'),
-  description: t('page.tb.description'),
-  url: new URL(Astro.url.pathname, origin).href,
-  provider: {
-    '@type': 'Organization',
-    name: SITE.business.name,
-    url: `${origin}/`,
-  },
-  hasCourseInstance: {
-    '@type': 'CourseInstance',
-    courseMode: 'Onsite',
-    location: {
-      '@type': 'Place',
-      name: SITE.business.name,
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: SITE.business.address.streetAddress,
-        addressLocality: SITE.business.address.addressLocality,
-        postalCode: SITE.business.address.postalCode,
-        addressCountry: SITE.business.address.addressCountry,
-      },
-    },
-    offers: {
-      '@type': 'Offer',
-      price: '68',
-      priceCurrency: 'EUR',
-      availability: 'https://schema.org/InStock',
-    },
-  },
-};
 ---
 
 <article class="tb">
@@ -184,7 +149,7 @@ const courseSchema = {
 
 </article>
 
-<script is:inline type="application/ld+json" set:html={JSON.stringify(courseSchema)} />
+<CourseSchema name={t('tb.headline')} description={t('page.tb.description')} price="68" />
 
 <style>
   .tb {

@@ -1,0 +1,78 @@
+---
+/**
+ * Emits Course JSON-LD for a workshop landing. The provider/location block is
+ * always Borrissol's physical studio; per-landing variation comes in via
+ * props. Omit `price`/`priceRange` when the price is on request (Borla) — no
+ * offer is asserted then.
+ */
+import { SITE } from '../../config/site';
+
+interface Props {
+  name: string;
+  description: string;
+  /** ISO-8601 duration of one session, e.g. 'P2H'. */
+  courseWorkload?: string;
+  /** ISO dates for a fixed-period course (Summer Lab). */
+  startDate?: string;
+  endDate?: string;
+  /** Fixed public price in EUR — emits an Offer. */
+  price?: string;
+  /** Price range in EUR — emits an AggregateOffer. Takes precedence over `price`. */
+  priceRange?: { low: string; high: string };
+}
+
+const { name, description, courseWorkload, startDate, endDate, price, priceRange } = Astro.props;
+
+const origin = (Astro.site ?? Astro.url).origin;
+
+const offers = priceRange
+  ? {
+      '@type': 'AggregateOffer',
+      lowPrice: priceRange.low,
+      highPrice: priceRange.high,
+      priceCurrency: 'EUR',
+      availability: 'https://schema.org/InStock',
+    }
+  : price
+    ? {
+        '@type': 'Offer',
+        price,
+        priceCurrency: 'EUR',
+        availability: 'https://schema.org/InStock',
+      }
+    : undefined;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  name,
+  description,
+  url: new URL(Astro.url.pathname, origin).href,
+  provider: {
+    '@type': 'Organization',
+    name: SITE.business.name,
+    url: `${origin}/`,
+  },
+  hasCourseInstance: {
+    '@type': 'CourseInstance',
+    courseMode: 'Onsite',
+    ...(courseWorkload && { courseWorkload }),
+    ...(startDate && { startDate }),
+    ...(endDate && { endDate }),
+    location: {
+      '@type': 'Place',
+      name: SITE.business.name,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: SITE.business.address.streetAddress,
+        addressLocality: SITE.business.address.addressLocality,
+        postalCode: SITE.business.address.postalCode,
+        addressCountry: SITE.business.address.addressCountry,
+      },
+    },
+    ...(offers && { offers }),
+  },
+};
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />

@@ -14,7 +14,7 @@
 import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils';
 import TechniqueCard from '../ui/TechniqueCard.astro';
-import { SITE } from '../../config/site';
+import CourseSchema from '../ui/CourseSchema.astro';
 import { summerLab } from '../../config/seasonal';
 import { waHref } from '../../config';
 import heroImg from '../../assets/images/grupo2.jpg';
@@ -53,43 +53,6 @@ const details = [
   { label: t('sl.details.location.label'),  value: t('sl.details.location.value') },
 ];
 
-// ── Course schema (per-week price) ──────────────────────────────────────────
-const origin = (Astro.site ?? Astro.url).origin;
-const courseSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Course',
-  name: t('sl.headline'),
-  description: t('page.sl.description'),
-  url: new URL(Astro.url.pathname, origin).href,
-  provider: {
-    '@type': 'Organization',
-    name: SITE.business.name,
-    url: `${origin}/`,
-  },
-  hasCourseInstance: {
-    '@type': 'CourseInstance',
-    courseMode: 'Onsite',
-    startDate: summerLab.startDate,
-    endDate: summerLab.endDate,
-    location: {
-      '@type': 'Place',
-      name: SITE.business.name,
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: SITE.business.address.streetAddress,
-        addressLocality: SITE.business.address.addressLocality,
-        postalCode: SITE.business.address.postalCode,
-        addressCountry: SITE.business.address.addressCountry,
-      },
-    },
-    offers: {
-      '@type': 'Offer',
-      price: '125',
-      priceCurrency: 'EUR',
-      availability: 'https://schema.org/InStock',
-    },
-  },
-};
 ---
 
 <article class="sl">
@@ -184,7 +147,7 @@ const courseSchema = {
 
 </article>
 
-<script is:inline type="application/ld+json" set:html={JSON.stringify(courseSchema)} />
+<CourseSchema name={t('sl.headline')} description={t('page.sl.description')} startDate={summerLab.startDate} endDate={summerLab.endDate} price="125" />
 
 <style>
   .sl {

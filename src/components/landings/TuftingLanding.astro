@@ -12,7 +12,7 @@
 import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils';
 import Faq from '../ui/Faq.astro';
-import { SITE } from '../../config/site';
+import CourseSchema from '../ui/CourseSchema.astro';
 import { waHref } from '../../config';
 import heroImg from '../../assets/images/offer-tufting.jpg';
 
@@ -41,42 +41,6 @@ const faqs = [1, 2, 3].map(n => ({
   a: t(`tuf.faq.a${n}` as any),
 }));
 
-// ── Course schema with an AggregateOffer over the individual price range ─────
-const origin = (Astro.site ?? Astro.url).origin;
-const courseSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Course',
-  name: t('tuf.headline'),
-  description: t('page.tuf.description'),
-  url: new URL(Astro.url.pathname, origin).href,
-  provider: {
-    '@type': 'Organization',
-    name: SITE.business.name,
-    url: `${origin}/`,
-  },
-  hasCourseInstance: {
-    '@type': 'CourseInstance',
-    courseMode: 'Onsite',
-    location: {
-      '@type': 'Place',
-      name: SITE.business.name,
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: SITE.business.address.streetAddress,
-        addressLocality: SITE.business.address.addressLocality,
-        postalCode: SITE.business.address.postalCode,
-        addressCountry: SITE.business.address.addressCountry,
-      },
-    },
-    offers: {
-      '@type': 'AggregateOffer',
-      lowPrice: '78',
-      highPrice: '181',
-      priceCurrency: 'EUR',
-      availability: 'https://schema.org/InStock',
-    },
-  },
-};
 ---
 
 <article class="tuf">
@@ -167,7 +131,8 @@ const courseSchema = {
 
 </article>
 
-<script is:inline type="application/ld+json" set:html={JSON.stringify(courseSchema)} />
+<!-- AggregateOffer over the individual price range. -->
+<CourseSchema name={t('tuf.headline')} description={t('page.tuf.description')} priceRange={{ low: '78', high: '181' }} />
 
 <style>
   .tuf {

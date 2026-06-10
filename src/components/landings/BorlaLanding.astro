@@ -13,7 +13,7 @@ import { Picture } from 'astro:assets';
 import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils';
 import Faq from '../ui/Faq.astro';
 import TechniqueCard from '../ui/TechniqueCard.astro';
-import { SITE } from '../../config/site';
+import CourseSchema from '../ui/CourseSchema.astro';
 import { waHref } from '../../config';
 import heroImg from '../../assets/images/grupal.png';
 import imgFelting from '../../assets/images/offer-felting.jpg';
@@ -51,36 +51,6 @@ const faqs = [1, 2, 3].map(n => ({
   a: t(`borla.faq.a${n}` as any),
 }));
 
-// ── Course schema (no price asserted — it is "on request") ──────────────────
-const origin = (Astro.site ?? Astro.url).origin;
-const courseSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Course',
-  name: t('borla.headline'),
-  description: t('page.borla.description'),
-  url: new URL(Astro.url.pathname, origin).href,
-  provider: {
-    '@type': 'Organization',
-    name: SITE.business.name,
-    url: `${origin}/`,
-  },
-  hasCourseInstance: {
-    '@type': 'CourseInstance',
-    courseMode: 'Onsite',
-    courseWorkload: 'P2H',
-    location: {
-      '@type': 'Place',
-      name: SITE.business.name,
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: SITE.business.address.streetAddress,
-        addressLocality: SITE.business.address.addressLocality,
-        postalCode: SITE.business.address.postalCode,
-        addressCountry: SITE.business.address.addressCountry,
-      },
-    },
-  },
-};
 ---
 
 <article class="borla">
@@ -160,7 +130,8 @@ const courseSchema = {
 
 </article>
 
-<script is:inline type="application/ld+json" set:html={JSON.stringify(courseSchema)} />
+<!-- No price asserted — it is "on request". -->
+<CourseSchema name={t('borla.headline')} description={t('page.borla.description')} courseWorkload="P2H" />
 
 <style>
   .borla {
