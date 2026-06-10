@@ -1,0 +1,64 @@
+---
+/**
+ * Numbered "how it works" list — each step is an auto-numbered circular badge
+ * next to a title + description. Used in the Team Building and Pelussetes
+ * landings. Pass the steps in order; numbering is derived from the index.
+ */
+interface Props {
+  steps: { title: string; desc: string }[];
+}
+const { steps } = Astro.props;
+---
+
+<ol class="steps">
+  {steps.map((s, i) => (
+    <li class="step">
+      <span class="step-num">{i + 1}</span>
+      <div class="step-text">
+        <h3 class="text-h4 step-title">{s.title}</h3>
+        <p class="text-p2 text-muted step-desc">{s.desc}</p>
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    max-width: var(--measure-body);
+  }
+
+  .step {
+    display: flex;
+    gap: var(--space-md);
+    align-items: flex-start;
+  }
+
+  /* Numbered badge — bespoke circular element, no typography utility fits. */
+  .step-num {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-pill);
+    background: var(--color-black);
+    color: var(--color-white);
+    font-size: var(--font-size-p2);
+    font-weight: var(--font-weight-btn);
+  }
+
+  .step-title {
+    margin: 0 0 var(--space-xs);
+  }
+
+  .step-desc {
+    margin: 0;
+  }
+</style>
