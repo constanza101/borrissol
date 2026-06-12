@@ -10,7 +10,7 @@ const href = waHref(t('wa.general'));
 <div class="fab-stack">
   <button
     id="scroll-top-fab"
-    class="fab fab--top"
+    class="fab fab--top is-hidden"
     aria-label="Volver al inicio"
     type="button"
   >
@@ -32,10 +32,44 @@ const href = waHref(t('wa.general'));
   </a>
 </div>
 
+<button
+  id="scroll-down-fab"
+  class="scroll-down"
+  aria-label="Bajar"
+  type="button"
+>
+  <svg width="48" height="22" viewBox="0 0 48 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <polyline points="6 6 24 16 42 6"/>
+  </svg>
+</button>
+
 <script is:inline>
-  document.getElementById('scroll-top-fab').addEventListener('click', function () {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+  (function () {
+    var upBtn   = document.getElementById('scroll-top-fab');
+    var downBtn = document.getElementById('scroll-down-fab');
+
+    if (upBtn) upBtn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    if (downBtn) downBtn.addEventListener('click', function () {
+      window.scrollBy({ top: Math.round(window.innerHeight * 0.8), behavior: 'smooth' });
+    });
+
+    // Up button: hidden at the very top, shown after scrolling.
+    // Down chevron: stays while there is more to scroll, hidden only once you
+    // can't go any further down (or the page doesn't scroll at all).
+    function update() {
+      var doc = document.documentElement;
+      if (upBtn) upBtn.classList.toggle('is-hidden', window.scrollY <= 4);
+      if (downBtn) {
+        var atBottom = window.innerHeight + window.scrollY >= doc.scrollHeight - 4;
+        downBtn.classList.toggle('is-hidden', atBottom);
+      }
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    update();
+  })();
 </script>
 
 <style>
@@ -86,6 +120,40 @@ const href = waHref(t('wa.general'));
     opacity: 0.9;
   }
 
+  /* Hidden state (toggled by JS on scroll position). */
+  .fab.is-hidden { display: none; }
+
+  /* Scroll-down hint — mobile only, floating bottom-centre. A bare wide chevron
+     (no pill) that gently bounces to nudge scrolling; stays until the page
+     bottom is reached. */
+  .scroll-down {
+    display: none;
+    position: fixed;
+    left: 50%;
+    bottom: var(--space-md);
+    transform: translateX(-50%);
+    padding: var(--space-sm) var(--space-lg);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-dark);
+    z-index: 600;
+    transition: color var(--t-fast);
+  }
+  .scroll-down:hover { color: var(--color-accent); }
+
+  /* Animate the chevron itself (the button keeps its translateX centering). */
+  .scroll-down svg {
+    animation: scroll-down-bounce 1.8s ease-in-out infinite;
+  }
+  @keyframes scroll-down-bounce {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(5px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-down svg { animation: none; }
+  }
+
   @media (max-width: 640px) {
     .fab-stack {
       right: var(--space-sm);
@@ -95,5 +163,8 @@ const href = waHref(t('wa.general'));
       width: 52px;
       height: 52px;
     }
+    /* Present on mobile, shown only when at the top (not .is-hidden). */
+    .scroll-down { display: inline-flex; }
+    .scroll-down.is-hidden { display: none; }
   }
 </style>
