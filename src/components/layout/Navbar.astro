@@ -9,6 +9,16 @@ const altPaths = Object.fromEntries(
   (Object.keys(languages) as Lang[]).map(l => [l, getAlternatePath(Astro.url, l)])
 ) as Record<Lang, string>;
 
+// Full language autonyms — used as the accessible name of the switcher links
+// (a screen reader says "Español" instead of spelling out "ES"). The visible
+// label stays the short code from `languages`.
+const langNames: Record<Lang, string> = {
+  ca: 'Català',
+  es: 'Español',
+  en: 'English',
+  fr: 'Français',
+};
+
 // Internal pages respect current language prefix (ca is default = no prefix).
 // Site config has `trailingSlash: 'never'`, so non-default home is `/fr` not `/fr/`.
 const homePath    = localizedPath(lang, '/');
@@ -66,7 +76,13 @@ const blogHref = '/blog';
           .filter(([l]) => l !== lang)
           .map(([l, label]) => (
             <li>
-              <a href={altPaths[l]} class="nav-lang-reveal-link">{label}</a>
+              <a
+                href={altPaths[l]}
+                hreflang={l}
+                lang={l}
+                aria-label={langNames[l]}
+                class="nav-lang-reveal-link"
+              >{label}</a>
             </li>
           ))
         }
