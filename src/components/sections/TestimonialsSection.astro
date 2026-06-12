@@ -79,23 +79,101 @@ const reviews = REVIEWS.map(r => ({ name: r.name, text: t(r.key as any) }));
 <script is:inline>
   (function () {
     var carousel = document.getElementById('t-carousel');
-    var prev     = document.getElementById('t-prev');
-    var next     = document.getElementById('t-next');
-    if (!carousel || !prev || !next) return;
+    if (!carousel) return;
+    var prev = document.getElementById('t-prev');
+    var next = document.getElementById('t-next');
 
-    function stepWidth() {
-      var card = carousel.querySelector('.t-card');
-      if (!card) return 0;
-      var gap = parseFloat(getComputedStyle(carousel).gap) || 0;
-      return card.offsetWidth + gap;
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var originals = Array.prototype.slice.call(carousel.children);
+    var N = originals.length;
+    if (N < 2) return;
+
+    // ── Endless track ──────────────────────────────────────────────────────
+    // Clone a full set before AND after the originals. The content is then
+    // periodic: every position has an identical twin one set-width away, so we
+    // can shift scrollLeft by whole set-widths invisibly to fake an infinite
+    // loop. Clones are hidden from assistive tech and removed from the tab order.
+    function markClone(el) {
+      el.setAttribute('aria-hidden', 'true');
+      var f = el.querySelectorAll('a, button, [tabindex]');
+      for (var i = 0; i < f.length; i++) f[i].setAttribute('tabindex', '-1');
+    }
+    var before = document.createDocumentFragment();
+    var after  = document.createDocumentFragment();
+    originals.forEach(function (card) {
+      var b = card.cloneNode(true); markClone(b); before.appendChild(b);
+      var a = card.cloneNode(true); markClone(a); after.appendChild(a);
+    });
+    carousel.insertBefore(before, carousel.firstChild);
+    carousel.appendChild(after);
+
+    function gap()    { return parseFloat(getComputedStyle(carousel).gap) || 0; }
+    function step()   { return originals[0].offsetWidth + gap(); }
+    function spl()    { return parseFloat(getComputedStyle(carousel).scrollPaddingLeft) || 0; }
+    function loopW()  { return step() * N; }
+    function startX() { return originals[0].offsetLeft - spl(); }
+
+    // Keep scrollLeft within one set-width of the middle (original) set. Each
+    // correction is a whole set-width, so the visible pixels are identical.
+    function recenter() {
+      var lw = loopW(), sp = startX(), x = carousel.scrollLeft;
+      while (x >= sp + lw) x -= lw;
+      while (x < sp)       x += lw;
+      if (x !== carousel.scrollLeft) carousel.scrollLeft = x;
     }
 
-    prev.addEventListener('click', function () {
-      carousel.scrollBy({ left: -stepWidth(), behavior: 'smooth' });
-    });
-    next.addEventListener('click', function () {
-      carousel.scrollBy({ left: stepWidth(), behavior: 'smooth' });
-    });
+    carousel.scrollLeft = startX();   // begin on the first original card
+
+    // Custom smooth scroll so the duration is tunable (native 'smooth' isn't).
+    // Snap is disabled during the tween so it can't fight the per-frame scroll,
+    // then restored — each step lands exactly on a snap point.
+    var SCROLL_MS = 600;   // transition duration; raise this to slow it further
+    var rafId = null;
+    function tweenBy(delta) {
+      if (rafId) cancelAnimationFrame(rafId);
+      if (reduceMotion) { carousel.scrollLeft += delta; return; }
+      var from = carousel.scrollLeft, startT = null;
+      carousel.style.scrollSnapType = 'none';
+      function frame(now) {
+        if (startT === null) startT = now;
+        var t = Math.min((now - startT) / SCROLL_MS, 1);
+        var e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;   // easeInOutQuad
+        carousel.scrollLeft = from + delta * e;
+        if (t < 1) { rafId = requestAnimationFrame(frame); }
+        else { rafId = null; carousel.style.scrollSnapType = ''; }
+      }
+      rafId = requestAnimationFrame(frame);
+    }
+
+    function go(dir) { tweenBy(dir * step()); }
+
+    // Recenter once scrolling settles (covers both drag and the smooth steps),
+    // never mid-animation, so the wrap stays invisible.
+    var settle;
+    carousel.addEventListener('scroll', function () {
+      clearTimeout(settle);
+      settle = setTimeout(recenter, 120);
+    }, { passive: true });
+
+    // ── Auto-advance every 3s, paused on interaction / hidden tab ───────────
+    var timer = null;
+    function play()  { if (reduceMotion || timer) return; timer = setInterval(function () { go(1); }, 3000); }
+    function pause() { if (timer) { clearInterval(timer); timer = null; } }
+    function bump(dir) { pause(); go(dir); setTimeout(play, 5000); }  // manual arrow
+
+    if (prev) prev.addEventListener('click', function () { bump(-1); });
+    if (next) next.addEventListener('click', function () { bump(1); });
+
+    carousel.addEventListener('pointerenter', pause);
+    carousel.addEventListener('pointerleave', play);
+    carousel.addEventListener('focusin', pause);
+    carousel.addEventListener('focusout', play);
+    carousel.addEventListener('touchstart', pause, { passive: true });
+    carousel.addEventListener('touchend', function () { setTimeout(play, 4000); }, { passive: true });
+    document.addEventListener('visibilitychange', function () { document.hidden ? pause() : play(); });
+
+    play();
   })();
 </script>
 
@@ -166,23 +244,31 @@ const reviews = REVIEWS.map(r => ({ name: r.name, text: t(r.key as any) }));
   }
 
   .t-carousel {
+    /* Sliver of the neighbouring card left visible as a scroll hint. */
+    --t-peek: var(--space-lg);
     list-style: none;
     display: flex;
     gap: var(--space-sm);
     overflow-x: auto;
     scroll-snap-type: x mandatory;
+    /* Snap inset so a snapped card leaves room for the previous card to peek on
+       the left. There is no inset at scrollLeft 0, so the first group peeks
+       only on the right; mid-scroll anchors peek on both sides. */
+    scroll-padding-left: calc(var(--t-peek) + var(--space-sm));
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
 
   .t-carousel::-webkit-scrollbar { display: none; }
 
-  /* ── Card: 1/3 of container minus 2 gaps ── */
+  /* ── Card: 3 fully visible + a peek on BOTH sides (see --t-peek).
+        Width reserves two peeks + the four surrounding gaps so the left and
+        right slivers can show at the same time mid-scroll. ── */
   .t-card {
-    flex: 0 0 calc((100% - 2 * var(--space-sm)) / 3);
+    flex: 0 0 calc((100% - 4 * var(--space-sm) - 2 * var(--t-peek)) / 3);
     scroll-snap-align: start;
     background: var(--color-white);
-    border-radius: var(--radius-xs);  /* card radius; borderless on purpose (light section bg) */
+    border-radius: var(--radius-lg);  /* card radius; borderless on purpose (light section bg) */
     padding: var(--space-md);
     display: flex;
     flex-direction: column;
@@ -271,18 +357,18 @@ const reviews = REVIEWS.map(r => ({ name: r.name, text: t(r.key as any) }));
   }
 
 
-  /* ── Tablet: 2 cards ── */
+  /* ── Tablet: 2 cards + a peek on both sides ── */
   @media (max-width: 840px) {
     .t-card {
-      flex: 0 0 calc((100% - var(--space-sm)) / 2);
+      flex: 0 0 calc((100% - 3 * var(--space-sm) - 2 * var(--t-peek)) / 2);
     }
     .t-nav { display: flex; }
   }
 
-  /* ── Mobile: 1 card ── */
+  /* ── Mobile: 1 card + a peek on both sides ── */
   @media (max-width: 540px) {
     .t-card {
-      flex: 0 0 100%;
+      flex: 0 0 calc(100% - 2 * var(--space-sm) - 2 * var(--t-peek));
     }
     .t-nav { display: none; }
   }
