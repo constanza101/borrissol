@@ -28,12 +28,14 @@ const t    = useTranslations(lang);
       fetchpriority="high"
     />
 
-    <!-- Logo centered over the image -->
+    <!-- Logo centered over the image — above the fold, so eager on purpose. -->
     <img
       src="/images/borrissol-espai-logo.svg"
       alt="Borrissol Espai Creatiu"
       class="hero-logo"
       aria-hidden="true"
+      loading="eager"
+      decoding="async"
     />
 
     <!-- Gradient: dark bottom-left → transparent (aria-hidden — purely decorative) -->
