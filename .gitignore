@@ -35,3 +35,9 @@ SEO-ACTION-PLAN.md
 # Internal working docs — not for publication
 REFACTOR-TODO.md
 CASE-STUDY-BORRISSOL.md
+AUDIT-CODE-REVIEW-2026-06.md
+# Portfolio deep-dive — remove this line if you decide to publish it in the repo
+TECHNICAL-OVERVIEW.md
+
+# Local Unlighthouse audit output
+.unlighthouse/

@@ -16,11 +16,16 @@ const t    = useTranslations(lang);
   </div>
 
   <!-- ── Image block ── -->
-  <div class="hero-media load-anim" data-delay="2">
+  <!-- No entrance animation on the hero image: it is the LCP element, so it
+       must paint immediately. Starting at opacity:0 delays LCP. -->
+  <div class="hero-media">
+    <!-- ponytail: sizes undersells mobile to 70vw — the hero sits under a
+         gradient + centered logo, so high-DPR phones pull a ~640px variant
+         instead of the 1200px one. Raise toward 100vw if it must read crisp. -->
     <Picture
       src={heroBg}
-      widths={[480, 768, 1200, 1600]}
-      sizes="100vw"
+      widths={[360, 480, 768, 1200, 1600]}
+      sizes="(max-width: 767px) 70vw, 100vw"
       formats={['avif', 'webp']}
       alt="Alfombra tufting de formas orgánicas en colores vivos — rojo, verde, rosa y azul — creada en el taller Borrissol, Mataró, Barcelona"
       class="hero-img"
@@ -35,6 +40,7 @@ const t    = useTranslations(lang);
       class="hero-logo"
       aria-hidden="true"
       loading="eager"
+      fetchpriority="high"
       decoding="async"
     />
 

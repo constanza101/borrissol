@@ -36,9 +36,9 @@ const loomPath    = localizedPath(lang, '/loom');
 // descriptions are Borla-specific (borla.*.desc). `href` links to each
 // technique's dedicated landing.
 const techniques = [
-  { name: t('offer.embroidery.name'), desc: t('borla.felting.desc'), img: imgFelting, width: 3024, height: 3024, alt: 'Figuras de fieltro agujado creadas en el taller Borrissol, Mataró', href: feltingPath },
-  { name: t('offer.punch.name'),      desc: t('borla.punch.desc'),   img: imgPunch,   width: 4032, height: 3024, alt: 'Diseño de punch needle con lana sobre tela en el taller Borrissol, Mataró', href: punchPath },
-  { name: t('offer.loom.name'),       desc: t('borla.loom.desc'),    img: imgLoom,    width: 3024, height: 3024, alt: 'Tejido en telar artesanal con hilos de colores en el taller Borrissol, Mataró', href: loomPath },
+  { name: t('offer.embroidery.name'), desc: t('borla.felting.desc'), img: imgFelting, width: 2000, height: 2000, alt: 'Figuras de fieltro agujado creadas en el taller Borrissol, Mataró', href: feltingPath },
+  { name: t('offer.punch.name'),      desc: t('borla.punch.desc'),   img: imgPunch,   width: 2000, height: 1500, alt: 'Diseño de punch needle con lana sobre tela en el taller Borrissol, Mataró', href: punchPath },
+  { name: t('offer.loom.name'),       desc: t('borla.loom.desc'),    img: imgLoom,    width: 2000, height: 2000, alt: 'Tejido en telar artesanal con hilos de colores en el taller Borrissol, Mataró', href: loomPath },
 ];
 
 const details = [
@@ -50,8 +50,8 @@ const details = [
 ];
 
 const faqs = [1, 2, 3].map(n => ({
-  q: t(`borla.faq.q${n}` as any),
-  a: t(`borla.faq.a${n}` as any),
+  q: t.dyn(`borla.faq.q${n}`),
+  a: t.dyn(`borla.faq.a${n}`),
 }));
 
 ---
@@ -115,7 +115,7 @@ const faqs = [1, 2, 3].map(n => ({
 </article>
 
 <!-- No price asserted — it is "on request". -->
-<CourseSchema name={t('borla.headline')} description={t('page.borla.description')} courseWorkload="P2H" />
+<CourseSchema name={t('borla.headline')} description={t('page.borla.description')} courseWorkload="PT2H" />
 
 <style>
   .borla {

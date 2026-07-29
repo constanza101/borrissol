@@ -7,14 +7,11 @@ import { waHref } from '../../config';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
-  return posts.map(post => ({ params: { slug: post.id } }));
+  // The post travels as a prop — no second collection lookup at render time.
+  return posts.map(post => ({ params: { slug: post.id }, props: { post } }));
 }
 
-const { slug } = Astro.params;
-const posts = await getCollection('blog');
-const post = posts.find(p => p.id === slug);
-
-if (!post) return Astro.redirect('/blog');
+const { post } = Astro.props;
 
 const { Content } = await render(post);
 const formattedDate = new Date(post.data.publishedAt).toLocaleDateString('ca-ES', {

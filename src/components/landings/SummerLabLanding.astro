@@ -19,7 +19,6 @@ import { getLangFromUrl, useTranslations, localizedPath } from '../../i18n/utils
 import TechniqueCard from '../ui/TechniqueCard.astro';
 import CourseSchema from '../ui/CourseSchema.astro';
 import DetailsList from '../ui/DetailsList.astro';
-import { summerLab } from '../../config/seasonal';
 import { waHref } from '../../config';
 import heroImg from '../../assets/images/grupo2.jpg';
 import introImg from '../../assets/images/summer-lab.jpg';
@@ -41,15 +40,14 @@ const punchPath   = localizedPath(lang, '/punch-needle');
 // Technique names reuse the offer.* catalog; descriptions are summer-lab
 // specific (sl.tech.*). `href` links to each technique's dedicated landing.
 const techniques = [
-  { name: t('offer.tufting.name'),    desc: t('sl.tech.tufting.desc'), img: imgTufting, width: 2904, height: 2150, alt: 'Tufting en el taller Borrissol, Mataró',                href: tuftingPath },
-  { name: t('offer.loom.name'),       desc: t('sl.tech.loom.desc'),    img: imgLoom,    width: 3024, height: 3024, alt: 'Telar artesanal en el taller Borrissol, Mataró',       href: loomPath },
-  { name: t('offer.punch.name'),      desc: t('sl.tech.punch.desc'),   img: imgPunch,   width: 4032, height: 3024, alt: 'Punch needle en el taller Borrissol, Mataró',          href: punchPath },
-  { name: t('offer.embroidery.name'), desc: t('sl.tech.felting.desc'), img: imgFelting, width: 3024, height: 3024, alt: 'Fieltro agujado en el taller Borrissol, Mataró',       href: feltingPath },
+  { name: t('offer.tufting.name'),    desc: t('sl.tech.tufting.desc'), img: imgTufting, width: 2000, height: 1480, alt: 'Tufting en el taller Borrissol, Mataró',                href: tuftingPath },
+  { name: t('offer.loom.name'),       desc: t('sl.tech.loom.desc'),    img: imgLoom,    width: 2000, height: 2000, alt: 'Telar artesanal en el taller Borrissol, Mataró',       href: loomPath },
+  { name: t('offer.punch.name'),      desc: t('sl.tech.punch.desc'),   img: imgPunch,   width: 2000, height: 1500, alt: 'Punch needle en el taller Borrissol, Mataró',          href: punchPath },
+  { name: t('offer.embroidery.name'), desc: t('sl.tech.felting.desc'), img: imgFelting, width: 2000, height: 2000, alt: 'Fieltro agujado en el taller Borrissol, Mataró',       href: feltingPath },
 ];
 
 const details = [
   { label: t('sl.details.price.label'),     value: t('sl.details.price.value') },
-  { label: t('sl.details.dates.label'),     value: t('sl.details.dates.value') },
   { label: t('sl.details.schedule.label'),  value: t('sl.details.schedule.value') },
   { label: t('sl.details.age.label'),       value: t('sl.details.age.value') },
   { label: t('sl.details.group.label'),     value: t('sl.details.group.value') },
@@ -70,8 +68,8 @@ const details = [
     ctaHref={ctaHref}
     img={heroImg}
     alt="Grupo creando en el Laboratorio Textil de Verano de Borrissol, Mataró"
-    imgWidth={3000}
-    imgHeight={4000}
+    imgWidth={2200}
+    imgHeight={2933}
     aspect="3 / 4"
   />
 
@@ -130,7 +128,7 @@ const details = [
 
 </article>
 
-<CourseSchema name={t('sl.headline')} description={t('page.sl.description')} startDate={summerLab.startDate} endDate={summerLab.endDate} price="125" />
+<CourseSchema name={t('sl.headline')} description={t('page.sl.description')} price="125" />
 
 <style>
   .sl {

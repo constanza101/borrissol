@@ -6,6 +6,28 @@
   NODE_VERSION = "22.12.0"
 
 # ──────────────────────────────────────────────────────────────────────────
+# Security headers — static site baseline. No CSP yet: the inline consent /
+# analytics / UI scripts would need nonces or hashes first (tracked in the
+# audit doc as a follow-up).
+# ──────────────────────────────────────────────────────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # The site is never legitimately embedded in an iframe (embedding Maps
+    # ourselves is unaffected — this controls who may frame US).
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+
+# Self-hosted font: filename is stable but the asset never changes in place —
+# if the font is ever swapped, rename the file.
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# ──────────────────────────────────────────────────────────────────────────
 # Bot/scanner protection — short-circuit common attack URLs at the edge
 # so they never invoke Astro SSR (saves credits).
 # These paths don't exist in the site; only bots request them.

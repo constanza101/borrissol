@@ -22,15 +22,31 @@ export function getLangFromUrl(url: URL): Lang {
   return defaultLang;
 }
 
+/** Every key in the catalog (validated at compile time for literal usage). */
+export type UIKey = keyof typeof ui[typeof defaultLang];
+
+interface Translator {
+  /** Typed lookup — use for literal keys so typos fail to compile. */
+  (key: UIKey): string;
+  /**
+   * Lookup for keys assembled at runtime (e.g. `${prefix}.faq.q${n}`), which
+   * can't be compile-time validated. Same fallback chain as the typed call.
+   * The i18n completeness test (ui.test.ts) is the safety net for these.
+   */
+  dyn: (key: string) => string;
+}
+
 /**
  * Returns a translation function bound to a specific locale. Falls back to the
  * default locale's value if the key is missing, then to the key itself.
  */
-export function useTranslations(lang: Lang) {
-  return function t(key: keyof typeof ui[typeof defaultLang]): string {
-    const translations = ui[lang] as Record<string, string>;
-    return translations[key] ?? (ui[defaultLang] as Record<string, string>)[key] ?? key;
-  };
+export function useTranslations(lang: Lang): Translator {
+  const translations = ui[lang] as Record<string, string>;
+  const fallback     = ui[defaultLang] as Record<string, string>;
+  const lookup = (key: string): string => translations[key] ?? fallback[key] ?? key;
+  const t = ((key: UIKey) => lookup(key)) as Translator;
+  t.dyn = lookup;
+  return t;
 }
 
 /**

@@ -10,7 +10,7 @@ import { SITE } from '../../config/site';
 interface Props {
   name: string;
   description: string;
-  /** ISO-8601 duration of one session, e.g. 'P2H'. */
+  /** ISO-8601 duration of one session, e.g. 'PT2H' (T required for time units). */
   courseWorkload?: string;
   /** ISO dates for a fixed-period course (Summer Lab). */
   startDate?: string;

@@ -13,8 +13,7 @@
 | Project | Arte que conecta |
 | DS version | v2.0 |
 | Font (UI) | Roboto (400, 500) via Google Fonts |
-| Font (wordmark) | Coiny (400) — `.logo-wordmark` class ONLY, never headings or body |
-| Palette | Monochromatic — 5 steps white → black |
+| Palette | Monochromatic base ramp (white → black) + small accent set (brand pink, WhatsApp green, star yellow, 4 tufting-level colors) |
 | Base | 16px |
 | Icons | Lucide Icons (outline, stroke 1.5px) |
 | Token file | `theme.css` (CSS custom properties on `:root`) |
@@ -30,13 +29,18 @@
 | `--color-white` | `#FFFFFF` | Primary background |
 | `--color-light` | `#F5F5F5` | Section fills, button preview backgrounds |
 | `--color-mid` | `#D9D9D9` | Borders, dividers, separators |
+| `--color-muted` | `#797979` | Secondary text, labels, metadata |
+| `--color-dark` | `#1a1a1a` | Dark backgrounds, buttons, footer — softer than pure black |
+| `--color-black` | `#000000` | Primary text, active borders — reserved for text |
+| `--color-accent` | `#ff058b` | Brand pink — hovers, favicon, theme-color |
+| `--color-whatsapp` | `#27D366` | WhatsApp brand green — FAB only |
+| `--color-star` | `#FCBC05` | Review star rating |
+| `--color-tufting-*` | 4 values | Per-level identifier palette (express/intro/intermediate/pro) |
 | `--bg` | `var(--color-white)` | Semantic alias — page background |
 | `--bg-section` | `var(--color-light)` | Semantic alias — section background |
 | `--fg` | `var(--color-black)` | Semantic alias — primary text |
 | `--fg-muted` | `var(--color-muted)` | Semantic alias — secondary text |
 | `--border-hairline` | `0.5px solid var(--color-mid)` | Hairline divider |
-| `--color-muted` | `#797979` | Secondary text, labels, metadata |
-| `--color-black` | `#000000` | Primary text, CTAs, active borders |
 
 ### Typography
 
@@ -83,13 +87,13 @@
 | Token | Primary | Secondary | Tertiary |
 |---|---|---|---|
 | font-size | `0.8rem` | `0.9rem` | `0.8rem` |
-| background | `--color-black` | `transparent` | `transparent` |
+| background | `--color-dark` | `transparent` | `transparent` |
 | color | `--color-white` | `--color-black` | `--color-black` |
 | border | none | `1px solid black` | none |
 | border-radius | `--radius-pill` | `--radius-pill` | `0` |
 | padding-v | `1.2em` | `1.2em` | `1.2em` |
 | padding-h | `2em` | `2.004em` | `0` |
-| hover | `opacity: 0.85` | `bg: --color-light` | — |
+| hover | bg `--color-accent` · text black | border + text `--color-accent` | `opacity: 0.85` |
 
 ### Spacing Scale
 
@@ -275,7 +279,7 @@ Rules for any image/asset shipped to production:
 1. **No hardcoded values.** Every color, size, space, radius, or border must reference a `--token`.
 2. **No new tokens without documenting them** in the token tables above and in `theme.css`.
 3. **English only** for all variable names, class names, file names, and comments.
-4. **Roboto for all UI.** Coiny (`--font-display`) is allowed **only** via `.logo-wordmark` on the brand name element. Never use Coiny on headings, hero text, or body copy.
+4. **Roboto for all UI.** It is the only typeface — for headings, hero text, and body copy alike.
 5. **Two font weights only:** `400` (body/headings) and `500` (buttons, labels, eyebrows, `.text-ui`).
 6. **Lucide Icons only** for iconography. Stroke `1.5px`, fill `none`, color `var(--icon-color)`.
 7. **All buttons** use uppercase, weight 500, and `letter-spacing: 0.05em` — never override these.

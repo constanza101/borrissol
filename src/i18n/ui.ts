@@ -67,6 +67,20 @@ export const notFound: Record<Lang, Record<string, string>> = {
 export const ui = {
   es: {
     'skip.link':      'Saltar al contenido',
+
+    // ── Accessible names (aria-label) ─────────────────────────────────────
+    'a11y.nav.main':      'Navegación principal',
+    'a11y.nav.home':      'Borrissol — inicio',
+    'a11y.nav.lang':      'Selector de idioma',
+    'a11y.nav.openMenu':  'Abrir menú de navegación',
+    'a11y.nav.menu':      'Menú de navegación',
+    'a11y.wa':            'Contactar por WhatsApp',
+    'a11y.scrollTop':     'Volver arriba',
+    'a11y.scrollDown':    'Bajar',
+    'a11y.carousel.nav':  'Navegación del carrusel',
+    'a11y.carousel.prev': 'Anterior',
+    'a11y.carousel.next': 'Siguiente',
+    'a11y.stars':         '5 estrellas',
     'nav.services':   'Servicios',
     'nav.process':    'Proceso',
     'nav.workshops':  'Talleres',
@@ -492,7 +506,7 @@ export const ui = {
     'ws.summer.name':      'Laboratorio Textil de Verano',
     'ws.summer.desc':      'Crea, explora y dale forma a tus ideas a través del textil. Una semana de creatividad, texturas y experimentación.',
     'ws.summer.techniques':'Tufting · Telar · Punch Needle · Fieltro agujado',
-    'ws.summer.details':   '125€/semana · Materiales incluidos · 22 junio – 24 julio · Lun–Vie 9–13h · +12 años · Grupos reducidos (6–8 personas)',
+    'ws.summer.details':   '125€/semana · Materiales incluidos · Lun–Vie 9–13h · +12 años · Grupos reducidos (6–8 personas)',
     'unit.person':         'persona',
     'unit.month':          'mes',
     'unit.person.week':    'persona/semana',
@@ -575,6 +589,7 @@ export const ui = {
     'footer.contact.title': 'Contacto',
     'footer.copyright':         '© 2025 Borrissol Espai Creatiu · Todos los derechos reservados',
     'footer.copyright.rights':  'Todos los derechos reservados',
+    'footer.dev':               'Desarrollo web',
     'footer.directions':    'Cómo llegar',
 
     // ── Cookies & privacidad ─────────────────────────────────────────────────
@@ -615,6 +630,20 @@ export const ui = {
 
   en: {
     'skip.link':      'Skip to content',
+
+    // ── Accessible names (aria-label) ─────────────────────────────────────
+    'a11y.nav.main':      'Main navigation',
+    'a11y.nav.home':      'Borrissol — home',
+    'a11y.nav.lang':      'Language switcher',
+    'a11y.nav.openMenu':  'Open navigation menu',
+    'a11y.nav.menu':      'Navigation menu',
+    'a11y.wa':            'Contact via WhatsApp',
+    'a11y.scrollTop':     'Back to top',
+    'a11y.scrollDown':    'Scroll down',
+    'a11y.carousel.nav':  'Carousel navigation',
+    'a11y.carousel.prev': 'Previous',
+    'a11y.carousel.next': 'Next',
+    'a11y.stars':         '5 stars',
     'nav.services':   'Services',
     'nav.process':    'Process',
     'nav.workshops':  'Workshops',
@@ -1040,7 +1069,7 @@ export const ui = {
     'ws.summer.name':      'Summer Textile Lab',
     'ws.summer.desc':      'Create, explore and shape your ideas through textiles. A week of creativity, textures and experimentation.',
     'ws.summer.techniques':'Tufting · Loom · Punch Needle · Needle Felting',
-    'ws.summer.details':   '125€/week · Materials included · 22 June – 24 July · Mon–Fri 9–13h · Ages 12+ · Small groups (6–8 people)',
+    'ws.summer.details':   '125€/week · Materials included · Mon–Fri 9–13h · Ages 12+ · Small groups (6–8 people)',
     'unit.person':         'person',
     'unit.month':          'month',
     'unit.person.week':    'person/week',
@@ -1123,6 +1152,7 @@ export const ui = {
     'footer.contact.title': 'Contact',
     'footer.copyright':         '© 2025 Borrissol Espai Creatiu · All rights reserved',
     'footer.copyright.rights':  'All rights reserved',
+    'footer.dev':               'Web development',
     'footer.directions':    'How to get here',
 
     // ── Cookies & privacy ────────────────────────────────────────────────────
@@ -1163,6 +1193,20 @@ export const ui = {
 
   ca: {
     'skip.link':      'Saltar al contingut',
+
+    // ── Accessible names (aria-label) ─────────────────────────────────────
+    'a11y.nav.main':      'Navegació principal',
+    'a11y.nav.home':      'Borrissol — inici',
+    'a11y.nav.lang':      "Selector d'idioma",
+    'a11y.nav.openMenu':  'Obre el menú de navegació',
+    'a11y.nav.menu':      'Menú de navegació',
+    'a11y.wa':            'Contacta per WhatsApp',
+    'a11y.scrollTop':     'Torna a dalt',
+    'a11y.scrollDown':    'Baixa',
+    'a11y.carousel.nav':  'Navegació del carrusel',
+    'a11y.carousel.prev': 'Anterior',
+    'a11y.carousel.next': 'Següent',
+    'a11y.stars':         '5 estrelles',
     'nav.services':   'Serveis',
     'nav.process':    'Procés',
     'nav.workshops':  'Tallers',
@@ -1588,7 +1632,7 @@ export const ui = {
     'ws.summer.name':      "Laboratori Tèxtil d'Estiu",
     'ws.summer.desc':      "Crea, explora i dona forma a les teves idees a través del tèxtil. Una setmana de creativitat, textures i experimentació.",
     'ws.summer.techniques':"Tufting · Teler · Punch Needle · Feltre agullat",
-    'ws.summer.details':   '125€/setmana · Materials inclosos · 22 juny – 24 juliol · Dl–Dv 9–13h · +12 anys · Grups reduïts (6–8 persones)',
+    'ws.summer.details':   '125€/setmana · Materials inclosos · Dl–Dv 9–13h · +12 anys · Grups reduïts (6–8 persones)',
     'unit.person':         'persona',
     'unit.month':          'mes',
     'unit.person.week':    'persona/setmana',
@@ -1671,6 +1715,7 @@ export const ui = {
     'footer.contact.title': 'Contacte',
     'footer.copyright':         '© 2025 Borrissol Espai Creatiu · Tots els drets reservats',
     'footer.copyright.rights':  'Tots els drets reservats',
+    'footer.dev':               'Desenvolupament web',
     'footer.directions':    'Com arribar',
 
     // ── Cookies & privacitat ─────────────────────────────────────────────────
@@ -1711,6 +1756,20 @@ export const ui = {
 
   fr: {
     'skip.link':      'Passer au contenu',
+
+    // ── Accessible names (aria-label) ─────────────────────────────────────
+    'a11y.nav.main':      'Navigation principale',
+    'a11y.nav.home':      'Borrissol — accueil',
+    'a11y.nav.lang':      'Sélecteur de langue',
+    'a11y.nav.openMenu':  'Ouvrir le menu de navigation',
+    'a11y.nav.menu':      'Menu de navigation',
+    'a11y.wa':            'Contacter par WhatsApp',
+    'a11y.scrollTop':     'Retour en haut',
+    'a11y.scrollDown':    'Descendre',
+    'a11y.carousel.nav':  'Navigation du carrousel',
+    'a11y.carousel.prev': 'Précédent',
+    'a11y.carousel.next': 'Suivant',
+    'a11y.stars':         '5 étoiles',
     'nav.services':   'Services',
     'nav.process':    'Processus',
     'nav.workshops':  'Ateliers',
@@ -2136,7 +2195,7 @@ export const ui = {
     'ws.summer.name':      "Laboratoire Textile d'Été",
     'ws.summer.desc':      "Créez, explorez et donnez forme à vos idées à travers le textile. Une semaine de créativité, textures et expérimentation.",
     'ws.summer.techniques':"Tufting · Métier à tisser · Punch Needle · Feutrage à l'aiguille",
-    'ws.summer.details':   "125€/semaine · Matériaux inclus · 22 juin – 24 juillet · Lun–Ven 9–13h · +12 ans · Petits groupes (6–8 personnes)",
+    'ws.summer.details':   "125€/semaine · Matériaux inclus · Lun–Ven 9–13h · +12 ans · Petits groupes (6–8 personnes)",
     'unit.person':         'personne',
     'unit.month':          'mois',
     'unit.person.week':    'personne/semaine',
@@ -2219,6 +2278,7 @@ export const ui = {
     'footer.contact.title': 'Contact',
     'footer.copyright':         '© 2025 Borrissol Espai Creatiu · Tous droits réservés',
     'footer.copyright.rights':  'Tous droits réservés',
+    'footer.dev':               'Développement web',
     'footer.directions':    'Comment y aller',
 
     // ── Cookies & confidentialité ────────────────────────────────────────────

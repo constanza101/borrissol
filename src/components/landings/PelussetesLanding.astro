@@ -28,13 +28,13 @@ const t = useTranslations(lang);
 const ctaHref = waHref(t('wa.pel.landing'));
 
 const occasions = [1, 2, 3].map(n => ({
-  title: t(`pel.occasion.${n}.title` as any),
-  desc:  t(`pel.occasion.${n}.desc` as any),
+  title: t.dyn(`pel.occasion.${n}.title`),
+  desc:  t.dyn(`pel.occasion.${n}.desc`),
 }));
 
 const steps = [1, 2, 3].map(n => ({
-  title: t(`pel.how.${n}.title` as any),
-  desc:  t(`pel.how.${n}.desc` as any),
+  title: t.dyn(`pel.how.${n}.title`),
+  desc:  t.dyn(`pel.how.${n}.desc`),
 }));
 
 const details = [
@@ -48,8 +48,8 @@ const details = [
 ];
 
 const faqs = [1, 2, 3, 4].map(n => ({
-  q: t(`pel.faq.q${n}` as any),
-  a: t(`pel.faq.a${n}` as any),
+  q: t.dyn(`pel.faq.q${n}`),
+  a: t.dyn(`pel.faq.a${n}`),
 }));
 
 ---
@@ -65,8 +65,8 @@ const faqs = [1, 2, 3, 4].map(n => ({
     ctaHref={ctaHref}
     img={heroImg}
     alt="Grupo de amigas creando tapices en un taller de tufting Pelussetes en Borrissol, Mataró"
-    imgWidth={2957}
-    imgHeight={2085}
+    imgWidth={2000}
+    imgHeight={1410}
   />
 
   <!-- ── Intro ────────────────────────────────────────────────────────── -->
@@ -103,8 +103,8 @@ const faqs = [1, 2, 3, 4].map(n => ({
           sizes="(max-width: 900px) 100vw, 40vw"
           formats={['avif', 'webp']}
           alt="Participantes en un taller de tufting en grupo en Borrissol, Mataró"
-          width={3000}
-          height={4000}
+          width={2200}
+          height={2933}
           loading="lazy"
         />
       </div>
@@ -124,7 +124,7 @@ const faqs = [1, 2, 3, 4].map(n => ({
 
 </article>
 
-<CourseSchema name={t('pel.headline')} description={t('page.pel.description')} courseWorkload="P2H" price="68" />
+<CourseSchema name={t('pel.headline')} description={t('page.pel.description')} courseWorkload="PT2H" price="68" />
 
 <style>
   .pel {

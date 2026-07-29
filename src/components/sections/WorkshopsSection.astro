@@ -9,6 +9,7 @@ import toteBag from '../../assets/images/tote-bag1.png';
 import wristRest from '../../assets/images/ws-wrist-rest.jpg';
 import grupo2 from '../../assets/images/grupo2.jpg';
 import { isSummerLabVisible } from '../../config/seasonal';
+import { TUFTING_FORMATS } from '../../config/workshops';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -19,52 +20,19 @@ const pelussetesPath   = localizedPath(lang, '/pelussetes');
 const summerLabPath    = localizedPath(lang, '/summer-lab');
 // Seasonal: the Summer Lab card auto-hides after the course end date.
 const summerLabVisible = isSummerLabVisible();
-const tuftingRows = [
-  {
-    name: 'Pelusa',
-    size: '50×50 cm',
-    price: '78€',
-    level:     t('tufting.level.express'),
-    duration:  t('tufting.dur.4'),
-    drawing:   t('tufting.drawing.basic'),
-    finishing: t('tufting.finishing.simple'),
-    materials: t('tufting.materials'),
-    href:      waHref(t('wa.tufting.pelusa')),
-  },
-  {
-    name: 'Floc',
-    size: '50×50 cm',
-    price: '108€',
-    level:     t('tufting.level.intro'),
-    duration:  t('tufting.dur.6'),
-    drawing:   t('tufting.drawing.basic'),
-    finishing: t('tufting.finishing.improved'),
-    materials: t('tufting.materials'),
-    href:      waHref(t('wa.tufting.floc')),
-  },
-  {
-    name: 'Vellut',
-    size: '70×70 cm',
-    price: '158€',
-    level:     t('tufting.level.intermediate'),
-    duration:  t('tufting.dur.8'),
-    drawing:   t('tufting.drawing.choice'),
-    finishing: t('tufting.finishing.improved'),
-    materials: t('tufting.materials'),
-    href:      waHref(t('wa.tufting.vellut')),
-  },
-  {
-    name: 'Pelut',
-    size: '80×80 cm',
-    price: '181€',
-    level:     t('tufting.level.pro'),
-    duration:  t('tufting.dur.10'),
-    drawing:   t('tufting.drawing.choice'),
-    finishing: t('tufting.finishing.improved'),
-    materials: t('tufting.materials'),
-    href:      waHref(t('wa.tufting.pelut')),
-  },
-];
+// Business data (names, sizes, prices, key names) lives in config/workshops.ts;
+// here it's resolved against the page language.
+const tuftingRows = TUFTING_FORMATS.map(f => ({
+  name:  f.name,
+  size:  f.size,
+  price: f.price,
+  level:     t.dyn(f.levelKey),
+  duration:  t.dyn(f.durationKey),
+  drawing:   t.dyn(f.drawingKey),
+  finishing: t.dyn(f.finishingKey),
+  materials: t('tufting.materials'),
+  href:      waHref(t.dyn(f.waKey)),
+}));
 ---
 
 <section id="workshops" class="workshops" aria-labelledby="workshops-heading">
@@ -103,7 +71,7 @@ const tuftingRows = [
         <div class="tufting-right">
         <div class="tufting-panel reveal" data-delay="1">
           <div class="panel-header">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" style="width: var(--icon-size-inline); height: var(--icon-size-inline); stroke-width: var(--icon-stroke-width); display: inline-block; flex-shrink: 0;" aria-hidden="true"><path d="M12.034 12.681a.498.498 0 0 1 .647-.647l9 3.5a.5.5 0 0 1-.033.943l-3.444 1.068a1 1 0 0 0-.66.66l-1.067 3.443a.5.5 0 0 1-.943.033z"/><path d="M21 11V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="panel-header-icon" aria-hidden="true"><path d="M12.034 12.681a.498.498 0 0 1 .647-.647l9 3.5a.5.5 0 0 1-.033.943l-3.444 1.068a1 1 0 0 0-.66.66l-1.067 3.443a.5.5 0 0 1-.943.033z"/><path d="M21 11V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/></svg>
             <span class="panel-header-label">{t('tufting.panel.header')}</span>
           </div>
           {tuftingRows.map(row => (
@@ -187,7 +155,7 @@ const tuftingRows = [
         <!-- Team Building Special -->
         <div class="card ws-card reveal" data-delay="2">
           <div class="ws-card-img">
-            <Picture src={wristRest} widths={[300, 500, 700]} sizes="(max-width: 767px) 100vw, 25vw" formats={['avif', 'webp']} alt="Reposamuñecas hecho con tufting para el taller Especial Team Building en Borrissol" width={4032} height={3024} loading="lazy" />
+            <Picture src={wristRest} widths={[300, 500, 700]} sizes="(max-width: 767px) 100vw, 25vw" formats={['avif', 'webp']} alt="Reposamuñecas hecho con tufting para el taller Especial Team Building en Borrissol" width={2000} height={1500} loading="lazy" />
           </div>
           <div class="ws-card-body">
             <h4 class="ws-name">{t('ws.teambuilding.name')}</h4>
@@ -207,7 +175,7 @@ const tuftingRows = [
       {summerLabVisible && (
         <div class="card summer-card reveal">
           <div class="summer-card-img">
-            <Picture src={grupo2} widths={[480, 768, 1000]} sizes="(max-width: 767px) 100vw, 40vw" formats={['avif', 'webp']} alt="Laboratorio Textil de Verano" width={3000} height={4000} loading="lazy" />
+            <Picture src={grupo2} widths={[480, 768, 1000]} sizes="(max-width: 767px) 100vw, 40vw" formats={['avif', 'webp']} alt="Laboratorio Textil de Verano" width={2200} height={2933} loading="lazy" />
           </div>
           <div class="summer-card-body">
             <span class="eyebrow">{t('ws.summer.techniques')}</span>
@@ -357,6 +325,14 @@ const tuftingRows = [
     gap: var(--space-xs);
     padding: var(--space-md);
     border-bottom: var(--border-default);
+  }
+
+  .panel-header-icon {
+    width: var(--icon-size-inline);
+    height: var(--icon-size-inline);
+    stroke-width: var(--icon-stroke-width);
+    display: inline-block;
+    flex-shrink: 0;
   }
 
   .panel-header-label {

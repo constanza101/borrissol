@@ -1,0 +1,56 @@
+---
+/**
+ * Page shell for the home route. Same pattern as LandingPage.astro: the
+ * default-locale file (src/pages/index.astro) and the [lang] twin
+ * (src/pages/[lang]/index.astro) only differ in their getStaticPaths — the
+ * locale is read from the URL here, so both render this exact tree.
+ */
+import Layout from './Layout.astro';
+import Navbar from '../components/layout/Navbar.astro';
+import HeroSection from '../components/sections/HeroSection.astro';
+import OfferSection from '../components/sections/OfferSection.astro';
+import ProcessSection from '../components/sections/ProcessSection.astro';
+import WorkshopsSection from '../components/sections/WorkshopsSection.astro';
+import TestimonialsSection from '../components/sections/TestimonialsSection.astro';
+import PressStrip from '../components/sections/PressStrip.astro';
+import AboutSection from '../components/sections/AboutSection.astro';
+import FAQSection from '../components/sections/FAQSection.astro';
+import CTASection from '../components/sections/CTASection.astro';
+import Footer from '../components/layout/Footer.astro';
+import PrivacySection from '../components/sections/PrivacySection.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<Layout
+  title={t('page.home.title')}
+  description={t('page.home.description')}
+  ogType="website"
+>
+  <Navbar />
+  <main id="main-content" tabindex="-1">
+    <HeroSection />
+    <OfferSection />
+    <WorkshopsSection />
+    <ProcessSection />
+    <TestimonialsSection />
+    <PressStrip />
+    <AboutSection />
+    <FAQSection />
+    <CTASection />
+  </main>
+  <Footer />
+  <PrivacySection />
+</Layout>
+
+<style is:global>
+  /*
+   * Page-level background override: the hero band blends into --color-mid,
+   * so the page behind it matches. Sections below revert to --color-white
+   * via their own component styles.
+   */
+  body {
+    background: var(--color-mid);
+  }
+</style>

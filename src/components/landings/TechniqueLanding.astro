@@ -38,16 +38,16 @@ const { prefix, img, alt, imgWidth, imgHeight, aspect, createImg } = Astro.props
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const ctaHref = waHref(t(`wa.${prefix}.landing` as any));
+const ctaHref = waHref(t.dyn(`wa.${prefix}.landing`));
 
 const benefits = [1, 2, 3].map(n => ({
-  title: t(`${prefix}.benefit.${n}.title` as any),
-  desc:  t(`${prefix}.benefit.${n}.desc` as any),
+  title: t.dyn(`${prefix}.benefit.${n}.title`),
+  desc:  t.dyn(`${prefix}.benefit.${n}.desc`),
 }));
 
 const faqs = [1, 2, 3].map(n => ({
-  q: t(`${prefix}.faq.q${n}` as any),
-  a: t(`${prefix}.faq.a${n}` as any),
+  q: t.dyn(`${prefix}.faq.q${n}`),
+  a: t.dyn(`${prefix}.faq.a${n}`),
 }));
 ---
 
@@ -55,10 +55,10 @@ const faqs = [1, 2, 3].map(n => ({
 
   <!-- ── Hero ─────────────────────────────────────────────────────────── -->
   <LandingHero
-    eyebrow={t(`${prefix}.eyebrow` as any)}
-    headline={t(`${prefix}.headline` as any)}
-    lead={t(`${prefix}.lead` as any)}
-    cta={t(`${prefix}.cta` as any)}
+    eyebrow={t.dyn(`${prefix}.eyebrow`)}
+    headline={t.dyn(`${prefix}.headline`)}
+    lead={t.dyn(`${prefix}.lead`)}
+    cta={t.dyn(`${prefix}.cta`)}
     ctaHref={ctaHref}
     img={img}
     alt={alt}
@@ -68,8 +68,8 @@ const faqs = [1, 2, 3].map(n => ({
   />
 
   <!-- ── What is it ───────────────────────────────────────────────────── -->
-  <LandingSection id={`${prefix}-what`} title={t(`${prefix}.what.title` as any)} tight>
-    <p class="text-p2 measure">{t(`${prefix}.what.body` as any)}</p>
+  <LandingSection id={`${prefix}-what`} title={t.dyn(`${prefix}.what.title`)} tight>
+    <p class="text-p2 measure">{t.dyn(`${prefix}.what.body`)}</p>
   </LandingSection>
 
   <!-- ── What you can create ──────────────────────────────────────────── -->
@@ -77,8 +77,8 @@ const faqs = [1, 2, 3].map(n => ({
     <LandingSection id={`${prefix}-create`}>
       <div class="create-layout">
         <div>
-          <h2 id={`${prefix}-create-heading`} class="text-h2 create-title">{t(`${prefix}.create.title` as any)}</h2>
-          <p class="text-p2 measure">{t(`${prefix}.create.body` as any)}</p>
+          <h2 id={`${prefix}-create-heading`} class="text-h2 create-title">{t.dyn(`${prefix}.create.title`)}</h2>
+          <p class="text-p2 measure">{t.dyn(`${prefix}.create.body`)}</p>
         </div>
         <div class="media create-img-wrap">
           <Picture
@@ -95,8 +95,8 @@ const faqs = [1, 2, 3].map(n => ({
       </div>
     </LandingSection>
   ) : (
-    <LandingSection id={`${prefix}-create`} title={t(`${prefix}.create.title` as any)} tight>
-      <p class="text-p2 measure">{t(`${prefix}.create.body` as any)}</p>
+    <LandingSection id={`${prefix}-create`} title={t.dyn(`${prefix}.create.title`)} tight>
+      <p class="text-p2 measure">{t.dyn(`${prefix}.create.body`)}</p>
     </LandingSection>
   )}
 
@@ -104,7 +104,7 @@ const faqs = [1, 2, 3].map(n => ({
   <slot name="after-create" />
 
   <!-- ── Why / benefits ───────────────────────────────────────────────── -->
-  <LandingSection id={`${prefix}-why`} title={t(`${prefix}.why.title` as any)} tint>
+  <LandingSection id={`${prefix}-why`} title={t.dyn(`${prefix}.why.title`)} tint>
     <div class="benefits-grid">
       {benefits.map(b => (
         <FeatureCard title={b.title} desc={b.desc} />
@@ -114,19 +114,19 @@ const faqs = [1, 2, 3].map(n => ({
 
   <!-- ── Where to practise (funnel to Borla) ──────────────────────────── -->
   <BorlaFunnel
-    title={t(`${prefix}.practice.title` as any)}
-    body={t(`${prefix}.practice.body` as any)}
-    cta={t(`${prefix}.practice.cta` as any)}
+    title={t.dyn(`${prefix}.practice.title`)}
+    body={t.dyn(`${prefix}.practice.body`)}
+    cta={t.dyn(`${prefix}.practice.cta`)}
   />
 
   <!-- ── FAQ ──────────────────────────────────────────────────────────── -->
-  <Faq title={t(`${prefix}.faq.title` as any)} faqs={faqs} />
+  <Faq title={t.dyn(`${prefix}.faq.title`)} faqs={faqs} />
 
   <!-- ── Final CTA ────────────────────────────────────────────────────── -->
   <FinalCta
-    title={t(`${prefix}.final.title` as any)}
-    body={t(`${prefix}.final.body` as any)}
-    cta={t(`${prefix}.final.cta` as any)}
+    title={t.dyn(`${prefix}.final.title`)}
+    body={t.dyn(`${prefix}.final.body`)}
+    cta={t.dyn(`${prefix}.final.cta`)}
     ctaHref={ctaHref}
   />
 

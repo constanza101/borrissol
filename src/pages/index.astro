@@ -1,51 +1,9 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/layout/Navbar.astro';
-import HeroSection from '../components/sections/HeroSection.astro';
-import OfferSection from '../components/sections/OfferSection.astro';
-import ProcessSection from '../components/sections/ProcessSection.astro';
-import WorkshopsSection from '../components/sections/WorkshopsSection.astro';
-import TestimonialsSection from '../components/sections/TestimonialsSection.astro';
-import PressStrip from '../components/sections/PressStrip.astro';
-import AboutSection from '../components/sections/AboutSection.astro';
-import FAQSection from '../components/sections/FAQSection.astro';
-import CTASection from '../components/sections/CTASection.astro';
-import Footer from '../components/layout/Footer.astro';
-import PrivacySection from '../components/sections/PrivacySection.astro';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
-
-const lang = getLangFromUrl(Astro.url);
-const t    = useTranslations(lang);
+/**
+ * Home route — default locale (CA), served at /.
+ * The /es, /en, /fr variants come from src/pages/[lang]/index.astro.
+ */
+import HomePage from '../layouts/HomePage.astro';
 ---
 
-<Layout
-  title={t('page.home.title')}
-  description={t('page.home.description')}
-  ogType="website"
->
-  <Navbar />
-  <main id="main-content" tabindex="-1">
-    <HeroSection />
-    <OfferSection />
-    <WorkshopsSection />
-    <ProcessSection />
-    <TestimonialsSection />
-    <PressStrip />
-    <AboutSection />
-    <FAQSection />
-    <CTASection />
-  </main>
-  <Footer />
-  <PrivacySection />
-</Layout>
-
-<style is:global>
-  /*
-   * Page-level background override.
-   * The hero area uses --color-light; sections below will revert
-   * to --color-white via their own component styles.
-   */
-  body {
-    background: var(--color-mid);
-  }
-</style>
+<HomePage />

@@ -9,7 +9,11 @@ import markdoc from '@astrojs/markdoc';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://borrissol.com',
-  adapter: netlify(),
+  // imageCDN:false → Astro optimizes images at build time (sharp) instead of
+  // routing them through Netlify's /.netlify/images endpoint. That endpoint
+  // doesn't exist under plain `astro dev` (403s locally), and build-time
+  // optimization is a better fit for a mostly-static site.
+  adapter: netlify({ imageCDN: false }),
   trailingSlash: 'never',
 
   // 301 redirects:

@@ -28,8 +28,8 @@ const t = useTranslations(lang);
 const ctaHref = waHref(t('wa.tb.landing'));
 
 const benefits = [1, 2, 3].map(n => ({
-  title: t(`tb.benefit.${n}.title` as any),
-  desc:  t(`tb.benefit.${n}.desc` as any),
+  title: t.dyn(`tb.benefit.${n}.title`),
+  desc:  t.dyn(`tb.benefit.${n}.desc`),
 }));
 
 const details = [
@@ -42,13 +42,13 @@ const details = [
 ];
 
 const steps = [1, 2, 3].map(n => ({
-  title: t(`tb.how.${n}.title` as any),
-  desc:  t(`tb.how.${n}.desc` as any),
+  title: t.dyn(`tb.how.${n}.title`),
+  desc:  t.dyn(`tb.how.${n}.desc`),
 }));
 
 const faqs = [1, 2, 3, 4].map(n => ({
-  q: t(`tb.faq.q${n}` as any),
-  a: t(`tb.faq.a${n}` as any),
+  q: t.dyn(`tb.faq.q${n}`),
+  a: t.dyn(`tb.faq.a${n}`),
 }));
 
 ---
@@ -64,8 +64,8 @@ const faqs = [1, 2, 3, 4].map(n => ({
     ctaHref={ctaHref}
     img={heroImg}
     alt="Reposamuñecas de tufting creado en un taller de team building en Borrissol, Mataró"
-    imgWidth={4032}
-    imgHeight={3024}
+    imgWidth={2000}
+    imgHeight={1500}
   />
 
   <!-- ── Intro ────────────────────────────────────────────────────────── -->

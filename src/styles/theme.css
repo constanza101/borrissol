@@ -1,7 +1,7 @@
 /* =============================================================================
    DESIGN SYSTEM — ARTE QUE CONECTA · v2.0
    theme.css · Single source of truth for all design tokens
-   Fonts: Roboto (UI) · Coiny (wordmark only) · Base: 16px
+   Fonts: Roboto (UI) · Base: 16px
    ============================================================================= */
 
 /* Roboto — primary UI typeface (self-hosted, latin subset) */
@@ -24,8 +24,7 @@
   --color-light:  #F5F5F5;   /* Secondary background · section fills · button preview */
   --color-mid:    #D9D9D9;   /* Borders · dividers · component separators */
   --color-muted:  #797979;   /* Secondary text · labels · metadata */
-  --color-dark:       #1a1a1a;   /* Dark backgrounds · buttons · UI surfaces — softer than pure black */
-  --color-footer-bg:  #13141a;   /* Footer background — deepest surface */
+  --color-dark:       #1a1a1a;   /* Dark backgrounds · buttons · footer · UI surfaces — softer than pure black */
   --color-black:      #000000;   /* Primary text · active borders — reserved for text only */
 
   /* Tufting level accent colors — per-card identifier palette */

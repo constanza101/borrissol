@@ -76,18 +76,21 @@ const schemaAddress = address.addressCountry
     }
   : undefined;
 
-const faqSchema = {
-  '@context': 'https://schema.org',
-  '@type':    'FAQPage',
-  mainEntity: [1, 2, 3, 4, 5, 6, 7].map(n => ({
-    '@type': 'Question',
-    name:    t(`faq.q${n}` as any),
-    acceptedAnswer: {
-      '@type': 'Answer',
-      text:    t(`faq.a${n}` as any),
-    },
-  })),
-};
+// Built only where it's emitted (the home) — the FAQ content lives there.
+const faqSchema = isHomedoc
+  ? {
+      '@context': 'https://schema.org',
+      '@type':    'FAQPage',
+      mainEntity: [1, 2, 3, 4, 5, 6, 7].map(n => ({
+        '@type': 'Question',
+        name:    t.dyn(`faq.q${n}`),
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text:    t.dyn(`faq.a${n}`),
+        },
+      })),
+    }
+  : null;
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -103,8 +106,8 @@ const jsonLd = {
   image: {
     '@type':  'ImageObject',
     url:      absOgDefault,
-    width:    2398,
-    height:   1262,
+    width:    1200,
+    height:   630,
   },
   description: description,
   ...(SITE.business.email     && { email:     SITE.business.email }),
@@ -134,7 +137,7 @@ const jsonLd = {
       '@type': 'Review',
       author: { '@type': 'Person', name: r.name },
       reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-      reviewBody: t(r.key as any),
+      reviewBody: t.dyn(r.key),
     })),
   }),
 };
@@ -154,8 +157,10 @@ const jsonLd = {
 <meta property="og:description" content={description} />
 <meta property="og:url"         content={canonicalUrl} />
 <meta property="og:image"        content={absOgImage} />
-<meta property="og:image:width"  content="1200" />
-<meta property="og:image:height" content="630" />
+{/* Dimensions are only known for the default OG asset; per-page images
+    (blog covers) vary, and wrong values are worse than none. */}
+{ogImage === SITE.defaultOgImage && <meta property="og:image:width"  content="1200" />}
+{ogImage === SITE.defaultOgImage && <meta property="og:image:height" content="630" />}
 <meta property="og:image:alt"    content={fullTitle} />
 
 <!-- ── Twitter / X Card ──────────────────────────────────────────────────── -->
@@ -176,4 +181,4 @@ const jsonLd = {
 
 <!-- ── Schema.org JSON-LD ────────────────────────────────────────────────── -->
 <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-{isHomedoc && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
+{faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}

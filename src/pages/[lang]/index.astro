@@ -1,55 +1,12 @@
 ---
 /**
- * Dynamic home route — generates /es, /en, /fr statically from a single
- * source. The default-locale (CA) URL `/` is served by src/pages/index.astro.
+ * Home route — generates /es, /en, /fr statically from a single source.
+ * The default-locale URL / is served by src/pages/index.astro.
  */
-import Layout from '../../layouts/Layout.astro';
-import Navbar from '../../components/layout/Navbar.astro';
-import HeroSection from '../../components/sections/HeroSection.astro';
-import OfferSection from '../../components/sections/OfferSection.astro';
-import ProcessSection from '../../components/sections/ProcessSection.astro';
-import WorkshopsSection from '../../components/sections/WorkshopsSection.astro';
-import TestimonialsSection from '../../components/sections/TestimonialsSection.astro';
-import PressStrip from '../../components/sections/PressStrip.astro';
-import AboutSection from '../../components/sections/AboutSection.astro';
-import FAQSection from '../../components/sections/FAQSection.astro';
-import CTASection from '../../components/sections/CTASection.astro';
-import Footer from '../../components/layout/Footer.astro';
-import PrivacySection from '../../components/sections/PrivacySection.astro';
-import { useTranslations, nonDefaultLangPaths } from '../../i18n/utils';
-import type { Lang } from '../../i18n/ui';
+import HomePage from '../../layouts/HomePage.astro';
+import { nonDefaultLangPaths } from '../../i18n/utils';
 
-export async function getStaticPaths() {
-  return nonDefaultLangPaths();
-}
-
-const { lang } = Astro.params as { lang: Lang };
-const t = useTranslations(lang);
+export const getStaticPaths = nonDefaultLangPaths;
 ---
 
-<Layout
-  title={t('page.home.title')}
-  description={t('page.home.description')}
-  ogType="website"
->
-  <Navbar />
-  <main id="main-content" tabindex="-1">
-    <HeroSection />
-    <OfferSection />
-    <WorkshopsSection />
-    <ProcessSection />
-    <TestimonialsSection />
-    <PressStrip />
-    <AboutSection />
-    <FAQSection />
-    <CTASection />
-  </main>
-  <Footer />
-  <PrivacySection />
-</Layout>
-
-<style is:global>
-  body {
-    background: var(--color-mid);
-  }
-</style>
+<HomePage />

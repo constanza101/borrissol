@@ -21,7 +21,7 @@ const { titleKey, descKey } = Astro.props;
 const t = useTranslations(getLangFromUrl(Astro.url));
 ---
 
-<Layout title={t(titleKey as any)} description={t(descKey as any)} ogType="website">
+<Layout title={t.dyn(titleKey)} description={t.dyn(descKey)} ogType="website">
   <Navbar />
   <main id="main-content" tabindex="-1">
     <slot />

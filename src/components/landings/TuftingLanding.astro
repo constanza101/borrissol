@@ -40,8 +40,8 @@ const groupFormats = [
 ];
 
 const faqs = [1, 2, 3].map(n => ({
-  q: t(`tuf.faq.q${n}` as any),
-  a: t(`tuf.faq.a${n}` as any),
+  q: t.dyn(`tuf.faq.q${n}`),
+  a: t.dyn(`tuf.faq.a${n}`),
 }));
 
 ---
@@ -57,8 +57,8 @@ const faqs = [1, 2, 3].map(n => ({
     ctaHref={ctaHref}
     img={heroImg}
     alt="Persona creando una alfombra con pistola de tufting en el taller Borrissol, Mataró"
-    imgWidth={2904}
-    imgHeight={2150}
+    imgWidth={2000}
+    imgHeight={1480}
   />
 
   <!-- ── What is it ───────────────────────────────────────────────────── -->

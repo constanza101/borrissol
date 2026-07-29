@@ -30,6 +30,12 @@ const seoProps = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Preload the self-hosted UI font so it starts loading before the CSS is
+         parsed, shortening the font-display:swap flash (FOUT). crossorigin is
+         required even same-origin — fonts are always fetched in CORS mode. -->
+    <link rel="preload" href="/fonts/Roboto-latin.woff2" as="font" type="font/woff2" crossorigin />
+
     <!-- Preconnect hints -->
     <link rel="preconnect" href="https://www.youtube.com" />
     <link rel="preconnect" href="https://i.ytimg.com" />

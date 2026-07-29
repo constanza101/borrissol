@@ -21,7 +21,9 @@ export interface SeasonalEvent {
 export const summerLab: SeasonalEvent = {
   enabled: true,
   startDate: '2026-06-22',
-  endDate: '2026-07-24',
+  // Belén is running the summer workshop past its original dates; keep the home
+  // card visible through September (hides on the first build after this day).
+  endDate: '2026-09-30',
 };
 
 /** True while the event is enabled and today is on/before the end day. */

@@ -1,0 +1,28 @@
+# Borrissol Espai Creatiu
+
+> Espai creatiu de tallers tèxtils a Mataró (Barcelona). Especialistes en tufting, bordat (punch needle), feltre, telers (loom) i experiències artístiques per a particulars i empreses. Adreça: Carrer de Sant Antoni 17, baix, 08301 Mataró. Reserves per WhatsApp (+34 673 247 520) o Instagram @borrissol_espai_creatiu.
+
+## Tallers
+
+- [Tufting](https://borrissol.com/tufting): taller de tufting (catifes i quadres de llana amb pistola). Formats: Pelusa 50×50 cm (78€, ~4h, nivell express), Floc 50×50 cm (108€, ~6h, iniciació), Vellut 70×70 cm (158€, ~8h, intermedi), Pelut 80×80 cm (181€, ~10h, avançat).
+- [Punch needle](https://borrissol.com/punch-needle): taller de bordat amb agulla màgica (punch needle).
+- [Feltre / Felting](https://borrissol.com/felting): taller de feltre de llana.
+- [Loom / Telers](https://borrissol.com/loom): taller de teixit amb teler.
+- [Pelussetes](https://borrissol.com/pelussetes): taller infantil / familiar.
+- [Borla](https://borrissol.com/borla): taller de borles i pompons.
+
+## Experiències
+
+- [Team building](https://borrissol.com/team-building): tallers tèxtils per a empreses i grups.
+- [Summer Lab](https://borrissol.com/summer-lab): programa creatiu d'estiu.
+
+## Més
+
+- [Inici](https://borrissol.com/): qui som, oferta de tallers i ressenyes.
+- [Galeria](https://borrissol.com/gallery): treballs i peces fetes als tallers.
+- [Premsa](https://borrissol.com/press): aparicions als mitjans.
+- [Blog](https://borrissol.com/blog): articles sobre tècniques tèxtils.
+
+## Idiomes
+
+El web està disponible en català (per defecte), castellà (/es/), anglès (/en/) i francès (/fr/). Exemple: https://borrissol.com/en/tufting

@@ -49,9 +49,9 @@ const blogHref = '/blog';
 <header class="site-header">
 
   <!-- ── Main bar ── -->
-  <nav class="site-nav" aria-label="Main navigation">
+  <nav class="site-nav" aria-label={t('a11y.nav.main')}>
 
-    <a href={homePath} class="nav-brand" aria-label="Borrissol — inicio">
+    <a href={homePath} class="nav-brand" aria-label={t('a11y.nav.home')}>
       <span class="nav-brand-logo" aria-hidden="true"></span>
     </a>
 
@@ -70,7 +70,7 @@ const blogHref = '/blog';
     <!-- Language switcher: the current language is a toggle; the others reveal
          in line to its left (click or hover), floating over the bar. Shown on
          every breakpoint. -->
-    <div class="nav-lang-switch" aria-label="Language switcher">
+    <div class="nav-lang-switch" aria-label={t('a11y.nav.lang')}>
       <ul class="nav-lang-reveal" id="nav-lang-reveal" role="list">
         {(Object.entries(languages) as [Lang, string][])
           .filter(([l]) => l !== lang)
@@ -103,7 +103,7 @@ const blogHref = '/blog';
       class="btn btn-primary nav-cta"
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Contactar por WhatsApp"
+      aria-label={t('a11y.wa')}
     >
       {t('nav.cta')}
     </a>
@@ -112,7 +112,7 @@ const blogHref = '/blog';
     <button
       id="nav-hamburger"
       class="nav-hamburger"
-      aria-label="Abrir menú de navegación"
+      aria-label={t('a11y.nav.openMenu')}
       aria-expanded="false"
       aria-controls="mobile-menu"
     >
@@ -125,7 +125,10 @@ const blogHref = '/blog';
   </nav>
 
   <!-- ── Mobile dropdown ── -->
-  <div id="mobile-menu" class="nav-mobile" aria-hidden="true" role="dialog" aria-label="Menú de navegación">
+  <!-- Disclosure panel (not a modal dialog — no focus trap is promised).
+       aria-hidden + visibility:hidden in CSS keep the closed panel out of
+       both the accessibility tree AND the tab order. -->
+  <div id="mobile-menu" class="nav-mobile" aria-hidden="true" aria-label={t('a11y.nav.menu')}>
 
     <ul class="nav-mobile-links" role="list">
       <li><a href={anchors.offer}>{t('nav.services')}</a></li>
@@ -144,7 +147,7 @@ const blogHref = '/blog';
         class="btn btn-primary nav-mobile-cta"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Contactar por WhatsApp"
+        aria-label={t('a11y.wa')}
       >
         {t('nav.cta')}
       </a>
@@ -526,10 +529,10 @@ const blogHref = '/blog';
       display: flex;
       flex-direction: column;
       width: 100%;
-      background: color-mix(in srgb, var(--color-white) 95%, transparent);
+      background: color-mix(in srgb, var(--color-dark) 95%, transparent);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border: 0.5px solid color-mix(in srgb, var(--color-black) 8%, transparent);
+      border: 0.5px solid color-mix(in srgb, var(--color-white) 15%, transparent);
       border-radius: var(--radius-lg);
       margin-top: var(--space-xs);
       padding: 0 var(--space-md);
@@ -538,10 +541,17 @@ const blogHref = '/blog';
       max-height: 0;
       opacity: 0;
       pointer-events: none;
-      transition: max-height 0.3s ease, opacity 0.25s ease, padding 0.3s ease;
+      /* visibility removes the closed panel's links from the tab order (they
+         sit inside aria-hidden); the 0.3s delay lets the close animation play. */
+      visibility: hidden;
+      transition: max-height 0.3s ease, opacity 0.25s ease, padding 0.3s ease,
+                  visibility 0s linear 0.3s;
     }
 
     .nav-mobile.is-open {
+      visibility: visible;
+      /* No visibility delay when opening (the delayed one above is close-only). */
+      transition: max-height 0.3s ease, opacity 0.25s ease, padding 0.3s ease;
       /* Fill the viewport below the bar and scroll internally if the links
          don't all fit (dvh handles mobile browser chrome). */
       max-height: calc(100vh - 96px);
@@ -575,12 +585,12 @@ const blogHref = '/blog';
       padding: var(--space-md) 0;
       font-size: var(--font-size-h4);
       font-weight: var(--font-weight-body);
-      color: var(--color-black);
+      color: var(--color-white);
       text-decoration: none;
       text-align: center;
       transition: color var(--t-fast);
     }
-    .nav-mobile-links a:hover { color: var(--color-muted); }
+    .nav-mobile-links a:hover { color: var(--color-mid); }
 
     /* ── Dropdown CTA ── */
     .nav-mobile-cta-wrap {
@@ -594,6 +604,10 @@ const blogHref = '/blog';
       padding: var(--space-sm) 0;
       font-size: var(--font-size-p3);
       border-radius: 0;
+      /* Inverted on the dark panel so the CTA reads; btn-primary:hover still
+         wins on hover, keeping the accent-pink state. */
+      background: var(--color-white);
+      color: var(--color-dark);
     }
 
 

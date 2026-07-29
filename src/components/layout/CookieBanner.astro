@@ -5,12 +5,16 @@ const lang = getLangFromUrl(Astro.url);
 const t    = useTranslations(lang);
 ---
 
+<!-- Starts aria-hidden + visibility:hidden: while off-screen (and forever on
+     return visits with a stored choice) it is neither read by screen readers
+     nor reachable by Tab. The script removes aria-hidden when it slides in. -->
 <div
   id="cookie-banner"
   class="cookie-banner"
   role="dialog"
   aria-live="polite"
   aria-label={t('privacy.title')}
+  aria-hidden="true"
 >
   <div class="cookie-inner">
     <p class="cookie-text">
@@ -35,7 +39,7 @@ const t    = useTranslations(lang);
 
     function hideBanner() {
       banner.classList.remove('is-visible');
-      setTimeout(function () { banner.setAttribute('aria-hidden', 'true'); }, 400);
+      setTimeout(function () { banner.setAttribute('aria-hidden', 'true'); }, 500);
     }
 
     // Return visit — choice already made, don't show banner
@@ -80,6 +84,8 @@ const t    = useTranslations(lang);
 
   .cookie-banner[aria-hidden="true"] {
     pointer-events: none;
+    /* Also removes the hidden banner's buttons from the tab order. */
+    visibility: hidden;
   }
 
   .cookie-banner.is-visible {
